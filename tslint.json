@@ -1,60 +1,57 @@
 {
+    "extends": [
+        "tslint:recommended",
+        "tslint-config-prettier"
+    ],
+    "linterOptions": {
+        "exclude": [
+            "config/**/*.js",
+            "node_modules/**/*.ts",
+            "coverage/lcov-report/*.js"
+        ]
+    },
     "rules": {
-        "class-name": true,
-        "comment-format": [
-            true,
-            "check-space"
-        ],
-        "indent": [
-            true,
-            "spaces"
-        ],
-        "one-line": [
-            true,
-            "check-open-brace",
-            "check-whitespace"
-        ],
-        "no-var-keyword": true,
-        "quotemark": [
-            true,
-            "double",
-            "avoid-escape"
-        ],
-        "semicolon": [
-            true,
-            "always",
-            "ignore-bound-class-methods"
-        ],
-        "whitespace": [
-            true,
-            "check-branch",
-            "check-decl",
-            "check-operator",
-            "check-module",
-            "check-separator",
-            "check-type"
-        ],
-        "typedef-whitespace": [
-            true,
-            {
-                "call-signature": "nospace",
-                "index-signature": "nospace",
-                "parameter": "nospace",
-                "property-declaration": "nospace",
-                "variable-declaration": "nospace"
-            },
-            {
-                "call-signature": "onespace",
-                "index-signature": "onespace",
-                "parameter": "onespace",
-                "property-declaration": "onespace",
-                "variable-declaration": "onespace"
-            }
-        ],
-        "no-internal-module": true,
-        "no-trailing-whitespace": true,
-        "no-null-keyword": true,
-        "prefer-const": true,
-        "jsdoc-format": true
+        "max-classes-per-file": {
+            "severity": "warn"
+        },
+        "no-console": {
+            "severity": "warn"
+        },
+        "member-access": false,
+        "object-literal-sort-keys": false,
+        "no-unused-expression": {
+            "severity": "warn"
+        },
+        "one-variable-per-declaration": {
+            "severity": "warn"
+        },
+        "interface-name": {
+            "severity": "warn"
+        },
+        "ordered-imports": {
+            "severity": "warn"
+        },
+        "no-empty": {
+            "severity": "warn"
+        },
+        "variable-name": {
+            "severity": "warn",
+            "options": "allow-pascal-case"
+        },
+        "prefer-const": {
+            "severity": "warn"
+        },
+        "radix": {
+            "severity": "warn"
+        },
+        "forin": {
+            "severity": "warn"
+        },
+        "prefer-for-of": {
+            "severity": "warn"
+        }
+    },
+    "jsRules": {
+        "no-console": false
     }
 }

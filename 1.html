@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        header {
+            display: flex;
+            height: 100px;
+            flex-direction: row;
+            background-color: blue
+        }
+
+        header .subLogo {
+            flex: 1;
+            background-color: red
+        }
+
+        header .avatar {
+            flex: 6;
+            display: flex;
+            flex-direction: row;
+            justify-content: flex-end;
+            background-color: antiquewhite;
+        }
+
+        header .avatar div {
+            /* flex-flow: column; */
+            width: 100px;
+            border-radius: 50%;
+
+        }
+
+        section {
+            display: flex;
+            height: 500px
+        }
+
+        section .left {
+            flex: 70%;
+            background-color: gray;
+        }
+
+        section .right {
+            flex: 30%;
+            display: flex;
+            background-color: green;
+        }
+
+        section .right_right {
+            flex: 70%;
+            background: chartreusel
+        }
+
+        section .right_left {
+            flex: 30%;
+            background-color: blueviolet;
+        }
+
+        footer {
+            display: block;
+            height: 200px;
+            background-color: bisque;
+        }
+    </style>
+</head>
+
+<body>
+    <header>
+        <div class="subLogo">
+            subLogo
+        </div>
+        <div class="avatar">
+            <div style="background-color: saddlebrown;align-self: flex-start" class="A">A</div>
+            <div style="background-color: silver" class="B">B</div>
+            <div style="background-color: skyblue" class="C">C</div>
+            <div style="background-color: khaki" class="D">D</div>
+        </div>
+    </header>
+    <section>
+        <aside class="left">
+            left
+        </aside>
+        <aside class="right">
+            <div class="right_left">
+            </div>
+
+            <div class="right_right"></div>
+        </aside>
+    </section>
+    <footer></footer>
+</body>
+
+</html>
