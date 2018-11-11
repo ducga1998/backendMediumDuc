@@ -3,10 +3,11 @@ import { deleteUserById, updateInfomationUser, addNewUser, UserType } from '../m
 async function DeleteUserById(id: string) {
     return await deleteUserById(id)
 }
-async function UpdateInfomationUser(input: UserType) {
+async function UpdateInfomationUser(data, { input }: { input: UserType }) {
     return await updateInfomationUser(input)
 }
-async function AddNewUser(input: UserType) {
+async function AddNewUser(data: UserType, { input }: { input: UserType }, b, c) {
+    // console.log(input), console.log(c)
     return await addNewUser(input)
 }
 export default {

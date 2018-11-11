@@ -18,6 +18,7 @@ export interface ArticleType {
     totalClap?: Number,
     notification?: String
 }
+
 export function updateArticle(article: ArticleType) {
     const { idArticle } = article
     return new Promise(resolve => {
@@ -29,6 +30,7 @@ export function updateArticle(article: ArticleType) {
         })
     })
 }
+
 export function deleteArticle({ idArticle, idUser }: { idArticle: String, idUser: String }) {
     return new Promise(resolve => {
         articleModel.deleteOne({ idArticle }, (err) => {
@@ -38,6 +40,7 @@ export function deleteArticle({ idArticle, idUser }: { idArticle: String, idUser
         })
     })
 }
+
 export function addArticle(article: ArticleType) {
     const newArticle = new articleModel(article)
     return new Promise(resolve => {
@@ -45,11 +48,12 @@ export function addArticle(article: ArticleType) {
             if (err) {
                 resolve(err)
             }
-            console.log('câcs', data)
+            // console.log('câcs', data)
             resolve(data)
         })
     })
 }
+
 export function getArticleById(idArticle: string) {
 
     return new Promise(resolve => {

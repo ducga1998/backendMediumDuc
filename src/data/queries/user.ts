@@ -1,11 +1,16 @@
-import { getAllInformationUser } from '../models/user'
+import { getAllInformationUser, checklogin } from '../models/user'
 
 async function GetAllInformationUser(id: string) {
     return await getAllInformationUser(id)
 }
-
+async function Checklogin(a, { username, password }) {
+    // console.log(b)
+    // return null
+    return await checklogin(username, password)
+}
 export default {
     Query: {
         getAllInformationUser: GetAllInformationUser,
+        checklogin: Checklogin
     }
 }

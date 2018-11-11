@@ -17,6 +17,7 @@ const userType = /* GraphQL */`
     }
     extend type Query {
         getAllInformationUser(id: String):User
+        checklogin(username:String,password:String) : User 
     }
     extend type Mutation {
         deleteUserById(id:String): User

@@ -30,19 +30,57 @@ export function getAllInformationUser(idUser: string) {
         })
     })
 }
-export function addNewUser(user: UserType) {
-    const newUser = new userModel(user);
+export function checklogin(login, password) {
     return new Promise(resolve => {
-        newUser.save(function (err, data) {
+        userModel.findOne({ login, password }, function (err, data) {
             if (err) {
                 resolve(err)
             }
+            console.log('data', data)
             resolve(data)
         })
     })
 }
+export async function addNewUser(user: UserType) {
+
+    const { login } = user;
+    // console.log('ahih', data)
+    let users;
+    await userModel.find({ login }, function (err, data) {
+        if (err) {
+            return err
+        }
+        users = data
+        // console.log(data)
+
+    })
+    if (users && users.length > 0) {
+        console.log('trung id roi em ei')
+        return new Promise(resolve => {
+            resolve({
+                idUser: null,
+
+            })
+        })
+    }
+    else if (users && users.length === 0) {
+        console.log('runnnn')
+        const newUser = new userModel(user);
+        return new Promise(async resolve => {
+            await newUser.save(function (err, data) {
+                if (err) {
+                    resolve(err)
+                }
+
+                resolve(data)
+
+            })
+        })
+    }
+}
 export function updateInfomationUser(user: UserType) {
-    const { idUser } = user
+    const { idUser } = user;
+
     return new Promise(resolve => {
         userModel.updateOne({ idUser }, (err: any, data: any) => {
             if (err) {

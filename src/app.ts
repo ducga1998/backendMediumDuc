@@ -14,7 +14,7 @@ import expressValidator from "express-validator";
 import bluebird from "bluebird";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
 import expressGraphQL from 'express-graphql'
-
+var proxy = require('http-proxy-middleware');
 import schema from './data/schema'
 const MongoStore = mongo(session);
 
@@ -62,6 +62,7 @@ app.use(session({
 app.get('/test', (req, res) => {
   res.send('OK')
 })
+// app.use('/graphql', proxy({ target: 'http://google.com', changeOrigin: true }));
 app.use(
   '/graphql',
   bodyParser.json({ limit: '1024kb' }),

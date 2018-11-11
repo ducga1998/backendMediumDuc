@@ -45,6 +45,7 @@
     "fbgraph": "^1.4.1",
     "graphql": "^14.0.2",
     "graphql-tools": "^4.0.3",
+    "http-proxy-middleware": "^0.19.0",
     "lodash": "^4.17.5",
     "lusca": "^1.5.2",
     "mongoose": "^4.13.11",
