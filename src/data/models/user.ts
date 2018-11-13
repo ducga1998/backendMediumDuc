@@ -3,6 +3,8 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
     idUser: String,
     login: String,
+    avatarLink: String,
+    name: String,
     password: String,
     decentraliz: Number, // admin 3 , monitor : 2 , user : 1
     articles: [String], // all article user has been writed
@@ -14,6 +16,8 @@ const UserSchema = new mongoose.Schema({
 export interface UserType {
     idUser: String,
     login: String,
+    avatarLink?: String,
+    name?: String,
     password: String,
     decentraliz: Number, // admin 3 , monitor : 2 , user : 1 // default when user reg is 1
 }
