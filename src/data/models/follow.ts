@@ -3,22 +3,26 @@ const followSchema = new mongoose.Schema({
     idUser: String,
     idUserFollow: String
 })
-const followType = mongoose.model('Article', followSchema)
-export interface follow {
-    idUser: String,
-    idUserFollow: String
-}
+const followModel = mongoose.model('Article', followSchema)
+export interface followType {
+    idUser: String, // people are monitored
 
-export function addFollow(follow: followType) {
-    const { idArticle } = article
+    idUserFollow: String // id user follower
+}
+// we show who follow idUser , yes user have id is idUserFollow
+export function Follow(follow: followType) {
+    const newFollow = new followModel(follow)
     return new Promise(resolve => {
-        articleModel.updateOne({ idArticle }, (err: any, data: any) => {
+        newFollow.save((err, data) => {
             if (err) {
                 resolve(err)
             }
+            // console.log('câcs', data)
             resolve(data)
         })
     })
+}
+export function unFollow(follow: followType) {
 }
 
 // export function deleteArticle({ idArticle, idUser }: { idArticle: String, idUser: String }) {

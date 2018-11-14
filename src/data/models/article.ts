@@ -2,6 +2,8 @@ import mongoose from 'mongoose'
 const articleSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
+    contentArticle: String,
+    titleArticle: String,
     hashTag: [String],
     category: [String],
     comment: [String],
@@ -10,13 +12,15 @@ const articleSchema = new mongoose.Schema({
 })
 const articleModel = mongoose.model('Article', articleSchema)
 export interface ArticleType {
-    idUser?: String,
+    idUser: String,
     idArticle: String,
     hashTag?: [String],
     category?: [String],
     comment?: [String],
     totalClap?: Number,
-    notification?: String
+    notification?: String,
+    contentArticle?: String,
+    titleArticle?: String,
 }
 
 export function updateArticle(article: ArticleType) {
@@ -30,7 +34,6 @@ export function updateArticle(article: ArticleType) {
         })
     })
 }
-
 export function deleteArticle({ idArticle, idUser }: { idArticle: String, idUser: String }) {
     return new Promise(resolve => {
         articleModel.deleteOne({ idArticle }, (err) => {
@@ -42,7 +45,7 @@ export function deleteArticle({ idArticle, idUser }: { idArticle: String, idUser
 }
 
 export function addArticle(article: ArticleType) {
-    const newArticle = new articleModel(article)
+    const newArticle = new articleModel({ ...article, ... { totalClap: 0 } })
     return new Promise(resolve => {
         newArticle.save((err, data) => {
             if (err) {

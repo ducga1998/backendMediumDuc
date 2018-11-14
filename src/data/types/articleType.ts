@@ -6,7 +6,9 @@ type  Article {
     category: [String],
     comment: [String],
     totalClap: Int,
-    notification: String
+    notification: String,
+    contentArticle : String , 
+    titleArticle : String 
 }
 input ArticleInput {
     idUser: String,
@@ -14,7 +16,9 @@ input ArticleInput {
     category: [String],
     comment: [String],
     totalClap: Int,
-    notification: String
+    notification: String,
+    contentArticle : String , 
+    titleArticle : String 
 }
 extend type Query {
     getArticleById(id: String): Article
