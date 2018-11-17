@@ -1,21 +1,17 @@
-import express from "express";
-import compression from "compression";  // compresses requests
-import session from "express-session";
-import bodyParser from "body-parser";
-import logger from "./util/logger";
-import lusca from "lusca";
-import dotenv from "dotenv";
-import mongo from "connect-mongo";
-import flash from "express-flash";
-import path from "path";
-import mongoose from "mongoose";
-import passport from "passport";
-import expressValidator from "express-validator";
 import bluebird from "bluebird";
+import bodyParser from "body-parser";
+import compression from "compression"; // compresses requests
+import mongo from "connect-mongo";
+import dotenv from "dotenv";
+import express from "express";
+import expressGraphQL from 'express-graphql';
+import session from "express-session";
+import expressValidator from "express-validator";
+import mongoose from "mongoose";
+import { getAllArticle } from "./data/models/user";
+import schema from './data/schema';
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
-import expressGraphQL from 'express-graphql'
 var proxy = require('http-proxy-middleware');
-import schema from './data/schema'
 const MongoStore = mongo(session);
 
 // Load environment variables from .env file, where API keys and passwords are configured
@@ -34,7 +30,7 @@ const app = express();
 const mongoUrl = MONGODB_URI;
 
 (<any>mongoose).Promise = bluebird;
-mongoose.connect(mongoUrl, { useMongoClient: true }).then(
+mongoose.connect(mongoUrl).then(
   () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
 ).catch(err => {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
@@ -58,6 +54,13 @@ app.use(session({
     autoReconnect: true
   })
 }))
+app.get('/getAllArticle/:id', async (req, res) => {
+  console.log(req.params)
+  const { id } = req.params as any
+  console.log('id', id)
+  const data = await getAllArticle(id)
+  console.log('data All article', data)
+})
 
 app.get('/test', (req, res) => {
   res.send('OK')

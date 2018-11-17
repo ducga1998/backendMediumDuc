@@ -1,5 +1,5 @@
-import mongoose from 'mongoose'
-const articleSchema = new mongoose.Schema({
+import mongoose from 'mongoose';
+export const articleSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
     contentArticle: String,
@@ -8,8 +8,18 @@ const articleSchema = new mongoose.Schema({
     category: [String],
     comment: [String],
     totalClap: Number,
-    notification: String
+    notification: String,
+    imageArticle: String,
+    createTime: String,
 })
+articleSchema.virtual('user', {
+    foreignField: 'idUser',
+    localField: 'idUser',
+    ref: 'users',
+    // justOne: false
+})
+articleSchema.set('toObject', { virtuals: true });
+articleSchema.set('toJSON', { virtuals: true });
 const articleModel = mongoose.model('Article', articleSchema)
 export interface ArticleType {
     idUser: String,
@@ -21,15 +31,19 @@ export interface ArticleType {
     notification?: String,
     contentArticle?: String,
     titleArticle?: String,
+    imageArticle?: String,
+    createTime?: String,
+    users?: any
 }
 
 export function updateArticle(article: ArticleType) {
     const { idArticle } = article
     return new Promise(resolve => {
-        articleModel.updateOne({ idArticle }, (err: any, data: any) => {
+        articleModel.updateOne({ idArticle }, article, (err: any, data: any) => {
             if (err) {
                 resolve(err)
             }
+            // console.log('data', data)
             resolve(data)
         })
     })
@@ -54,6 +68,16 @@ export function addArticle(article: ArticleType) {
             // console.log('câcs', data)
             resolve(data)
         })
+    })
+}
+export function getAllArticle() {
+    return new Promise(resolve => {
+        articleModel.find({}, function (err, data) {
+            if (err) {
+                resolve(err)
+            }
+            resolve(data)
+        }).populate('user')
     })
 }
 

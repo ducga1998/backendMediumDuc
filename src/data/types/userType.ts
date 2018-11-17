@@ -6,10 +6,11 @@ const userType = /* GraphQL */`
         decentraliz: Int 
         name: String
         avatarLink: String
-        articles: [String]
+        articles: [Article]
         bookMark: [String]
         totalFollow: [String]
         followOtherPeople: [String]
+       
     }
     input UserInput {
         idUser: String

@@ -2,17 +2,18 @@
 // import { session } from 'express-session';
 //MUTATION IS WHERE AUTHECATION , QUERY DATA  , IT IS RESLOVER 
 
-import { addArticle, deleteArticle, updateArticle, ArticleType } from '../models/article'
+import { addArticle, deleteArticle, updateArticle } from '../models/article';
 
-async function AddArticle({ request: { body: { variables: { ep } } }, session }: any) {
+async function AddArticle(a, { input }) {
 
-    console.log('AddArticle')
-    return await addArticle(ep)
+
+    return await addArticle(input)
 }
 async function DeleteArticle(input: { idUser: string, idArticle: string }) {
     return await deleteArticle(input)
 }
-async function UpdateArticle(input: ArticleType) {
+async function UpdateArticle(a, { input }) {
+    console.log('AddArsacascticle', input)
     return await updateArticle(input)
 }
 export default {

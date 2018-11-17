@@ -8,23 +8,29 @@ type  Article {
     totalClap: Int,
     notification: String,
     contentArticle : String , 
-    titleArticle : String 
+    titleArticle : String ,
+    imageArticle : String,
+    createTime : String,
+    user: [User]
 }
 input ArticleInput {
     idUser: String,
+    idArticle : String,
     hashTag: [String],
     category: [String],
     comment: [String],
     totalClap: Int,
     notification: String,
-    contentArticle : String , 
-    titleArticle : String 
+    contentArticle : String ,
+    titleArticle : String ,
+    imageArticle: String,
+    createTime : String
 }
 extend type Query {
     getArticleById(id: String): Article
     getArticleByCategory(id  : String ) : Article
     getArticleByHashTag(name : String ) : Article
-    
+    getAllArticle(id : String) : [Article]
 }
 input DeleteInput {
     idArticle:String
