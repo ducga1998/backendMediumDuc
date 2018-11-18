@@ -5,9 +5,9 @@ const hashTagSchema = new Schema({
     name: String,
     idArticle: String
 })
-hashTagSchema.virtual('articles', {
+hashTagSchema.virtual('articlesSameHashTag', {
     foreignField: 'idArticle',
-    localField: 'name',
+    localField: 'idArticle',
     ref: 'Article',
 })
 export interface HashtagType {
@@ -15,14 +15,14 @@ export interface HashtagType {
     name?: String
 }
 const hashtagModel = mongoose.model('hashtag', hashTagSchema)
-export function getAllAricleByNameHashTag(name: string) {
+export function getAllAricleByIdArticle(idArticle: string) {
     return new Promise(resolve => {
-        hashtagModel.find({ name }, (err, data) => {
+        hashtagModel.find({ idArticle }, (err, data) => {
             if (err) {
                 resolve(err)
             }
             resolve(data)
-        }).populate('articles')
+        }).populate('articlesSameHashTag')
     })
 }
 export function deleteHashTag(name: string) {

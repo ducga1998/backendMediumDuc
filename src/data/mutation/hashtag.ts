@@ -1,7 +1,7 @@
 
 
-import { addHashtag, deleteHashTag, HashtagType } from '../models/hashtag'
-async function AddHashtag(input: HashtagType) {
+import { addHashtag, deleteHashTag } from '../models/hashtag';
+async function AddHashtag(a, { input }) {
     return await addHashtag(input)
 }
 async function DeleteHashTag(id: string) {
