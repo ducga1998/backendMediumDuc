@@ -11,7 +11,7 @@ type  Article {
     titleArticle : String ,
     imageArticle : String,
     createTime : String,
-    user: [User]
+    user: User
 }
 input ArticleInput {
     idUser: String,

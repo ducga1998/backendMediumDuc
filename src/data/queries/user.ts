@@ -6,6 +6,7 @@ async function GetAllInformationUser(id: string) {
 async function Checklogin(a, { username, password }) {
     // console.log(b)
     // return null
+    console.log(username)
     return await checklogin(username, password)
 }
 export default {

@@ -16,7 +16,7 @@ articleSchema.virtual('user', {
     foreignField: 'idUser',
     localField: 'idUser',
     ref: 'users',
-    // justOne: false
+    justOne: true
 })
 articleSchema.set('toObject', { virtuals: true });
 articleSchema.set('toJSON', { virtuals: true });

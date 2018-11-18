@@ -1,6 +1,6 @@
 import errorHandler from "errorhandler";
-
 import app from "./app";
+
 
 /**
  * Error Handler. Provides full stack - remove for production
@@ -12,11 +12,11 @@ app.use(errorHandler());
  */
 const server = app.listen(app.get("port"), () => {
   console.log(
-    "  App is running at http://localhost:%d in %s mode",
+    "Product desgin by Nguyen Minh  Duc , github : github.com/ducga1998",
     app.get("port"),
     app.get("env")
   );
-  console.log("  Press CTRL-C to stop\n");
+  console.log(":) backend run success  \n");
 });
 
 export default server;

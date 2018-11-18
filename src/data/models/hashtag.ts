@@ -3,6 +3,12 @@ const { Schema } = mongoose
 const hashTagSchema = new Schema({
     idtag: String, //  can use uuid 
     name: String,
+    idArticle: String
+})
+hashTagSchema.virtual('articles', {
+    foreignField: 'idArticle',
+    localField: 'name',
+    ref: 'Article',
 })
 export interface HashtagType {
     idtag?: String, //  can use uuid 
@@ -16,7 +22,7 @@ export function getAllAricleByNameHashTag(name: string) {
                 resolve(err)
             }
             resolve(data)
-        })
+        }).populate('articles')
     })
 }
 export function deleteHashTag(name: string) {
