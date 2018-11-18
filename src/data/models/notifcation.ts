@@ -1,12 +1,12 @@
 // import { Schema } from 'mongoose';
-import mongoose from 'mongoose'
+import mongoose from 'mongoose';
 const notificationSchema = new mongoose.Schema({
     idNotification: String,
     idArticle: String,
     idUser: String,
     contentNotification: String
 })
-const notificationModel = mongoose.model('notificationModel', notificationSchema)
+const notificationModel = mongoose.model('notification', notificationSchema)
 export interface NotificationType {
     idNotification?: String,
     idArticle?: String,

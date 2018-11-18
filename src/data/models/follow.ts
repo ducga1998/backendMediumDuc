@@ -3,7 +3,7 @@ const followSchema = new mongoose.Schema({
     idUser: String,
     idUserFollow: String
 })
-const followModel = mongoose.model('Article', followSchema)
+const followModel = mongoose.model('follow', followSchema)
 //virtual one to many  , idUser in followSchema (one) => idUser in User Schema (Many)
 followSchema.virtual('userFollow', {
     foreignField: 'idUser',

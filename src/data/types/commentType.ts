@@ -1,19 +1,22 @@
 const comment = /* GraphQL */`
     type Comment  {
         idUser: String
-        idUserFollow: String
+        idArticle: String
+        content: String
+        totalLike: Int
         userComment: User
-        articleComment : Article
+        articleComment: Article
     }
     input CommentInput {
         idUser: String
-        idUserFollow: String
+        idArticle: String
+        content: String
     }
     extend type Mutation {
-       
+        addCommentIntoArticle(input: CommentInput) :Comment
     }
     extend type Query {
-        getAllInfomationUserFollowYour(idUser:String) : Follow
+        getAllCommentInTheArticle(id:String) : Comment
     }
 `
 export default comment
