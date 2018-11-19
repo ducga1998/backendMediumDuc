@@ -2,7 +2,8 @@ import { getAllArticle, getArticleByCategory, getArticleByHashTag, getArticleByI
 async function GetArticleByCategory(name: string) {
     return await getArticleByCategory(name)
 }
-async function GetArticleById(id: string) {
+async function GetArticleById(input: any, { id }) {
+    console.log('get article ', id)
     return await getArticleById(id)
 }
 async function GetArticleByHashTag(name: string) {

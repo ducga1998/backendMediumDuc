@@ -1,6 +1,6 @@
-import { getAllInformationUser, checklogin } from '../models/user'
+import { checklogin, getAllInformationUser } from '../models/user';
 
-async function GetAllInformationUser(id: string) {
+async function GetAllInformationUser(input, { id }) {
     return await getAllInformationUser(id)
 }
 async function Checklogin(a, { username, password }) {

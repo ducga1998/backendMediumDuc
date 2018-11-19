@@ -40,18 +40,18 @@ const userModel = mongoose.model("users", UserSchema);
 // in model user then we only queries return data relation user OK
 export function getAllInformationUser(idUser: string) {
     return new Promise(resolve => {
-        userModel.find({ idUser }, function (err, data) {
+        userModel.findOne({ idUser }, function (err, data) {
             if (err) {
                 resolve(err)
             }
             resolve(data)
-        })
+        }).populate('articles')
     })
 }
 export function checklogin(login, password) {
     console.log(login)
     return new Promise(resolve => {
-       const dataUser =  userModel.findOne({ login, password }).populate('articles')
+        const dataUser = userModel.findOne({ login, password }).populate('articles')
         dataUser.exec((err, data) => {
             if (err) {
                 console.log(err)

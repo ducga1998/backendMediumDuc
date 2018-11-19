@@ -84,12 +84,12 @@ export function getAllArticle() {
 export function getArticleById(idArticle: string) {
 
     return new Promise(resolve => {
-        articleModel.find({ idArticle }, function (err, data) {
+        articleModel.findOne({ idArticle }, function (err, data) {
             if (err) {
                 resolve(err)
             }
             resolve(data)
-        })
+        }).populate('user')
 
     })
 }
