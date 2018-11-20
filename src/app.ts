@@ -55,11 +55,11 @@ app.use(session({
   })
 }))
 app.get('/getAllArticle/:id', async (req, res) => {
-  console.log(req.params)
+  // console.log(req.params)
   const { id } = req.params as any
-  console.log('id', id)
+  // console.log('id', id)
   const data = await getAllArticle(id)
-  console.log('data All article', data)
+  // console.log('data All article', data)
 })
 
 app.get('/test', (req, res) => {

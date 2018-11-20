@@ -1,6 +1,7 @@
 import { getAllInfomationUserFollowYour } from '../models/follow';
-async function GetAllInfomationUserFollowYour(a, { input }) {
-    return await getAllInfomationUserFollowYour(input)
+async function GetAllInfomationUserFollowYour(a, { id }) {
+    console.log("id user follow", id)
+    return await getAllInfomationUserFollowYour(id)
 }
 
 

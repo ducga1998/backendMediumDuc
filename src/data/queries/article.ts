@@ -3,14 +3,14 @@ async function GetArticleByCategory(name: string) {
     return await getArticleByCategory(name)
 }
 async function GetArticleById(input: any, { id }) {
-    console.log('get article ', id)
+    // console.log('get article ', id)
     return await getArticleById(id)
 }
 async function GetArticleByHashTag(name: string) {
     return await getArticleByHashTag(name)
 }
 async function GetAllArticle() {
-    console.log(await getAllArticle())
+    // console.log(await getAllArticle())
     return await getAllArticle()
 }
 

@@ -20,8 +20,19 @@ export interface followType {
 }
 
 // we show who follow idUser , yes user have id is idUserFollow
-export function follow(follow: followType) {
+export async function follow(follow: followType) {
+    let countFollow
+    await followModel.countDocuments(follow, (err, count) => {
+        console.log(count)
+        countFollow = count
+    })
+    console.log('countFollow', countFollow)
+    if (countFollow > 0 || countFollow == undefined) {
+        return
+    }
+
     const newFollow = new followModel(follow)
+
     return new Promise(resolve => {
         newFollow.save((err, data) => {
             if (err) {
@@ -32,6 +43,7 @@ export function follow(follow: followType) {
     })
 }
 export function getAllInfomationUserFollowYour(idUser) {
+    console.log('id user into follow model', idUser)
     return new Promise(resolve => {
         followModel.findOne({ idUser }, (err, data) => {
             if (err) {
@@ -43,7 +55,7 @@ export function getAllInfomationUserFollowYour(idUser) {
 }
 export function unFollow(follow: followType) {
     return new Promise(resolve => {
-        followModel.deleteOne(follow, (err) => {
+        followModel.deleteMany(follow, (err) => {
             if (err) {
                 resolve(err)
             }

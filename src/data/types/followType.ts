@@ -13,7 +13,7 @@ const follow = /* GraphQL */`
         unFollow(input :FollowInput):Follow
     }
     extend type Query {
-        getAllInfomationUserFollowYour(idUser:String) : Follow
+        getAllInfomationUserFollowYour(id:String) : Follow
     }
 `
 export default follow
