@@ -2,7 +2,7 @@ const follow = /* GraphQL */`
     type Follow  {
         idUser: String
         idUserFollow: String
-        userFollow : User
+        userFollow: User
     }
     input FollowInput {
         idUser: String
@@ -13,7 +13,7 @@ const follow = /* GraphQL */`
         unFollow(input :FollowInput):Follow
     }
     extend type Query {
-        getAllInfomationUserFollowYour(id:String) : Follow
+        getAllInfomationUserFollowYour(id:String) : [Follow]
     }
 `
 export default follow

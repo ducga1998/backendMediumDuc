@@ -1,16 +1,21 @@
 import mongoose from 'mongoose';
+// follow user 
 const followSchema = new mongoose.Schema({
     idUser: String,
     idUserFollow: String
 })
-const followModel = mongoose.model('follow', followSchema)
-//virtual one to many  , idUser in followSchema (one) => idUser in User Schema (Many)
+//in document  have idUser => idUserFollow 
+//id usr follow là id user mà đi follow người khác 
+// idUser laf 
 followSchema.virtual('userFollow', {
     foreignField: 'idUser',
     localField: 'idUserFollow',
     ref: 'users',
     justOne: true
 })
+const followModel = mongoose.model('follow', followSchema)
+//virtual one to many  , idUser in followSchema (one) => idUser in User Schema (Many)
+
 followSchema.set('toObject', { virtuals: true });
 followSchema.set('toJSON', { virtuals: true });
 // check moi quan he 
@@ -26,7 +31,6 @@ export async function follow(follow: followType) {
         console.log(count)
         countFollow = count
     })
-    console.log('countFollow', countFollow)
     if (countFollow > 0 || countFollow == undefined) {
         return
     }
@@ -42,13 +46,15 @@ export async function follow(follow: followType) {
         })
     })
 }
+
 export function getAllInfomationUserFollowYour(idUser) {
     console.log('id user into follow model', idUser)
     return new Promise(resolve => {
-        followModel.findOne({ idUser }, (err, data) => {
+        followModel.find({ idUser }, (err, data) => {
             if (err) {
                 resolve(err)
             }
+            console.log('câcsjkcn', data)
             resolve(data)
         }).populate('userFollow')
     })
