@@ -6,7 +6,6 @@ export const articleSchema = new mongoose.Schema({
     titleArticle: String,
     hashTag: [String],
     category: [String],
-    comment: [String],
     totalClap: Number,
     notification: String,
     imageArticle: String,
@@ -18,6 +17,13 @@ articleSchema.virtual('user', {
     ref: 'users',
     justOne: true
 })
+articleSchema.virtual('comment', {
+    foreignField: 'idArticle',
+    localField: 'idArticle',
+    ref: 'comment',
+    justOne: false
+})
+
 articleSchema.set('toObject', { virtuals: true });
 articleSchema.set('toJSON', { virtuals: true });
 const articleModel = mongoose.model('Article', articleSchema)
@@ -26,7 +32,6 @@ export interface ArticleType {
     idArticle: String,
     hashTag?: [String],
     category?: [String],
-    comment?: [String],
     totalClap?: Number,
     notification?: String,
     contentArticle?: String,
@@ -77,7 +82,7 @@ export function getAllArticle() {
                 resolve(err)
             }
             resolve(data)
-        }).populate('user')
+        }).populate('user').populate('comment')
     })
 }
 
@@ -89,7 +94,7 @@ export function getArticleById(idArticle: string) {
                 resolve(err)
             }
             resolve(data)
-        }).populate('user')
+        }).populate('user').populate('comment')
 
     })
 }

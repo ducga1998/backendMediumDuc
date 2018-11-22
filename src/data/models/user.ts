@@ -3,7 +3,10 @@ import mongoose from "mongoose";
 const UserSchema = new mongoose.Schema({
     idUser: String,
     login: String,
-    avatarLink: String,
+    avatarLink: {
+        type: String,
+        default: 'https://scontent.fhan5-2.fna.fbcdn.net/v/t1.0-9/30710734_1894791530812895_692578444441026560_n.jpg?_nc_cat=102&_nc_eui2=AeF_wL2-Vk3ZZYNGfkHWgczQwSeHwG-3sNBPULAHbqyC9D17LurQeLan6p9WXkvc2fZcaKGMHKB5MQTi3V2g_HX5D9MsCYpnjZvjCma4DQbEGw&_nc_ht=scontent.fhan5-2.fna&oh=ee8bf079d853f45adc53b82d7885ee17&oe=5C75BB19'
+    },
     name: String,
     password: String,
     decentraliz: Number, // admin 3 , monitor : 2 , user : 1

@@ -16,7 +16,7 @@ const comment = /* GraphQL */`
         addCommentIntoArticle(input: CommentInput) :Comment
     }
     extend type Query {
-        getAllCommentInTheArticle(id:String) : Comment
+        getAllCommentInTheArticle(id:String) : [Comment]
     }
 `
 export default comment

@@ -8,7 +8,9 @@ export const commentSchema = new mongoose.Schema({
         type: Number,
         default: 0
     }
-})
+}, {
+        timestamps: true
+    })
 commentSchema.virtual('userComment', {
     foreignField: 'idUser',
     localField: 'idUser',

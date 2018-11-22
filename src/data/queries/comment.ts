@@ -1,6 +1,6 @@
 import { getAllCommentInTheArticle } from '../models/comment';
-async function GetAllCommentInTheArticle(a, { input }) {
-    return await getAllCommentInTheArticle(input)
+async function GetAllCommentInTheArticle(a, { id }) {
+    return await getAllCommentInTheArticle(id)
 }
 export default {
     Query: {
