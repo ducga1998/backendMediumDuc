@@ -1,11 +1,12 @@
 import errorHandler from "errorhandler";
 import app from "./app";
 
-
+import { startIo } from './socket/index'
 /**
  * Error Handler. Provides full stack - remove for production
  */
 app.use(errorHandler());
+var http = require('http').Server(app);
 
 /**
  * Start Express server.
@@ -18,5 +19,6 @@ const server = app.listen(app.get("port"), () => {
   );
   console.log(":) backend run success  \n");
 });
+startIo(server);
 
 export default server;
