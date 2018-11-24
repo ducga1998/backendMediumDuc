@@ -40,6 +40,7 @@
     "express": "^4.16.2",
     "express-flash": "0.0.2",
     "express-graphql": "^0.6.12",
+    "express-jwt": "^5.3.1",
     "express-session": "^1.15.6",
     "express-validator": "^4.3.0",
     "fbgraph": "^1.4.1",
@@ -63,6 +64,7 @@
     "request-promise": "^4.2.2",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
+    "uuid": "^3.3.2",
     "winston": "^2.4.0"
   },
   "devDependencies": {

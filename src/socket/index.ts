@@ -1,15 +1,24 @@
-import io from 'socket.io'
+// import { connection } from 'mongoose';
 
+import io from 'socket.io'
+import { addUserInRoom, createRoom, IRoom } from '../data/models/room';
+import uuid from 'uuid';
 const socketAuth = function socketAuth(socket, next) {
-    // console.log(socket)
+    console.log('socket.id', socket.id)
     return next();
     return next(new Error('Nothing Defined'));
 };
 
 const socketConnection = (socket) => {
-    socket.emit('message', { message: 'Hey!' });
-    socket.on('chat', (data) => {
-        console.log(data)
+    socket.on('addRoom', data => {
+        const { title, idUser } = data
+        const idRoom = uuid()
+        createRoom({ idRoom, title, idUser })
+        socket.emit('eventAddRoom', { idRoom, title, idUser })
+    })
+    // handle user join room
+    socket.on('join', ({ idUser, idRoom }: any) => {
+
     })
 };
 

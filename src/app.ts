@@ -10,6 +10,7 @@ import expressValidator from "express-validator";
 import mongoose from "mongoose";
 import { getAllArticle } from "./data/models/user";
 import schema from './data/schema';
+import jwt from 'express-jwt'
 // import { socket } from "./socket/index";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
 var proxy = require('http-proxy-middleware');
@@ -40,7 +41,13 @@ mongoose.connect(mongoUrl).then(
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
 });
-
+// session({
+//   secret: "csacasc",
+//   resave: false,
+//   saveUninitialized: false,
+//   unset: 'destroy',
+//   store: new MongoStore({ mongooseConnection: db.Mongoose.connection })
+// });
 // Express configuration
 app.set("port", process.env.PORT || 4000);
 
@@ -73,9 +80,20 @@ app.get('/getAllArticle/:id', async (req, res) => {
 app.get('/test', (req, res) => {
   res.send('OK')
 })
+const middware = (req, res, next) => {
+  console.log(req.session)
+}
+const authMiddleware = jwt({
+  secret: 'somesuperdupersecret'
+})
+app.use(authMiddleware)
+app.get('/api', (req, res) => {
+
+})
 // app.use('/graphql', proxy({ target: 'http://google.com', changeOrigin: true }));
 app.use(
   '/graphql',
+
   bodyParser.json({ limit: '1024kb' }),
   expressGraphQL(req => ({
     schema,
@@ -84,9 +102,7 @@ app.use(
     pretty: true
   }))
 )
-app.get('/api', (req, res) => {
 
-})
 // socket(io)
 
 // app.use(
