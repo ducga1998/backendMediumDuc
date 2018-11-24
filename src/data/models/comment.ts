@@ -17,6 +17,7 @@ commentSchema.virtual('userComment', {
     ref: 'users',
     justOne: true
 })
+
 commentSchema.virtual('articleComment', {
     foreignField: 'idUser',
     localField: 'idArticle',

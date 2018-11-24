@@ -52,14 +52,13 @@ export function getAllInformationUser(idUser: string) {
     })
 }
 export function checklogin(login, password) {
-    console.log(login)
     return new Promise(resolve => {
         const dataUser = userModel.findOne({ login, password }).populate('articles')
         dataUser.exec((err, data) => {
             if (err) {
                 console.log(err)
             }
-            console.log('get all data article ', data)
+            // console.log('get all data article ', data)
             resolve(data)
         })
     })

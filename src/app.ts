@@ -86,7 +86,22 @@ const middware = (req, res, next) => {
 const authMiddleware = jwt({
   secret: 'somesuperdupersecret'
 })
-app.use(authMiddleware)
+const authExamle = (req, res, next) => {
+  next()
+  // console.log()
+  // if (req.get('origin') + "/login" === 'http://localhost:3000/login', req.get('origin')) {
+  //   console.log(req.body)
+  //   // next()
+  // }
+  // console.log(req.session.pass)
+  // const { pass } = req.session
+  // if (pass) {
+  //   next()
+  // }
+
+  // next();
+}
+app.use(authExamle)
 app.get('/api', (req, res) => {
 
 })

@@ -6,6 +6,7 @@ const comment = /* GraphQL */`
         totalLike: Int
         userComment: User
         articleComment: Article
+        createdAt :String
     }
     input CommentInput {
         idUser: String
