@@ -57,6 +57,7 @@ export var addUser = function (input: InputAddRoom) {
 }
 
 export function getRoomByIdUser(idUser: string) {
+    console.log('run getRoomByIdUser', idUser)
     return new Promise(resolve => {
         roomModel.find({ idUser }, (err, data) => {
             if (err) {

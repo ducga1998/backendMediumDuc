@@ -1,25 +1,20 @@
-const notificationType = /* GraphQL */ `
-  type Notification {
-      idNotification: String
-      idArticle: String
+import { connection } from 'mongoose';
+const roomType = /* GraphQL */ `
+    type room {
+        idRoom: String
+        idUser: String
+        connections : [connectionType]
+        title : String
+  }
+  type connectionType {
       idUser: String
-      contentNotification: String
+      socketid:String
   }
-
-  input NotificationInput {
-    idNotification: String
-    idArticle: String
-    idUser: String
-    contentNotification: String
-  }
-
   extend type Query {
-        getAllNotifiOfArticle(id: String):Notification 
-        getAllNotifiOfUser(id: String): Notification
+    getRoomByIdUser(id: String):[room] 
+    getAllRoom(id: String): [room]
   }
-  extend type Mutation {
-    addNotification(input:NotificationInput):Notification
-  }
+  
 `
 
-export default notificationType;
+export default roomType;
