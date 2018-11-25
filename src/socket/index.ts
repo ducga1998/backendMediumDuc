@@ -20,14 +20,32 @@ const roomConnection = (socket) => {
     socket.on('chat', (data) => {
         socket.emit('chat2', data)
     })
+    // socket.on('join', data => {
+    //     console.log('join ben room cung chay thi vo mom')
+    // })
 };
+// all chat user
 const chatConnection = socket => {
-    socket.on('join', async data => {
+    socket.on('join', data => {
+
         const { idUser, idRoom } = data
-        console.log('user vao room roi me oi !!', data)
-        const dataRoom = await addUser({ socketid: socket.id, idUser, idRoom })
-        console.log('data room when user join', dataRoom)
+        console.log('join')
+        socket.join(idRoom)
+        const dataRoom = addUser({ socketid: socket.id, idUser, idRoom })
+
+
     })
+    socket.on('newMessage', function (idroomA, content) {
+
+        socket.broadcast.to(idroomA).emit('addMessage', content)
+    })
+    socket.on('disconnect', function () {
+
+        socket.leave()
+    })
+
+
+
 }
 export const startIo = function startIo(server) {
     const io2 = io.listen(server);

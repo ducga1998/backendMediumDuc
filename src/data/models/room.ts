@@ -32,26 +32,6 @@ interface InputAddRoom {
     idUser: string,
     socketid: string
 }
-export function addUserInRoom(input) {
-    const { idRoom, idUser, socketid } = input
-    // roomModel.count({ idRoom })
-    return new Promise(resolve => {
-        roomModel.findOne({ idRoom }, (err, data: any) => {
-            if (err) {
-                resolve(err)
-            }
-            const { connection } = data
-            connection.push({ idUser, socketid })
-            roomModel.updateOne({ idRoom }, { connection }, (subErr, data) => {
-                if (subErr) {
-                    resolve(err)
-                }
-                resolve(data)
-            })
-        })
-    })
-}
-// find room   => addUser 
 export var addUser = function (input: InputAddRoom) {
     const { idRoom, idUser, socketid } = input
     // Get current user's id
@@ -62,7 +42,10 @@ export var addUser = function (input: InputAddRoom) {
                 resolve(err)
             }
             var conn = { idUser, socketid };
-            room.connections.push(conn);
+            if (!room.connections.filter(item => item.idUser === idUser)[0]) {
+                room.connections.push(conn);
+            }
+
             room.save((err, data) => {
                 if (err) {
                     console.log(err)
@@ -71,6 +54,25 @@ export var addUser = function (input: InputAddRoom) {
             });
         })
     })
-    // Push a new connection object(i.e. {userId + socketId})
+}
 
+export function getRoomByIdUser(idUser: string) {
+    return new Promise(resolve => {
+        roomModel.find({ idUser }, (err, data) => {
+            if (err) {
+                resolve(err)
+            }
+            resolve(data)
+        })
+    })
+}
+export function getAllRoom() {
+    return new Promise(resolve => {
+        roomModel.find({}, (err, data) => {
+            if (err) {
+                resolve(err)
+            }
+            resolve(data)
+        })
+    })
 }

@@ -58,7 +58,7 @@ export function checklogin(login, password) {
             if (err) {
                 console.log(err)
             }
-            // console.log('get all data article ', data)
+            console.log('get all data article ', data)
             resolve(data)
         })
     })
