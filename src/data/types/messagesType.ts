@@ -3,7 +3,9 @@ const messageType = /* GraphQL */ `
     type message {
         idRoom: String
         idUser: String
-        content : String
+        content: String
+        userMessage:User
+        roomMessage:room
   }
   
   extend type Query {

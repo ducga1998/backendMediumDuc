@@ -42,10 +42,10 @@ const chatConnection = socket => {
     })
     socket.on('newMessage', async function (idroom, input) {
         const { content, idUser } = input
-
+        input.idRoom = idroom
         console.log(count)
         socket.broadcast.to(idroom).emit('addMessage', content)
-        // const dataMessage = await addMessage(input)
+        const dataMessage = await addMessage(input)
     })
     socket.on('disconnect', function () {
         count--;

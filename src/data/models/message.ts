@@ -3,9 +3,22 @@ const messageSchema = new mongoose.Schema({
     idUser: String,
     idRoom: String,
     content: String,
+
 }, {
         timestamps: true
     })
+messageSchema.virtual('userMessage', {
+    foreignField: 'idUser',
+    localField: 'idUser',
+    ref: 'users',
+    justOne: true
+})
+messageSchema.virtual('roomMessage', {
+    foreignField: 'idRoom',
+    localField: 'idRoom',
+    ref: 'room',
+    justOne: true
+})
 export const messageModel = mongoose.model('message', messageSchema)
 export interface IMessage {
     idRoom: string,
@@ -31,7 +44,7 @@ export function getAllMessageByIdRoom(idRoom) {
                 resolve(err)
             }
             resolve(data)
-        })
+        }).populate('roomMessage').populate('userMessage')
     })
 }
 
