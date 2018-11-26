@@ -55,7 +55,7 @@ export var addUser = function (input: InputAddRoom) {
         })
     })
 }
-
+// in the person 
 export function getRoomByIdUser(idUser: string) {
     console.log('run getRoomByIdUser', idUser)
     return new Promise(resolve => {
@@ -67,6 +67,7 @@ export function getRoomByIdUser(idUser: string) {
         })
     })
 }
+// in the world 
 export function getAllRoom() {
     return new Promise(resolve => {
         roomModel.find({}, (err, data) => {

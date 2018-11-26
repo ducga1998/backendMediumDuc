@@ -1,10 +1,10 @@
-import { connection } from 'mongoose';
+// import { connection } from 'mongoose';
 const roomType = /* GraphQL */ `
     type room {
         idRoom: String
         idUser: String
-        connections : [connectionType]
-        title : String
+        connections: [connectionType]
+        title: String
   }
   type connectionType {
       idUser: String

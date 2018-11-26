@@ -3,6 +3,7 @@
 import io from 'socket.io'
 import { addUser, createRoom, IRoom } from '../data/models/room';
 import uuid from 'uuid';
+import { addMessage } from '../data/models/message';
 const socketAuth = function socketAuth(socket, next) {
     console.log('socket.id', socket.id)
     return next();
@@ -26,22 +27,29 @@ const roomConnection = (socket) => {
 };
 // all chat user
 const chatConnection = socket => {
+    let count = 0
+    let idRoomNew = 0
     socket.on('join', data => {
-
+        count = count + 1;
+        console.log(count)
         const { idUser, idRoom } = data
         console.log('join')
+        idRoomNew = idRoom
         socket.join(idRoom)
         const dataRoom = addUser({ socketid: socket.id, idUser, idRoom })
 
 
     })
-    socket.on('newMessage', function (idroomA, content) {
+    socket.on('newMessage', async function (idroom, input) {
+        const { content, idUser } = input
 
-        socket.broadcast.to(idroomA).emit('addMessage', content)
+        console.log(count)
+        socket.broadcast.to(idroom).emit('addMessage', content)
+        // const dataMessage = await addMessage(input)
     })
     socket.on('disconnect', function () {
-
-        socket.leave()
+        count--;
+        socket.leave(idRoomNew)
     })
 
 
