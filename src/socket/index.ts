@@ -37,23 +37,30 @@ const chatConnection = socket => {
         idRoomNew = idRoom
         socket.join(idRoom)
         const dataRoom = addUser({ socketid: socket.id, idUser, idRoom })
-
-
     })
     socket.on('newMessage', async function (idroom, input) {
         const { content, idUser } = input
+        // add idroom beause in database need it : )))) 
         input.idRoom = idroom
         console.log(count)
-        socket.broadcast.to(idroom).emit('addMessage', content)
+        socket.in(idroom).emit('addMessage', content)
         const dataMessage = await addMessage(input)
     })
     socket.on('disconnect', function () {
         count--;
         socket.leave(idRoomNew)
     })
-
-
-
+}
+const notificationConnection = (socket) => {
+    socket.on('join', idUser => {
+        socket.join(idUser)
+    })
+    // this is function will call when other comment 
+    socket.on('notificationMessage', (idUser, data) => {
+        // const { name, titleArticle, content } = data
+        // this is emmiter function emit , => function tosatir  => 
+        socket.to(idUser).emit('notificationRun', data)
+    })
 }
 export const startIo = function startIo(server) {
     const io2 = io.listen(server);
@@ -61,6 +68,10 @@ export const startIo = function startIo(server) {
     const room = io2.of('/room').on('connection', roomConnection);
     // in front end , if your use chatSocket  => 
     const chat = io2.of('/chat').on('connection', chatConnection);
+    const notification = io2.of('/notification', notificationConnection)
+    // const A = io.of('/', () => {
+    // })
+
     // room.use(socketAuth);
     // chat.use(socketAuth)
 
