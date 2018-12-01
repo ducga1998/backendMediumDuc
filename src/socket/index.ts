@@ -52,14 +52,23 @@ const chatConnection = socket => {
     })
 }
 const notificationConnection = (socket) => {
+    // join idUser mà viết ra bài viết 
+    // let idUserLeave
     socket.on('join', idUser => {
+        console.log('joinnnnnnnnnnnnnnnnnnn', idUser)
         socket.join(idUser)
     })
     // this is function will call when other comment 
     socket.on('notificationMessage', (idUser, data) => {
-        // const { name, titleArticle, content } = data
-        // this is emmiter function emit , => function tosatir  => 
         socket.to(idUser).emit('notificationRun', data)
+    })
+    socket.on('leave', idUser => {
+
+        socket.leave(idUser)
+    })
+    socket.on('disconnect', function () {
+        console.log('user leave ')
+
     })
 }
 export const startIo = function startIo(server) {

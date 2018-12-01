@@ -35,14 +35,14 @@ export async function follow(follow: followType) {
         return
     }
 
-    const newFollow = new followModel(follow)
+    const newFollow = new followModel(follow).populate('userFollow')
 
     return new Promise(resolve => {
-        newFollow.save((err, data) => {
+        newFollow.save(async (err, saveData) => {
             if (err) {
                 resolve(err)
             }
-            resolve(data)
+            resolve(saveData)
         })
     })
 }

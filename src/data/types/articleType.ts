@@ -26,10 +26,10 @@ input ArticleInput {
     createTime : String
 }
 extend type Query {
-    getArticleById(id: String): Article
+    getArticleById(id: String ): Article
     getArticleByCategory(id  : String ) : Article
     getArticleByHashTag(name : String ) : Article
-    getAllArticle(id : String) : [Article]
+    getAllArticle(id : String ,first : Int) : [Article]
 }
 input DeleteInput {
     idArticle:String
