@@ -31,9 +31,9 @@ const chatConnection = socket => {
     let idRoomNew = 0
     socket.on('join', data => {
         count = count + 1;
-        console.log(count)
+
         const { idUser, idRoom } = data
-        console.log('join')
+
         idRoomNew = idRoom
         socket.join(idRoom)
         const dataRoom = addUser({ socketid: socket.id, idUser, idRoom })
@@ -42,7 +42,7 @@ const chatConnection = socket => {
         const { content, idUser } = input
         // add idroom beause in database need it : )))) 
         input.idRoom = idroom
-        console.log(count)
+
         socket.in(idroom).emit('addMessage', content)
         const dataMessage = await addMessage(input)
     })
@@ -55,7 +55,7 @@ const notificationConnection = (socket) => {
     // join idUser mà viết ra bài viết 
     // let idUserLeave
     socket.on('join', idUser => {
-        console.log('joinnnnnnnnnnnnnnnnnnn', idUser)
+
         socket.join(idUser)
     })
     // this is function will call when other comment 

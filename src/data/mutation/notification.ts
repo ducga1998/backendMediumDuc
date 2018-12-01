@@ -1,3 +1,4 @@
+import { isAuth } from '../../help/help';
 import { addNotification } from '../models/notifcation'
 async function AddNotification(notifcation: any) {
     // console.
@@ -6,6 +7,6 @@ async function AddNotification(notifcation: any) {
 }
 export default {
     Mutation: {
-        addNotification: AddNotification
+        addNotification: isAuth(AddNotification)
     }
 }

@@ -36,25 +36,12 @@ const mongoUrl = MONGODB_URI;
 
 (<any>mongoose).Promise = bluebird;
 mongoose.connect(mongoUrl).then(
-  () => { /** ready to use. The `mongoose.connect()` promise resolves to undefined. */ },
 ).catch(err => {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
 });
-// session({
-//   secret: "csacasc",
-//   resave: false,
-//   saveUninitialized: false,
-//   unset: 'destroy',
-//   store: new MongoStore({ mongooseConnection: db.Mongoose.connection })
-// });
-// Express configuration
 app.set("port", process.env.PORT || 4000);
 
-
-
-// console.log(io)
-// app.set("views", path.join(__dirname, "../views"));
 app.set("view engine", "pug");
 app.use(compression());
 app.use(bodyParser.json());
@@ -69,6 +56,38 @@ app.use(session({
     autoReconnect: true
   })
 }))
+// app.use((req, res, next) => {
+//   console.log('session req', req.session)
+//   next()
+// })
+// app.use((req, res, next) => {
+
+//   // console.log(req.)
+//   let flag = false
+//   const host = req.get('host')
+//   const url = req.headers.referer;
+
+//   ["graphql", "login", 'logout', 'register', 'home'].forEach(item => {
+//     console.log(`${host}/${item}`, url)
+//     if (`http://${host}/${item}` === url || !url) {
+//       console.log(`${host}/${item}`)
+//       flag = true
+//     }
+//   })
+//   console.log("urrl", req.headers.referer)
+//   req.on('data', (data) => {
+//     console.log(data)
+//   })
+//   const { pass } = req.session
+
+//   if (pass || flag) {
+
+//     next()
+//   }
+
+
+// })
+
 app.get('/getAllArticle/:id', async (req, res) => {
   // console.log(req.params)
   const { id } = req.params as any
@@ -81,30 +100,24 @@ app.get('/test', (req, res) => {
   res.send('OK')
 })
 const middware = (req, res, next) => {
-  console.log(req.session)
+  console.log(req.session.pass)
 }
 const authMiddleware = jwt({
   secret: 'somesuperdupersecret'
 })
+// app.use(authMiddleware)
+app.use((req, res, next) => {
+  // console.log(req.user)
+  next()
+})
 const authExamle = (req, res, next) => {
   next()
-  // console.log()
-  // if (req.get('origin') + "/login" === 'http://localhost:3000/login', req.get('origin')) {
-  //   console.log(req.body)
-  //   // next()
-  // }
-  // console.log(req.session.pass)
-  // const { pass } = req.session
-  // if (pass) {
-  //   next()
-  // }
-
-  // next();
 }
-app.use(authExamle)
+// app.use(authExamle)
 app.get('/api', (req, res) => {
 
 })
+
 // app.use('/graphql', proxy({ target: 'http://google.com', changeOrigin: true }));
 app.use(
   '/graphql',

@@ -1,6 +1,7 @@
 
 
 import { addHashtag, deleteHashTag } from '../models/hashtag';
+import { isAuth } from '../../help/help';
 async function AddHashtag(a, { input }) {
     return await addHashtag(input)
 }
@@ -9,7 +10,7 @@ async function DeleteHashTag(id: string) {
 }
 export default {
     Mutation: {
-        addHashtag: AddHashtag,
-        deleteHashTag: DeleteHashTag
+        addHashtag: isAuth(AddHashtag),
+        deleteHashTag: isAuth(DeleteHashTag)
     }
 }

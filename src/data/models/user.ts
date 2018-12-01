@@ -1,4 +1,6 @@
+// import { session } from 'express-session';
 import mongoose from "mongoose";
+import _ from "lodash";
 
 const UserSchema = new mongoose.Schema({
     idUser: String,
@@ -51,14 +53,19 @@ export function getAllInformationUser(idUser: string) {
         }).populate('articles')
     })
 }
-export function checklogin(login, password) {
+export function checklogin(login, password, request) {
     return new Promise(resolve => {
         const dataUser = userModel.findOne({ login, password }).populate('articles')
         dataUser.exec((err, data) => {
             if (err) {
                 console.log(err)
             }
-            console.log('get all data article ', data)
+
+
+            const onlyDataUser = _.pick(data, ['idUser', 'login', 'avatarLink'])
+            console.log('request.session', request.session)
+            request.session.user = onlyDataUser
+            // console.log('onlyDataUser ', onlyDataUser)
             resolve(data)
         })
     })

@@ -1,6 +1,7 @@
 // import { session } from 'express-session';
 
 import { deleteUserById, updateInfomationUser, addNewUser, UserType } from '../models/user'
+import { isAuth } from '../../help/help';
 async function DeleteUserById(id: string) {
     return await deleteUserById(id)
 }
@@ -14,8 +15,8 @@ async function AddNewUser(data: any, { input }: { input: UserType }, b, c) {
 }
 export default {
     Mutation: {
-        deleteUserById: deleteUserById,
-        updateInfomationUser: UpdateInfomationUser,
-        addNewUser: AddNewUser
+        deleteUserById: isAuth(deleteUserById),
+        updateInfomationUser: isAuth(UpdateInfomationUser),
+        addNewUser: isAuth(AddNewUser)
     }
 }
