@@ -26,7 +26,7 @@ async function Logout({ request }, { }, ) {
 export default {
     Query: {
         getAllInformationUser: isAuth(GetAllInformationUser),
-        checklogin: isAuth(Checklogin),
+        checklogin: Checklogin,
         logout: isAuth(Logout)
     }
 }

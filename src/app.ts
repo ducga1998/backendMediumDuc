@@ -56,37 +56,7 @@ app.use(session({
     autoReconnect: true
   })
 }))
-// app.use((req, res, next) => {
-//   console.log('session req', req.session)
-//   next()
-// })
-// app.use((req, res, next) => {
 
-//   // console.log(req.)
-//   let flag = false
-//   const host = req.get('host')
-//   const url = req.headers.referer;
-
-//   ["graphql", "login", 'logout', 'register', 'home'].forEach(item => {
-//     console.log(`${host}/${item}`, url)
-//     if (`http://${host}/${item}` === url || !url) {
-//       console.log(`${host}/${item}`)
-//       flag = true
-//     }
-//   })
-//   console.log("urrl", req.headers.referer)
-//   req.on('data', (data) => {
-//     console.log(data)
-//   })
-//   const { pass } = req.session
-
-//   if (pass || flag) {
-
-//     next()
-//   }
-
-
-// })
 
 app.get('/getAllArticle/:id', async (req, res) => {
   // console.log(req.params)
@@ -113,12 +83,9 @@ app.use((req, res, next) => {
 const authExamle = (req, res, next) => {
   next()
 }
-// app.use(authExamle)
 app.get('/api', (req, res) => {
 
 })
-
-// app.use('/graphql', proxy({ target: 'http://google.com', changeOrigin: true }));
 app.use(
   '/graphql',
 
@@ -127,19 +94,8 @@ app.use(
     schema,
     graphiql: true,
     rootValue: { request: req },
-    pretty: true
+    pretty: true,
   }))
 )
-
-// socket(io)
-
-// app.use(
-//   express.static(path.join(__dirname, "public"), { maxAge: 31557600000 })
-// );
-
-/**
- * Primary app routes.
- */
-
 
 export default app;

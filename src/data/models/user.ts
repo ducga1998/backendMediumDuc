@@ -16,6 +16,15 @@ const UserSchema = new mongoose.Schema({
     bookMark: [String], // all article bookmark
     totalFollow: [String], // total other people follow
     followOtherPeople: [String], // use to view follow ?
+    biographical: {
+        type: String, default: ''
+    },
+    birthday: {
+        type: String, default: ''
+    },
+    location: {
+        type: String, default: ''
+    },
     // articles2 : mongoose.Schema.Types.Mixed,
 })
 
@@ -63,7 +72,7 @@ export function checklogin(login, password, request) {
 
 
             const onlyDataUser = _.pick(data, ['idUser', 'login', 'avatarLink'])
-            console.log('request.session', request.session)
+            // this here, iam save info user in session 
             request.session.user = onlyDataUser
             // console.log('onlyDataUser ', onlyDataUser)
             resolve(data)

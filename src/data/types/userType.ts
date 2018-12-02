@@ -11,6 +11,9 @@ const userType = /* GraphQL */`
         totalFollow: [String]
         followOtherPeople: [String]
         articles : [Article]
+        biographical: String
+        birthday: String
+        location: String
     }
     input UserInput {
         idUser: String

@@ -41,14 +41,15 @@ export interface ArticleType {
     users?: any
 }
 
-export function updateArticle(article: ArticleType) {
-    const { idArticle } = article
+export function updateArticle(article: any) {
+    const { idArticle, idUser } = article
+    console.log('article', article)
     return new Promise(resolve => {
-        articleModel.updateOne({ idArticle }, article, (err: any, data: any) => {
+        articleModel.updateMany({ idArticle, idUser }, article, (err: any, data: any) => {
             if (err) {
                 resolve(err)
             }
-            // console.log('data', data)
+            console.log('data', data)
             resolve(data)
         })
     })

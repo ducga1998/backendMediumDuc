@@ -17,6 +17,6 @@ export default {
     Mutation: {
         deleteUserById: isAuth(deleteUserById),
         updateInfomationUser: isAuth(UpdateInfomationUser),
-        addNewUser: isAuth(AddNewUser)
+        addNewUser: AddNewUser
     }
 }
