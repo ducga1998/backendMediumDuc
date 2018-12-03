@@ -1,3 +1,5 @@
+// import { bookmarkType } from './models/bookmark';
+import bookmarkType from './types/bookmarkType'
 
 
 import { makeExecutableSchema } from 'graphql-tools';
@@ -30,7 +32,8 @@ import roomType from './types/room'
 import roomQuery from './queries/room'
 import messageType from './types/messagesType'
 import messageQuery from './queries/messages'
-
+import bookmarkMutation from './mutation/bookmark'
+import bookQueries from './queries/bookMark'
 
 const merge = require('lodash/merge')
 
@@ -40,13 +43,14 @@ const schema = makeExecutableSchema({
     typeDefs: [
         Root, followType, commentType, articleType,
         hashTagType, notificationType, userType,
-        typeDefs, roomType, messageType
+        typeDefs, roomType, messageType, bookmarkType
     ],
     resolvers: merge(
         {}, resolvers, articleMutation, followMutation,
         commentMutation, hashtagMutation, notificationMutation,
         userMutation, articleQuery, notificationQuery, userQuery,
-        hashTagQuery, followQuery, commentQuery, roomQuery, messageQuery
+        hashTagQuery, followQuery, commentQuery, roomQuery, messageQuery,
+        bookQueries, bookmarkMutation
     )
 })
 export default schema

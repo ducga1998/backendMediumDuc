@@ -1,4 +1,5 @@
 import mongoose from 'mongoose';
+import { omit } from 'lodash';
 export const articleSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
@@ -44,8 +45,9 @@ export interface ArticleType {
 export function updateArticle(article: any) {
     const { idArticle, idUser } = article
     console.log('article', article)
+    const data = omit(article, ['idArticle', 'idUser'])
     return new Promise(resolve => {
-        articleModel.updateMany({ idArticle, idUser }, article, (err: any, data: any) => {
+        articleModel.updateMany({ idArticle, idUser }, data, (err: any, data: any) => {
             if (err) {
                 resolve(err)
             }

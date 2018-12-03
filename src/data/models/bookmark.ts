@@ -3,21 +3,37 @@ import mongoose from 'mongoose';
 const bookmarkSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
+    idUserBookMark: String
 })
+
 //in document  have idUser => idUserFollow 
 //id usr follow là id user mà đi follow người khác 
 // idUser laf 
-bookmarkSchema.virtual('userFollow', {
+
+bookmarkSchema.virtual('userBookMark', {
+    foreignField: 'idUser',
+    localField: 'idUserBookMark',
+    ref: 'users',
+    justOne: true
+})
+bookmarkSchema.virtual('userOwnArticle', {
     foreignField: 'idUser',
     localField: 'idUserFollow',
     ref: 'users',
     justOne: true
 })
-const followModel = mongoose.model('follow', bookmarkSchema)
-//virtual one to many  , idUser in bookmarkSchema (one) => idUser in User Schema (Many)
-
+bookmarkSchema.virtual('articleBookMark', {
+    foreignField: 'idArticle',
+    localField: 'idArticle',
+    ref: 'Article',
+    justOne: true
+})
 bookmarkSchema.set('toObject', { virtuals: true });
 bookmarkSchema.set('toJSON', { virtuals: true });
+const bookmarkModel = mongoose.model('bookmark', bookmarkSchema)
+//virtual one to many  , idUser in bookmarkSchema (one) => idUser in User Schema (Many)
+
+
 // check moi quan he 
 export interface bookmarkType {
     idUser: String, // people are monitored
@@ -25,20 +41,22 @@ export interface bookmarkType {
 }
 
 // we show who follow idUser , yes user have id is idUserFollow
-export async function follow(follow: bookmarkType) {
-    let countFollow
-    await followModel.countDocuments(follow, (err, count) => {
-        console.log(count)
-        countFollow = count
+export async function bookMark(input) {
+    const { idArticle, idUser, idUserBookMark } = input
+    let countBookMark;
+    // check  count bookmark exies 
+    await bookmarkModel.countDocuments({ idArticle, idUser }, (err, count) => {
+        // console.log(count)
+        countBookMark = count
     })
-    if (countFollow > 0 || countFollow == undefined) {
+    if (countBookMark > 0 || countBookMark == undefined) {
         return
     }
 
-    const newFollow = new followModel(follow)
+    const newBookMark = new bookmarkModel(input)
 
     return new Promise(resolve => {
-        newFollow.save((err, data) => {
+        newBookMark.save((err, data) => {
             if (err) {
                 resolve(err)
             }
@@ -46,25 +64,34 @@ export async function follow(follow: bookmarkType) {
         })
     })
 }
-
-export function getAllInfomationUserFollowYour(idUser) {
-    console.log('id user into follow model', idUser)
+export function unBookMark({ idUserBookMark, idArticle }) {
     return new Promise(resolve => {
-        followModel.find({ idUser }, (err, data) => {
+        bookmarkModel.deleteMany({ idUserBookMark, idArticle }, (err) => {
             if (err) {
                 resolve(err)
             }
-            console.log('câcsjkcn', data)
-            resolve(data)
-        }).populate('userFollow')
+        })
     })
 }
-export function unFollow(follow: bookmarkType) {
+
+export function getAllBookMarkByIdUser(idUser) {
+
     return new Promise(resolve => {
-        followModel.deleteMany(follow, (err) => {
+        bookmarkModel.find({ idUser }, (err, data) => {
             if (err) {
                 resolve(err)
             }
+            resolve(data)
+        }).populate('articleBookMark').populate('userBookMark')
+    })
+}
+export function countBookMarkByIdArtice(idArticle) {
+    return new Promise(resolve => {
+        bookmarkModel.countDocuments({ idArticle }, (err, count) => {
+            if (err) {
+                resolve(err)
+            }
+            resolve(count)
         })
     })
 }
