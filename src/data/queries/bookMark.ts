@@ -1,14 +1,15 @@
-import { getAllBookMarkByIdUser, countBookMarkByIdArtice } from '../models/bookmark';
+import { getAllArticleHasBeenBookMark, isBookMark } from '../models/bookmark';
 import { isAuth } from '../../help/help';
-async function GetAllBookMarkByIdUser(a, { idUser }) {
-    return await getAllBookMarkByIdUser(idUser)
+async function GetAllArticleHasBeenBookMark(a, { idUser }) {
+    console.log('idUser', idUser)
+    return await getAllArticleHasBeenBookMark(idUser)
 }
-async function CountBookMarkByIdArtice(a, { idArticle }) {
-    return await countBookMarkByIdArtice(idArticle)
+async function IsBookMark(a, { idArticle, idUserBookMark }) {
+    return await isBookMark({ idArticle, idUserBookMark })
 }
 export default {
     Query: {
-        getAllAricleByIdArticle: isAuth(GetAllBookMarkByIdUser),
-        countBookMarkByIdArtice: isAuth(CountBookMarkByIdArtice)
+        getAllArticleHasBeenBookMark: isAuth(GetAllArticleHasBeenBookMark),
+        isBookMark: isAuth(IsBookMark)
     }
 }

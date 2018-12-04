@@ -74,7 +74,7 @@ export function unBookMark({ idUserBookMark, idArticle }) {
     })
 }
 
-export function getAllBookMarkByIdUser(idUser) {
+export function getAllArticleHasBeenBookMark(idUser) {
 
     return new Promise(resolve => {
         bookmarkModel.find({ idUser }, (err, data) => {
@@ -85,13 +85,18 @@ export function getAllBookMarkByIdUser(idUser) {
         }).populate('articleBookMark').populate('userBookMark')
     })
 }
-export function countBookMarkByIdArtice(idArticle) {
+export function isBookMark({ idArticle, idUserBookMark }) {
     return new Promise(resolve => {
-        bookmarkModel.countDocuments({ idArticle }, (err, count) => {
+        bookmarkModel.countDocuments({ idArticle, idUserBookMark }, (err, count) => {
             if (err) {
-                resolve(err)
+                resolve(false)
             }
-            resolve(count)
+            console.log(count, idArticle, idUserBookMark)
+            if (count > 0) {
+
+                resolve(true)
+            }
+            resolve(false)
         })
     })
 }

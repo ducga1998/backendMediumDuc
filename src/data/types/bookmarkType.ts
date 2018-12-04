@@ -18,8 +18,8 @@ const bookmarkType = /* GraphQL */`
         unBookMark(input: bookmarkInput): bookmark
     }
     extend type Query {
-        getAllAricleByIdArticle(idUser: String):[bookmark]
-        countBookMarkByIdArtice(idArticle:String):Int
+        getAllArticleHasBeenBookMark(idUser: String):[bookmark]
+        isBookMark(idUserBookMark:String , idArticle:String):Boolean
     }
 `
 export default bookmarkType
