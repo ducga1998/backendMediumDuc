@@ -41,7 +41,6 @@ export interface ArticleType {
     createTime?: String,
     users?: any
 }
-
 export function updateArticle(article: any) {
     const { idArticle, idUser } = article
     console.log('article', article)
@@ -78,12 +77,15 @@ export function addArticle(article: ArticleType) {
         })
     })
 }
-export function getAllArticle() {
+export function getAllArticle(first, offset = 0) {
     return new Promise(resolve => {
         articleModel.find({}, function (err, data) {
             if (err) {
                 resolve(err)
             }
+            data = first === undefined ?
+                data.slice(offset) :
+                data.slice(offset, offset + first);
             resolve(data)
         }).populate('user').populate('comment')
     })

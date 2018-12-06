@@ -12,9 +12,9 @@ async function GetArticleById(input: any, { id }, session) {
 async function GetArticleByHashTag(name: string) {
     return await getArticleByHashTag(name)
 }
-async function GetAllArticle() {
+async function GetAllArticle(a, { first, offset }) {
     // console.log(await getAllArticle())
-    return await getAllArticle()
+    return await getAllArticle(first, offset)
 }
 
 export default {

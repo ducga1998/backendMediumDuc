@@ -1,3 +1,4 @@
+import { omit } from 'lodash';
 // import { session } from 'express-session';
 import mongoose from "mongoose";
 import _ from "lodash";
@@ -130,7 +131,22 @@ export async function addNewUser(user: UserType) {
         })
     }
 }
-export function updateInfomationUser(user: UserType) {
+// idUser , password
+export function updateOptionsInfomationUser(data, options: any[]) {
+
+    const { idUser } = data
+    const dataUpdate = data.omit(data, options)
+
+    return new Promise(resolve => {
+        userModel.updateOne({ idUser }, dataUpdate, (err: any, data: any) => {
+            if (err) {
+                resolve(err)
+            }
+            resolve(data)
+        })
+    })
+}
+export function updateInfomationUser(user) {
     const { idUser } = user;
 
     return new Promise(resolve => {

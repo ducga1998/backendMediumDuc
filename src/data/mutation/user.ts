@@ -5,7 +5,8 @@ import { isAuth } from '../../help/help';
 async function DeleteUserById(id: string) {
     return await deleteUserById(id)
 }
-async function UpdateInfomationUser(data, { input }: { input: UserType }) {
+async function UpdateInfomationUser(data, { input }) {
+    console.log('UpdateInfomationUser', input)
     return await updateInfomationUser(input)
 }
 async function AddNewUser(data: any, { input }: { input: UserType }, b, c) {

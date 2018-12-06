@@ -22,6 +22,9 @@ const userType = /* GraphQL */`
         decentraliz: Int
         name: String
         avatarLink: String
+        biographical: String
+        birthday: String
+        location: String
     }
     extend type Query {
         getAllInformationUser(id: String):User

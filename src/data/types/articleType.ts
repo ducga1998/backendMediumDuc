@@ -29,7 +29,7 @@ extend type Query {
     getArticleById(id: String ): Article
     getArticleByCategory(id  : String ) : Article
     getArticleByHashTag(name : String ) : Article
-    getAllArticle(id : String ,first : Int) : [Article]
+    getAllArticle(first: Int, offset:  Int) : [Article]
 }
 input DeleteInput {
     idArticle:String

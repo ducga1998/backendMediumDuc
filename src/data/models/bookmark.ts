@@ -16,9 +16,10 @@ bookmarkSchema.virtual('userBookMark', {
     ref: 'users',
     justOne: true
 })
+// idUser  => this is idUser write article, we are people write article 
 bookmarkSchema.virtual('userOwnArticle', {
     foreignField: 'idUser',
-    localField: 'idUserFollow',
+    localField: 'idUser',
     ref: 'users',
     justOne: true
 })
@@ -74,15 +75,15 @@ export function unBookMark({ idUserBookMark, idArticle }) {
     })
 }
 
-export function getAllArticleHasBeenBookMark(idUser) {
-
+export function getAllArticleHasBeenBookMark(idUserBookMark) {
+    console.log('idUserBookMark', idUserBookMark)
     return new Promise(resolve => {
-        bookmarkModel.find({ idUser }, (err, data) => {
+        bookmarkModel.find({ idUserBookMark }, (err, data) => {
             if (err) {
                 resolve(err)
             }
             resolve(data)
-        }).populate('articleBookMark').populate('userBookMark')
+        }).populate('articleBookMark').populate('userOwnArticle')
     })
 }
 export function isBookMark({ idArticle, idUserBookMark }) {
