@@ -1,3 +1,4 @@
+// import { request } from 'supertest';
 import { isAuth } from '../../help/help';
 // import { session } from 'express-session';
 import { getAllArticle, getArticleByCategory, getArticleByHashTag, getArticleById, countArticle } from '../models/article';
@@ -16,6 +17,10 @@ async function GetAllArticle(a, { first, offset }) {
     // console.log(await getAllArticle())
     return await getAllArticle(first, offset)
 }
+async function GetDataSearch(request, { id }) {
+    // data search only title and idArticle : ))) , yeahhh
+    return await getAllArticle(1, 2, true)
+}
 async function CountArticle(d, { id }) {
     return await countArticle()
 }
@@ -25,6 +30,7 @@ export default {
         getArticleById: isAuth(GetArticleById),
         getArticleByHashTag: isAuth(GetArticleByHashTag),
         getAllArticle: isAuth(GetAllArticle),
-        countArticle: isAuth(CountArticle)
+        countArticle: isAuth(CountArticle),
+        getDataSearch: isAuth(GetDataSearch)
     }
 }

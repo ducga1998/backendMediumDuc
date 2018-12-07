@@ -25,12 +25,17 @@ input ArticleInput {
     imageArticle: String,
     createTime : String
 }
+type SearchData{
+    idArticle:String,
+    titleArticle:String
+}
 extend type Query {
     getArticleById(id: String ): Article
     getArticleByCategory(id  : String ) : Article
     getArticleByHashTag(name : String ) : Article
     getAllArticle(first: Int, offset: Int) : [Article]
     countArticle:Int
+    getDataSearch(id: String) : [SearchData]
 }
 input DeleteInput {
     idArticle:String

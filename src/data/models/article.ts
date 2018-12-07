@@ -1,5 +1,6 @@
 import mongoose from 'mongoose';
 import { omit } from 'lodash';
+import { filterStringHTML } from '../../help/help';
 export const articleSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
@@ -89,15 +90,24 @@ export function countArticle() {
         })
     })
 }
-export function getAllArticle(first, offset = 0) {
+export function getAllArticle(first, offset = 0, search = false) {
 
     return new Promise(resolve => {
         articleModel.find({}, function (err, data) {
             if (err) {
                 resolve(err)
             }
+            if (search) {
+                const searchData = data.map((item: any) => {
+                    item.titleArticle = filterStringHTML(item.titleArticle)
+                    return omit(item)
+                })
+                // console.log
+                resolve(searchData)
+            }
             const count = data.length
-            data = first === undefined ? data.slice(offset) : data.slice(offset, offset + first);
+            // data will 
+            data = first === undefined ? data.reverse().slice(offset) : data.reverse().slice(offset, offset + first);
             // console.log({ ...data, ...{ count } })
             resolve(data)
         }).populate('user').populate('comment')
