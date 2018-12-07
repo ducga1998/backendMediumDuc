@@ -3,7 +3,7 @@ import { isAuth } from '../../help/help';
 // import { session } from 'express-session';
 //MUTATION IS WHERE AUTHECATION , QUERY DATA  , IT IS RESLOVER 
 
-import { addArticle, deleteArticle, updateArticle } from '../models/article';
+import { addArticle, deleteArticle, updateArticle, countArticle } from '../models/article';
 
 async function AddArticle(a, { input }) {
 
@@ -21,6 +21,7 @@ export default {
     Mutation: {
         addArticle: isAuth(AddArticle),
         deleteArtice: isAuth(DeleteArticle),
-        updateArticle: isAuth(UpdateArticle)
+        updateArticle: isAuth(UpdateArticle),
+
     }
 }

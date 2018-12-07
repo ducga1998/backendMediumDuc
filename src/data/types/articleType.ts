@@ -11,7 +11,7 @@ type  Article {
     titleArticle : String ,
     imageArticle : String,
     createTime : String,
-    user: User
+    user: User,
 }
 input ArticleInput {
     idUser: String,
@@ -29,7 +29,8 @@ extend type Query {
     getArticleById(id: String ): Article
     getArticleByCategory(id  : String ) : Article
     getArticleByHashTag(name : String ) : Article
-    getAllArticle(first: Int, offset:  Int) : [Article]
+    getAllArticle(first: Int, offset: Int) : [Article]
+    countArticle:Int
 }
 input DeleteInput {
     idArticle:String
