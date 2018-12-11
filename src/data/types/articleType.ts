@@ -12,6 +12,7 @@ type  Article {
     imageArticle : String,
     createTime : String,
     user: User,
+    bookmark : [bookmark],
 }
 input ArticleInput {
     idUser: String,
@@ -25,7 +26,7 @@ input ArticleInput {
     imageArticle: String,
     createTime : String
 }
-type SearchData{
+type SearchData {
     idArticle:String,
     titleArticle:String
 }

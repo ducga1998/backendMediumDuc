@@ -1,5 +1,8 @@
+
 import mongoose from 'mongoose';
 //comment user ? , article ?
+import uuid from 'uuid'
+import { addRelyComment } from './replyComment';
 export const commentSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
@@ -7,7 +10,8 @@ export const commentSchema = new mongoose.Schema({
     totalLike: {
         type: Number,
         default: 0
-    }
+    },
+    idComment: String
 }, {
         timestamps: true
     })
@@ -24,6 +28,12 @@ commentSchema.virtual('articleComment', {
     ref: 'Article',
     justOne: true
 })
+commentSchema.virtual('relyComment', {
+    foreignField: 'idRely',
+    localField: 'idComment',
+    ref: 'rely',
+    justOne: false
+})
 commentSchema.set('toObject', { virtuals: true });
 commentSchema.set('toJSON', { virtuals: true });
 const commentModel = mongoose.model('comment', commentSchema)
@@ -34,11 +44,13 @@ export function getAllCommentInTheArticle(idArticle) {
                 resolve(err)
             }
             resolve(data)
-        }).populate('articleComment').populate('userComment')
+        }).populate('articleComment').populate('userComment').populate('relyComment')
     })
 }
 export function addCommentIntoArticle(comment) {
-    const newComment = new commentModel(comment)
+    const idComment = uuid()
+    console.log('{ ...comment, ...{ idComment } }', { ...comment, ...{ idComment } })
+    const newComment = new commentModel({ ...comment, ...{ idComment } })
     return new Promise(resolve => {
         newComment.save(function (err, data) {
             if (err) {
@@ -47,6 +59,10 @@ export function addCommentIntoArticle(comment) {
             resolve(data)
         })
     })
+}
+//function handle work rely comment
+export function addReplyComment(idRely, comment) {
+
 }
 
 

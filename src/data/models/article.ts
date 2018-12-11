@@ -26,6 +26,13 @@ articleSchema.virtual('comment', {
     ref: 'comment',
     justOne: false
 })
+articleSchema.virtual('bookmark', {
+    foreignField: 'idArticle',
+    localField: 'idArticle',
+    ref: 'bookmark',
+    justOne: false
+})
+
 
 articleSchema.set('toObject', { virtuals: true });
 articleSchema.set('toJSON', { virtuals: true });
@@ -110,7 +117,7 @@ export function getAllArticle(first, offset = 0, search = false) {
             data = first === undefined ? data.reverse().slice(offset) : data.reverse().slice(offset, offset + first);
             // console.log({ ...data, ...{ count } })
             resolve(data)
-        }).populate('user').populate('comment')
+        }).populate('user').populate('comment').populate('bookmark')
     })
 }
 
@@ -122,7 +129,7 @@ export function getArticleById(idArticle: string) {
                 resolve(err)
             }
             resolve(data)
-        }).populate('user').populate('comment')
+        }).populate('user').populate('comment').populate('bookmark')
 
     })
 }

@@ -7,6 +7,8 @@ const comment = /* GraphQL */`
         userComment: User
         articleComment: Article
         createdAt :String
+        idComment : String
+        relyComment:[Rely]
     }
     input CommentInput {
         idUser: String

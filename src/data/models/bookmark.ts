@@ -43,6 +43,7 @@ export interface bookmarkType {
 
 // we show who follow idUser , yes user have id is idUserFollow
 export async function bookMark(input) {
+    console.log('user book mark ', input)
     const { idArticle, idUser, idUserBookMark } = input
     let countBookMark;
     // check  count bookmark exies 
