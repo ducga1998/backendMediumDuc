@@ -1,3 +1,4 @@
+import  fs  from 'fs';
 import bluebird from "bluebird";
 import bodyParser from "body-parser";
 import compression from "compression"; // compresses requests
@@ -11,6 +12,9 @@ import mongoose from "mongoose";
 import { getAllArticle } from "./data/models/user";
 import schema from './data/schema';
 import jwt from 'express-jwt'
+import multiparty from 'multiparty'
+import path from 'path'
+import uuid from 'uuid'
 // import { socket } from "./socket/index";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
 var proxy = require('http-proxy-middleware');
@@ -41,7 +45,8 @@ mongoose.connect(mongoUrl).then(
   // process.exit();
 });
 app.set("port", process.env.PORT || 4000);
-
+console.log('OK  ',path.resolve('./img'))
+app.use('/img',express.static(path.resolve('./img')));
 app.set("view engine", "pug");
 app.use(compression());
 app.use(bodyParser.json());
@@ -65,8 +70,27 @@ app.get('/getAllArticle/:id', async (req, res) => {
   const data = await getAllArticle(id)
   // console.log('data All article', data)
 })
-
+app.post('/img' , (req, res ) => {
+  var form = new multiparty.Form();
+  form.parse(req, function(err, fields, files) {
+  const {path , originalFilename} = files.image[0]
+  fs.readFile(path ,  (err  , content) => {
+    if(err){
+      console.log(err)
+      return
+    }
+  const name= uuid()
+  fs.writeFile('img/'+name, content , (err ) =>{
+    if(err){
+      console.log(err)
+    }
+    res.send({name})
+ })
+ })
+    })
+})
 app.get('/test', (req, res) => {
+  console.log(req.body)
   res.send('OK')
 })
 const middware = (req, res, next) => {

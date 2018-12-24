@@ -1,14 +1,14 @@
+yarn
+// /// <reference types="express" />
 
-/// <reference types="express" />
+// // Add RequestValidation Interface on to Express's Request Interface.
+// declare namespace Express {
+//     interface Request extends Flash { }
+// }
 
-// Add RequestValidation Interface on to Express's Request Interface.
-declare namespace Express {
-    interface Request extends Flash { }
-}
+// interface Flash {
+//     flash(type: string, message: any): void;
+// }
 
-interface Flash {
-    flash(type: string, message: any): void;
-}
-
-declare module "express-flash";
+// declare module "express-flash";
 

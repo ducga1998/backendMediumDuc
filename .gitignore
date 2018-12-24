@@ -12,7 +12,7 @@ pids
 logs
 results
 tmp
-
+img
 # Build
 public/css/main.css
 chat.io

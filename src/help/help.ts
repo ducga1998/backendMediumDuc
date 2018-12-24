@@ -19,3 +19,4 @@ export function filterStringHTML(str: any, flag: boolean = false): string {
     return str.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 10);
 }
 //() => () => function we want
+

@@ -61,9 +61,16 @@ export function addCommentIntoArticle(comment) {
     })
 }
 //function handle work rely comment
-export function addReplyComment(idRely, comment) {
-
+export function addReplyComment(idRely, comment) { 
+    console.log('idRely------' , idRely  , 'comment ------------' , comment)
+     // add comment in comment modal 
+      /// add idRely and  idComment   => 
+    return new Promise(resolve =>  {
+        
+    })        
 }
+
+
 
 
 

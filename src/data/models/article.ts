@@ -107,7 +107,7 @@ export function getAllArticle(first, offset = 0, search = false) {
             if (search) {
                 const searchData = data.map((item: any) => {
                     item.titleArticle = filterStringHTML(item.titleArticle)
-                    return omit(item)
+                    return omit(item , ['titleArticle' , 'idArticle'])
                 })
                 // console.log
                 resolve(searchData)

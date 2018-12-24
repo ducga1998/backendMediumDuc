@@ -73,7 +73,7 @@ export function checklogin(login, password, request) {
 
 
             const onlyDataUser = _.pick(data, ['idUser', 'login', 'avatarLink'])
-            // this here, iam save info user in session 
+            // this here, I am save info user in session 
             request.session.user = onlyDataUser
             // console.log('onlyDataUser ', onlyDataUser)
             resolve(data)

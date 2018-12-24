@@ -53,6 +53,7 @@
     "lodash": "^4.17.11",
     "lusca": "^1.5.2",
     "mongoose": "^5.3.12",
+    "multiparty": "^4.2.1",
     "nodemailer": "^4.4.1",
     "nodemon": "^1.18.4",
     "passport": "^0.4.0",
