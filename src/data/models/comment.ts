@@ -11,6 +11,10 @@ export const commentSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
+    idRely : {
+        type : String , 
+        default : null
+    },
     idComment: String
 }, {
         timestamps: true

@@ -7,7 +7,7 @@ async function GetArticleByCategory(name: string) {
 }
 async function GetArticleById(input: any, { id }, session) {
     // console.log(session)
-    // console.log('get article ', id)
+    console.log('get article ', id)
     return await getArticleById(id)
 }
 async function GetArticleByHashTag(name: string) {

@@ -124,10 +124,11 @@ export function getAllArticle(first, offset = 0, search = false) {
 export function getArticleById(idArticle: string) {
 
     return new Promise(resolve => {
-        articleModel.findOne({ idArticle }, function (err, data) {
+        articleModel.findOne({ idArticle }, function (err, data  : any[]) {
             if (err) {
                 resolve(err)
             }
+            console.log('articlesssss',data)
             resolve(data)
         }).populate('user').populate('comment').populate('bookmark')
 
