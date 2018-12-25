@@ -16,6 +16,7 @@ const comment = /* GraphQL */`
         idArticle: String
         content: String
         idRely:String
+        idComment: String
     }
     extend type Mutation {
         addCommentIntoArticle(input: CommentInput) :Comment

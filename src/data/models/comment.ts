@@ -52,9 +52,9 @@ export function getAllCommentInTheArticle(idArticle) {
     })
 }
 export function addCommentIntoArticle(comment) {
-    const idComment = uuid()
-    console.log('{ ...comment, ...{ idComment } }', { ...comment, ...{ idComment } })
-    const newComment = new commentModel({ ...comment, ...{ idComment } })
+    // const idComment = uuid()
+    // console.log('{ ...comment, ...{ idComment } }', { ...comment, ...{ idComment } })
+    const newComment = new commentModel(comment)
     return new Promise(resolve => {
         newComment.save(function (err, data) {
             if (err) {

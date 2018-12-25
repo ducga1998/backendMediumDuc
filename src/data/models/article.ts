@@ -10,7 +10,10 @@ export const articleSchema = new mongoose.Schema({
     category: [String],
     totalClap: Number,
     notification: String,
-    imageArticle: String,
+    imageArticle: {
+        type : String , 
+        default : 'http://www.rangerwoodperiyar.com/images/joomlart/demo/default.jpg'
+    },
     createTime: String,
     count: Number
 })
@@ -65,6 +68,7 @@ export function updateArticle(article: any) {
         })
     })
 }
+
 export function deleteArticle({ idArticle, idUser }: { idArticle: String, idUser: String }) {
     return new Promise(resolve => {
         articleModel.deleteOne({ idArticle }, (err) => {
@@ -107,7 +111,7 @@ export function getAllArticle(first, offset = 0, search = false) {
             if (search) {
                 const searchData = data.map((item: any) => {
                     item.titleArticle = filterStringHTML(item.titleArticle)
-                    return omit(item , ['titleArticle' , 'idArticle'])
+                    return item
                 })
                 // console.log
                 resolve(searchData)
