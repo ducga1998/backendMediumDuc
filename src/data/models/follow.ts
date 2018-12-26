@@ -7,12 +7,13 @@ const followSchema = new mongoose.Schema({
 //in document  have idUser => idUserFollow 
 //id usr follow là id user mà đi follow người khác 
 // idUser laf 
+
 followSchema.virtual('userFollow', {
     foreignField: 'idUser',
     localField: 'idUserFollow',
     ref: 'users',
     justOne: true
-})
+}) 
 const followModel = mongoose.model('follow', followSchema)
 //virtual one to many  , idUser in followSchema (one) => idUser in User Schema (Many)
 

@@ -9,7 +9,8 @@ import expressGraphQL from 'express-graphql';
 import session from "express-session";
 import expressValidator from "express-validator";
 import mongoose from "mongoose";
-import { getAllArticle } from "./data/models/user";
+import { getAllUser } from "./data/models/user";
+import {getAllArticle}  from "./data/models/article";
 import schema from './data/schema';
 import jwt from 'express-jwt'
 import multiparty from 'multiparty'
@@ -17,6 +18,8 @@ import path from 'path'
 import uuid from 'uuid'
 // import { socket } from "./socket/index";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
+import { rankAll } from './route/initData';
+// import article from 'data/mutation/article';
 var proxy = require('http-proxy-middleware');
 const MongoStore = mongo(session);
 
@@ -79,7 +82,7 @@ app.post('/img' , (req, res ) => {
       console.log(err)
       return
     }
-  const name= uuid()
+  const name = uuid()
   fs.writeFile('img/'+name, content , (err ) =>{
     if(err){
       console.log(err)
@@ -93,12 +96,8 @@ app.get('/test', (req, res) => {
   console.log(req.body)
   res.send('OK')
 })
-const middware = (req, res, next) => {
-  console.log(req.session.pass)
-}
-const authMiddleware = jwt({
-  secret: 'somesuperdupersecret'
-})
+rankAll(5)
+// console.log(getAllUser())
 // app.use(authMiddleware)
 app.use((req, res, next) => {
   // console.log(req.user)
@@ -107,9 +106,12 @@ app.use((req, res, next) => {
 const authExamle = (req, res, next) => {
   next()
 }
-app.get('/api', (req, res) => {
-
+app.get('/rank', async (req, res) => { 
+console.log(rankAll(5))
+const data = await rankAll(5)
+  res.send(data)
 })
+
 app.use(
   '/graphql',
 

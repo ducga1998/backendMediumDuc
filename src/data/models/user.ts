@@ -2,6 +2,7 @@ import { omit } from 'lodash';
 // import { session } from 'express-session';
 import mongoose from "mongoose";
 import _ from "lodash";
+// import { resolve } from 'bluebird';
 
 const UserSchema = new mongoose.Schema({
     idUser: String,
@@ -28,10 +29,6 @@ const UserSchema = new mongoose.Schema({
     },
     // articles2 : mongoose.Schema.Types.Mixed,
 })
-
-
-
-
 //  when we need add user then we only need these information : ))
 export interface UserType {
     idUser: String,
@@ -39,7 +36,10 @@ export interface UserType {
     avatarLink?: String,
     name?: String,
     password: String,
-    decentraliz: Number, // admin 3 , monitor : 2 , user : 1 // default when user reg is 1
+    decentraliz: {
+        type : Number ,
+        default : 1
+    }, // admin 3 , monitor : 2 , user : 1 // default when user reg is 1
 }
 // this solve 
 UserSchema.virtual('articles', {
@@ -48,6 +48,11 @@ UserSchema.virtual('articles', {
     ref: 'Article',
     justOne: false
 })
+UserSchema.virtual('userFollow' , {
+    foreignField : 'idUser',
+    localField  :'idUser',
+    ref : 'follow'
+} )
 UserSchema.set('toObject', { virtuals: true });
 UserSchema.set('toJSON', { virtuals: true });
 const userModel = mongoose.model("users", UserSchema);
@@ -70,8 +75,6 @@ export function checklogin(login, password, request) {
             if (err) {
                 console.log(err)
             }
-
-
             const onlyDataUser = _.pick(data, ['idUser', 'login', 'avatarLink'])
             // this here, I am save info user in session 
             request.session.user = onlyDataUser
@@ -165,5 +168,15 @@ export function deleteUserById(idUser: string) {
                 resolve(err)
             }
         })
+    })
+}
+export function getAllUser(){
+    return new Promise(resolve => {
+        userModel.find({} , function(err, allUser) {
+            if(err){
+                resolve(err)
+            }
+            resolve(allUser)
+        }).populate('articles').populate('userFollow')
     })
 }

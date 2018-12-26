@@ -101,7 +101,14 @@ export function countArticle() {
         })
     })
 }
-export function getAllArticle(first, offset = 0, search = false) {
+/*
+    getAllArticle() => get all article we have in database
+    parameter :
+    - first  => limit count article
+    - offset => start index article
+    - search => swich mode search 
+*/
+export function getAllArticle(first = undefined, offset = 0, search = false) {
 
     return new Promise(resolve => {
         articleModel.find({}, function (err, data) {
@@ -126,16 +133,14 @@ export function getAllArticle(first, offset = 0, search = false) {
 }
 
 export function getArticleById(idArticle: string) {
-
     return new Promise(resolve => {
         articleModel.findOne({ idArticle }, function (err, data  : any[]) {
             if (err) {
                 resolve(err)
             }
-            console.log('articlesssss',data)
+            // console.log('articlesssss',data)
             resolve(data)
         }).populate('user').populate('comment').populate('bookmark')
-
     })
 }
 
