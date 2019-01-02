@@ -1,6 +1,6 @@
 // import { request } from 'supertest';
 
-import { checklogin, getAllInformationUser } from '../models/user';
+import { checklogin, getAllInformationUser , getAllUser } from '../models/user';
 import { isAuth } from '../../help/help';
 
 async function GetAllInformationUser(input, { id }) {
@@ -13,6 +13,10 @@ async function Checklogin({ request }, { username, password }, session) {
     // a.session.pass = true
     console.log(request)
     return await checklogin(username, password, request)
+}
+async function  GetAllUser () {
+    return  await getAllUser()
+    
 }
 async function Logout({ request }, { }, ) {
 
@@ -27,6 +31,7 @@ export default {
     Query: {
         getAllInformationUser: isAuth(GetAllInformationUser),
         checklogin: Checklogin,
-        logout: isAuth(Logout)
+        logout: isAuth(Logout),
+        getAllUser : isAuth(GetAllUser)
     }
 }

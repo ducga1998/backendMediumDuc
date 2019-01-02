@@ -30,11 +30,13 @@ const userType = /* GraphQL */`
         getAllInformationUser(id: String):User
         checklogin(username:String,password:String) : User 
         logout(id: String) : User
+        getAllUser : [User]
     }
     extend type Mutation {
         deleteUserById(id:String): User
         updateInfomationUser(input: UserInput): User
         addNewUser(input: UserInput):User
+       
     }
 `
 export default userType

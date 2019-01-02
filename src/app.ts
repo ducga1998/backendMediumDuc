@@ -92,6 +92,7 @@ app.post('/img' , (req, res ) => {
  })
     })
 })
+
 app.get('/test', (req, res) => {
   console.log(req.body)
   res.send('OK')
@@ -107,7 +108,7 @@ const authExamle = (req, res, next) => {
   next()
 }
 app.get('/rank', async (req, res) => { 
-console.log(rankAll(5))
+// console.log(rankAll(5))
 const data = await rankAll(5)
   res.send(data)
 })

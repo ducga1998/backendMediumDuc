@@ -21,9 +21,6 @@ const roomConnection = (socket) => {
     socket.on('chat', (data) => {
         socket.emit('chat2', data)
     })
-    // socket.on('join', data => {
-    //     console.log('join ben room cung chay thi vo mom')
-    // })
 };
 // all chat user
 const chatConnection = socket => {

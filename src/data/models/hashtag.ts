@@ -1,7 +1,7 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 const hashTagSchema = new Schema({
-    idtag: String, //  can use uuid 
+    idHashtag: String, //  can use uuid 
     name: String,
     idArticle: String
 })
@@ -11,7 +11,7 @@ hashTagSchema.virtual('articlesSameHashTag', {
     ref: 'Article',
 })
 export interface HashtagType {
-    idtag?: String, //  can use uuid 
+    idHashtag?: String, //  can use uuid 
     name?: String
 }
 const hashtagModel = mongoose.model('hashtag', hashTagSchema)
@@ -46,4 +46,9 @@ export function addHashtag(hashtagData: HashtagType) {
         })
     })
 }
-
+// I am add hashtag when write artcle 
+export function addManyHashTag(arrHashTag){
+    if(arrHashTag && arrHashTag.length > 0){
+        hashtagModel.insertMany(arrHashTag) 
+    }
+}

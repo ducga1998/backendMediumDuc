@@ -1,6 +1,5 @@
 import { getAllUser } from "../data/models/user";
 import { getAllArticle } from "../data/models/article";
-import { fromPromise } from "apollo-link";
 
 // import { article } from 'data/mutation/article';
 
@@ -17,7 +16,6 @@ export async function rankAll(limit) {
         return {
             count: item.userFollow.length,
             idUser, name, avatarLink, biographical
-
         }
     })
     const dataCountWriteArticle = dataUser.map(item => {
@@ -40,7 +38,7 @@ export async function rankAll(limit) {
         }
     })
     const rankCountBookMarkArticle = quick_Sort(dataCountBookMarkArticle).slice(-5).reverse()
-    console.log('rankCountBookMarkArticle', rankCountBookMarkArticle)
+    // console.log('rankCountBookMarkArticle', rankCountBookMarkArticle)
     // rank follow
     const rankFollow = quick_Sort(dataFollow).slice(-5).reverse()
     // rank count write article
@@ -74,24 +72,6 @@ function quick_Sort(origArray) {
 
         return newArray.concat(quick_Sort(left), pivot, quick_Sort(right));
     }
-}
-
-function sort(data) {
-    const sortData = []
-    const flag = data[0].count
-    let count = 0
-    for (let i = 0; i < data.length; i++) {
-        for (let j = 0; j < data.length; j++) {
-            if (data[i] > data[j]) {
-
-            }
-        }
-        if (data[i] >= flag) {
-            sortData.push(data[i])
-            count++;
-        }
-    }
-
 }
 
 
