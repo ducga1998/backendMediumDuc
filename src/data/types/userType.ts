@@ -14,6 +14,7 @@ const userType = /* GraphQL */`
         biographical: String
         birthday: String
         location: String
+        
     }
     input UserInput {
         idUser: String
