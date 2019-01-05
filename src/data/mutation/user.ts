@@ -2,7 +2,8 @@
 
 import { deleteUserById, updateInfomationUser, addNewUser, UserType } from '../models/user'
 import { isAuth } from '../../help/help';
-async function DeleteUserById(id: string) {
+async function DeleteUserById(data , {id}) {
+    console.log('id user delete',id)
     return await deleteUserById(id)
 }
 async function UpdateInfomationUser(data, { input }) {
@@ -16,7 +17,7 @@ async function AddNewUser(data: any, { input }: { input: UserType }, b, c) {
 }
 export default {
     Mutation: {
-        deleteUserById: isAuth(deleteUserById),
+        deleteUserById: isAuth(DeleteUserById , 3),
         updateInfomationUser: isAuth(UpdateInfomationUser),
         addNewUser: AddNewUser
     }

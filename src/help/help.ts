@@ -1,12 +1,29 @@
 // import { request } from 'supertest';
 
 // this function auth use 
-export function isAuth(resolver) {
+//  nhung cai nao can den admin thi them 1 doi so de check nua
+export function isAuth(resolver , adminAuth = null) {
     return (request, args, context, info) => {
         const { user } = context.session
         // console.log('a', context.session.user)
+     
         if (user) {
-            return resolver(request, args, context, info)
+            const {decentraliz}  = user
+            console.log('adminAuth',adminAuth ,decentraliz )
+           
+            if(!adminAuth){
+                return resolver(request, args, context, info)
+            }
+            if(adminAuth  && adminAuth === decentraliz ){
+                console.log('thang nay chinh la admin nay ')
+                return resolver(request, args, context, info)
+            }
+            else {
+                return null
+            }
+            //only user admin => access
+          
+           
         }
         return null
 

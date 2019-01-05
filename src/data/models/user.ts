@@ -2,6 +2,7 @@ import { omit } from 'lodash';
 // import { session } from 'express-session';
 import mongoose from "mongoose";
 import _ from "lodash";
+import {articleModel} from './article';
 // import { resolve } from 'bluebird';
 
 const UserSchema = new mongoose.Schema({
@@ -75,7 +76,7 @@ export function checklogin(login, password, request) {
             if (err) {
                 console.log(err)
             }
-            const onlyDataUser = _.pick(data, ['idUser', 'login', 'avatarLink'])
+            const onlyDataUser = _.omit(data, ['articles'])
             // this here, I am save info user in session 
             request.session.user = onlyDataUser
             // console.log('onlyDataUser ', onlyDataUser)
@@ -161,13 +162,21 @@ export function updateInfomationUser(user) {
         })
     })
 }
+// delete user => 
 export function deleteUserById(idUser: string) {
     return new Promise(resolve => {
         userModel.deleteOne({ idUser }, function (err) {
             if (err) {
                 resolve(err)
             }
+            // delete all article 
+            articleModel.deleteMany({idUser} , function(err){
+                if(err){
+                    console.log('OK')
+                }
+            })
         })
+        
     })
 }
 export function getAllUser(){

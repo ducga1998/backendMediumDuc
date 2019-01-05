@@ -23,6 +23,7 @@ export function getAllNotifiOfUser(idUser: string) {
         })
     })
 }
+
 export function getAllNotifiOfArticle(idArticle: string) {
     return new Promise(resolve => {
         notificationModel.find({ idArticle }, (err, data) => {

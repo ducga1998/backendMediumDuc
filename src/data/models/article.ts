@@ -39,7 +39,7 @@ articleSchema.virtual('bookmark', {
 
 articleSchema.set('toObject', { virtuals: true });
 articleSchema.set('toJSON', { virtuals: true });
-const articleModel = mongoose.model('Article', articleSchema)
+export const articleModel = mongoose.model('Article', articleSchema)
 
 export interface ArticleType {
     idUser: String,
