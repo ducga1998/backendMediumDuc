@@ -41,11 +41,11 @@ export var addUser = function (input: InputAddRoom) {
             if (err) {
                 resolve(err)
             }
+            // powful  data => a lot of request to server
             var conn = { idUser, socketid };
             if (!room.connections.filter(item => item.idUser === idUser)[0]) {
                 room.connections.push(conn);
             }
-
             room.save((err, data) => {
                 if (err) {
                     console.log(err)

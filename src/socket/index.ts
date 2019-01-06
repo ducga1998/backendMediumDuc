@@ -26,6 +26,7 @@ const roomConnection = (socket) => {
 const chatConnection = socket => {
     let count = 0
     let idRoomNew = 0
+    
     socket.on('join', data => {
         count = count + 1;
 
@@ -39,7 +40,6 @@ const chatConnection = socket => {
         const { content, idUser } = input
         // add idroom beause in database need it : )))) 
         input.idRoom = idroom
-
         socket.in(idroom).emit('addMessage', content)
         const dataMessage = await addMessage(input)
     })
@@ -48,38 +48,37 @@ const chatConnection = socket => {
         socket.leave(idRoomNew)
     })
 }
+// 
 const notificationConnection = (socket) => {
     // join idUser mà viết ra bài viết 
     // let idUserLeave
+     // idUser
     socket.on('join', idUser => {
-
+        console.log('user join ', idUser)
         socket.join(idUser)
-    })
+    }) 
     // this is function will call when other comment 
-    socket.on('notificationMessage', (idUser, data) => {
+    // on socket data
+    socket.on('newNotification', ( data) => {
+        console.log('data',data)
+        const {idUser} = data
+        // onl/?????????
         socket.to(idUser).emit('notificationRun', data)
     })
     socket.on('leave', idUser => {
-
         socket.leave(idUser)
     })
     socket.on('disconnect', function () {
         console.log('user leave ')
-
     })
 }
 export const startIo = function startIo(server) {
-    const io2 = io.listen(server);
+    const io2 = io.listen(server)
     // in front end , if your use roomSocket  => 
     const room = io2.of('/room').on('connection', roomConnection);
     // in front end , if your use chatSocket  => 
     const chat = io2.of('/chat').on('connection', chatConnection);
+    // in front end , if your use notificationSocet  => 
     const notification = io2.of('/notification', notificationConnection)
-    // const A = io.of('/', () => {
-    // })
-
-    // room.use(socketAuth);
-    // chat.use(socketAuth)
-
     return io;
 };
