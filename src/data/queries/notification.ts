@@ -4,9 +4,9 @@ import { isAuth } from '../../help/help';
 async function GetAllNotifiOfArticle(id: string) {
     return await getAllNotifiOfArticle(id)
 }
-async function GetAllNotifiOfUser(request , {id}) {
-    console.log('id user notification', id)
-    return await getAllNotifiOfUser(id)
+async function GetAllNotifiOfUser(request , {id ,first, offset }) {
+    console.log('id user notification', id , first , offset)
+    return await getAllNotifiOfUser(id , first  , offset)
 }
 export default {
     Query: {

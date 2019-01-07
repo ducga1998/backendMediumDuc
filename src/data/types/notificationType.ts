@@ -9,7 +9,7 @@ const notificationType = /* GraphQL */ `
 
   extend type Query {
         getAllNotifiOfArticle(id: String):Notification 
-        getAllNotifiOfUser(id: String): [Notification]
+        getAllNotifiOfUser(id: String ,first:Int , offset: Int): [Notification]
   }
 `
 

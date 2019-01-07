@@ -22,7 +22,7 @@ const comment = /* GraphQL */`
         addCommentIntoArticle(input: CommentInput) :Comment
     }
     extend type Query {
-        getAllCommentInTheArticle(id:String) : [Comment]
+        getAllCommentInTheArticle(id:String ,first:Int , offset: Int ) : [Comment]
     }
 `
 export default comment

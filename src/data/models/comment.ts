@@ -41,13 +41,15 @@ commentSchema.virtual('relyComment', {
 commentSchema.set('toObject', { virtuals: true });
 commentSchema.set('toJSON', { virtuals: true });
 const commentModel = mongoose.model('comment', commentSchema)
-export function getAllCommentInTheArticle(idArticle) {
+export function getAllCommentInTheArticle(idArticle , offset : number,first:number =undefined ) {
     return new Promise(resolve => {
         commentModel.find({ idArticle }, (err, data) => {
             if (err) {
                 resolve(err)
             }
-            resolve(data)
+                // console.log('f')
+            // data = first ===  undefined ? data.reverse().slice(offset) : data.reverse().slice(offset, offset + first);
+            resolve(data.reverse())
         }).populate('articleComment').populate('userComment').populate('relyComment')
     })
 }

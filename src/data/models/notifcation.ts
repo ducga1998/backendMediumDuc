@@ -16,23 +16,27 @@ export interface NotificationType {
     notificationData : any
     type : string
 }
-export function getAllNotifiOfUser(idUser: string) {
+export function getAllNotifiOfUser(idUser: string, offset :number , first : number) {
     return new Promise(resolve => {
         notificationModel.find({ idUser }, (err, data) => {
             if (err) {
                 resolve(err)
             }
+            data = first === undefined ? data.reverse().slice(offset) : data.reverse().slice(offset, offset + first);
             resolve(data)
         })
     })
 }
 
-export function getAllNotifiOfArticle(idArticle: string) {
+export function getAllNotifiOfArticle( idArticle: string ) {
     return new Promise(resolve => {
         notificationModel.find({ idArticle }, (err, data) => {
             if (err) {
                 resolve(err)
             }
+            // if first   === undefined  => get all notfication  
+
+           
             resolve(data)
         })
     })
