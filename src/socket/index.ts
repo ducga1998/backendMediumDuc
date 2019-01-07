@@ -4,6 +4,7 @@ import io from 'socket.io'
 import { addUser, createRoom, IRoom } from '../data/models/room';
 import uuid from 'uuid';
 import { addMessage } from '../data/models/message';
+import { addNotification } from '../data/models/notifcation';
 const socketAuth = function socketAuth(socket, next) {
     console.log('socket.id', socket.id)
     return next();
@@ -59,10 +60,10 @@ const notificationConnection = (socket) => {
     }) 
     // this is function will call when other comment 
     // on socket data
-    socket.on('newNotification', ( data) => {
-        console.log('data',data)
-        const {idUser} = data
-        // onl/?????????
+    socket.on('newNotification',  data => {
+        // console.log('data',data)
+        const {idUser, type} = data
+         addNotification({idUser,notificationData : data , type   })
         socket.to(idUser).emit('notificationRun', data)
     })
     socket.on('leave', idUser => {

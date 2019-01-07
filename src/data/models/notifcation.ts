@@ -1,17 +1,20 @@
-// import { Schema } from 'mongoose';
+import  uuid from 'uuid';
 import mongoose from 'mongoose';
 const notificationSchema = new mongoose.Schema({
     idNotification: String,
-    idArticle: String,
-    idUser: String,
-    contentNotification: String
+    type :String,
+    notificationData : Object,
+    idUser :String,
+    time : {
+        type:String,
+        default : new Date().toUTCString()
+    }
 })
 const notificationModel = mongoose.model('notification', notificationSchema)
 export interface NotificationType {
-    idNotification?: String,
-    idArticle?: String,
-    idUser?: String,
-    contentNotification?: String
+    idUser: string,
+    notificationData : any
+    type : string
 }
 export function getAllNotifiOfUser(idUser: string) {
     return new Promise(resolve => {
@@ -44,7 +47,8 @@ export function deleteNotification(idNotification: string) {
     })
 }
 export function addNotification(notification: NotificationType) {
-    const newNotifiCation = new notificationModel(notification)
+    const idNotification  = uuid()
+    const newNotifiCation = new notificationModel({...notification , ...{idNotification} })
     return new Promise(resolve => {
         newNotifiCation.save(function (err, data) {
             if (err) {

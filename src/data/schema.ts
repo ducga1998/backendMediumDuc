@@ -50,7 +50,7 @@ const schema = makeExecutableSchema({
     ],
     resolvers: merge(
         {}, resolvers, articleMutation, followMutation,
-        commentMutation, hashtagMutation, notificationMutation,
+        commentMutation, hashtagMutation,
         userMutation, articleQuery, notificationQuery, userQuery,
         hashTagQuery, followQuery, commentQuery, roomQuery, messageQuery,
         bookQueries, bookmarkMutation, rely
