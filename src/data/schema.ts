@@ -29,13 +29,13 @@ import Root from './types/Root';
 import { resolvers, typeDefs } from './types/scalars';
 import userType from './types/userType';
 import roomType from './types/room'
-import relyType from './types/replyType'
+// import relyType from './types/replyType'
 import roomQuery from './queries/room'
 import messageType from './types/messagesType'
 import messageQuery from './queries/messages'
 import bookmarkMutation from './mutation/bookmark'
 import bookQueries from './queries/bookMark'
-import rely from './mutation/reply'
+// import rely from './mutation/reply'
 
 
 const merge = require('lodash/merge')
@@ -46,14 +46,14 @@ const schema = makeExecutableSchema({
     typeDefs: [
         Root, followType, commentType, articleType,
         hashTagType, notificationType, userType,
-        typeDefs, roomType, messageType, bookmarkType, relyType
+        typeDefs, roomType, messageType, bookmarkType
     ],
     resolvers: merge(
         {}, resolvers, articleMutation, followMutation,
         commentMutation, hashtagMutation,
         userMutation, articleQuery, notificationQuery, userQuery,
         hashTagQuery, followQuery, commentQuery, roomQuery, messageQuery,
-        bookQueries, bookmarkMutation, rely
+        bookQueries, bookmarkMutation
     )
 })
 export default schema

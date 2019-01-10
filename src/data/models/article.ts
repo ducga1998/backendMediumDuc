@@ -120,7 +120,6 @@ export function getAllArticle(first = undefined, offset = 0, search = false) {
                     item.titleArticle = filterStringHTML(item.titleArticle)
                     return item
                 })
-                // console.log
                 resolve(searchData)
             }
             const count = data.length

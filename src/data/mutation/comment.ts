@@ -1,5 +1,5 @@
 import { isAuth } from '../../help/help';
-import { addCommentIntoArticle  , addReplyComment} from '../models/comment';
+import { addCommentIntoArticle  } from '../models/comment';
 async function AddCommentIntoArticle(a, { input }) {
     return await addCommentIntoArticle(input)
 }
@@ -10,6 +10,5 @@ async function AddCommentIntoArticle(a, { input }) {
 export default {
     Mutation: {
         addCommentIntoArticle: isAuth(AddCommentIntoArticle),
-        // addReplyComment : isAuth(AddReplyComment)
     }
 }

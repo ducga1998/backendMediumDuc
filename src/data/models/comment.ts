@@ -2,7 +2,6 @@
 import mongoose from 'mongoose';
 //comment user ? , article ?
 import uuid from 'uuid'
-import { addRelyComment } from './replyComment';
 export const commentSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
@@ -11,9 +10,9 @@ export const commentSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    idRely : {
-        type : String , 
-        default : null
+    idRely: {
+        type: String,
+        default: null
     },
     idComment: String
 }, {
@@ -32,30 +31,23 @@ commentSchema.virtual('articleComment', {
     ref: 'Article',
     justOne: true
 })
-commentSchema.virtual('relyComment', {
-    foreignField: 'idRely',
-    localField: 'idComment',
-    ref: 'rely',
-    justOne: false
-})
 commentSchema.set('toObject', { virtuals: true });
 commentSchema.set('toJSON', { virtuals: true });
 const commentModel = mongoose.model('comment', commentSchema)
-export function getAllCommentInTheArticle(idArticle , offset : number,first:number =undefined ) {
+export function getAllCommentInTheArticle(idArticle, offset: number, first: number = undefined) {
     return new Promise(resolve => {
-        commentModel.find({ idArticle }, (err, data) => {
+        commentModel.find({ idArticle }, async (err, allComment) => {
             if (err) {
                 resolve(err)
             }
-                // console.log('f')
-            // data = first ===  undefined ? data.reverse().slice(offset) : data.reverse().slice(offset, offset + first);
-            resolve(data.reverse())
-        }).populate('articleComment').populate('userComment').populate('relyComment')
+           let  data = allComment.filter((comment:any) => !comment.idRely).reverse().slice(first, first + offset);
+         const allRelyComment =  allComment.filter((comment : any) => !! comment.idRely)
+            data = [...data  , ...allRelyComment]
+            resolve(data)
+        }).populate('articleComment').populate('userComment')
     })
 }
 export function addCommentIntoArticle(comment) {
-    // const idComment = uuid()
-    // console.log('{ ...comment, ...{ idComment } }', { ...comment, ...{ idComment } })
     const newComment = new commentModel(comment)
     return new Promise(resolve => {
         newComment.save(function (err, data) {
@@ -66,15 +58,7 @@ export function addCommentIntoArticle(comment) {
         })
     })
 }
-//function handle work rely comment
-export function addReplyComment(idRely, comment) { 
-    console.log('idRely------' , idRely  , 'comment ------------' , comment)
-     // add comment in comment modal 
-      /// add idRely and  idComment   => 
-    return new Promise(resolve =>  {
-        
-    })        
-}
+//function handle work rely commen
 
 
 
