@@ -10,12 +10,13 @@ export function isAuth(resolver , adminAuth = null) {
         if (user) {
             const {decentraliz}  = user
             console.log('adminAuth',adminAuth ,decentraliz )
-           
+            // authecation 
             if(!adminAuth){
                 return resolver(request, args, context, info)
             }
+            // =>authzition 
             if(adminAuth  && adminAuth === decentraliz ){
-                console.log('thang nay chinh la admin nay ')
+              
                 return resolver(request, args, context, info)
             }
             else {

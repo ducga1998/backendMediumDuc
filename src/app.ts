@@ -25,7 +25,7 @@ const MongoStore = mongo(session);
 
 // Load environment variables from .env file, where API keys and passwords are configured
 dotenv.config({ path: ".env" });
-
+console.log(jwt({secret :  "duc"}))
 // Controllers (route handlers)
 
 
@@ -54,7 +54,7 @@ app.set("view engine", "pug");
 app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(expressValidator());
+app.use(expressValidator())
 app.use(session({
   resave: true,
   saveUninitialized: true,

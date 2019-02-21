@@ -48,6 +48,7 @@ export async function rankAll(limit) {
         rankFollow,
         rankCountWriteArticle
     }
+    
 }
 function quick_Sort(origArray) {
     // console.log('origArray',origArray)
