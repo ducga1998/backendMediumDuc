@@ -4,6 +4,7 @@ import io from 'socket.io'
 import {  createRoom } from '../data/models/room';
 import uuid from 'uuid';
 import { addNotification } from '../data/models/notifcation';
+import { addMessageAsSocket } from '../data/models/message';
 const roomConnection = (socket) => {
     socket.on('addRoom', data => {
         const { title, idUser } = data
@@ -25,12 +26,15 @@ const chatMessageConnection = (socket) => {
     socket.on('join', idUser => {
         socket.join(idUser)
     })
-    socket.on('sendMessage' , dataMess => {
-        const {idUser }  = dataMess
-        socket.in(idUser).emit('receviceMessage' ,dataMess )
+    socket.on('sendMessage' , dataSend => {
+        const  {idCommuncation}   = dataSend
+        console.log('data send', dataSend)
+        addMessageAsSocket(dataSend)
+        // dataSend  include : idUser , idUserReceive , contentMessage , idCommuncation 
+        socket.in(idCommuncation).emit('receviceMessage' ,dataSend )
     })
-    socket.on('leave' , idUserOld => {
-        socket.leave(idUserOld)
+    socket.on('leave' ,oldIdCommuncation => {
+        socket.leave(oldIdCommuncation)
     })
     socket.on('disconnect', function () {
     })

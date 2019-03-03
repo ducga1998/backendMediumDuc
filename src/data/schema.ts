@@ -33,6 +33,7 @@ import roomType from './types/room'
 import roomQuery from './queries/room'
 import messageType from './types/messagesType'
 import messageQuery from './queries/messages'
+import messageMutation from './mutation/comment'
 import bookmarkMutation from './mutation/bookmark'
 import bookQueries from './queries/bookMark'
 // import rely from './mutation/reply'
@@ -52,8 +53,8 @@ const schema = makeExecutableSchema({
         {}, resolvers, articleMutation, followMutation,
         commentMutation, hashtagMutation,
         userMutation, articleQuery, notificationQuery, userQuery,
-        hashTagQuery, followQuery, commentQuery, roomQuery, messageQuery,
-        bookQueries, bookmarkMutation
+        hashTagQuery, followQuery, commentQuery, roomQuery,messageQuery, messageMutation,
+        bookQueries, bookmarkMutation , 
     )
 })
 export default schema

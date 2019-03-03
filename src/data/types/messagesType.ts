@@ -1,15 +1,28 @@
 // import { connection } from 'mongoose';
 const messageType = /* GraphQL */ `
     type message {
-        idRoom: String
+        idUserReceive: String
         idUser: String
-        content: String
-        userMessage:User
-        roomMessage:room
+        contentMessage: String
+        idCommunication:String
+        userMessage : User
+        
   }
-  
+
+  input MessageInput {
+    idUserReceive : String
+    contentMessage  : String
+  }
+  type Room {
+    idCommunication:String
+    idUser: String
+  }
+  extend type Mutation {
+      addMessage(input: MessageInput): message
+  }
   extend type Query {
-    getAllMessageByIdRoom(id: String):[message] 
+    getAllMessageByIdUserReceive(id: String):[message] 
+    getRoomChat(id: String): [message]
   }
   
 `

@@ -36,5 +36,56 @@ export function filterStringHTML(str: any, flag: boolean = false): string {
     }
     return str.replace(/<\/?[^>]+(>|$)/g, "").substring(0, 10);
 }
+export function allFiler(arr , finalMess = []   ){
+    if( arr.length === 0){
+        return finalMess
+    }
+    // mang ko co idCommnucation o nua w tren
+    const  arrTest =  arr.filter(item =>  item.idCommnucation === arr[0].idCommnucation )
+    finalMess.push(arrTest.pop())
+    const totalArr = arr.filter( item => item.idCommnucation !== arr[0].idCommnucation )
+    return allFiler(  totalArr , finalMess )
+}
 //() => () => function we want
 
+// const DataTest  = [{
+//     idCommnucation : 'A',
+//     name : 'hcusahcuas'
+
+// },
+// {
+//     idCommnucation : 'A',
+//     name : 'cashcbhasc'
+
+// },
+// {
+//     idCommnucation : 'B',
+//     name : 'duo23hu234c'
+
+// },
+// {
+//     idCommnucation : 'B',
+//     name : 'd32343223424uc'
+
+// },
+
+// {
+//     idCommnucation : 'A',
+//     name : 'du03ij2vnkc'
+
+// },
+// {
+//     idCommnucation : 'A',
+//     name : 'ducewhbcjewc'
+
+// },
+// {
+//     idCommnucation : 'C',
+//     name : 'du23h4bj234c'
+
+// },
+// {
+//     idCommnucation : 'C',
+//     name : 'dudbewhdbewc'
+
+// }]

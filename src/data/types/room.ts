@@ -12,9 +12,9 @@ const roomType = /* GraphQL */ `
   }
   extend type Query {
     getRoomByIdUser(id: String):[room] 
-    getAllRoom(id: String): [room]
+    getAllRoom(id: String): JSON
+    
   }
   
 `
-
-export default roomType;
+export default roomType; 

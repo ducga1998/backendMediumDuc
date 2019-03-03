@@ -9,7 +9,7 @@ import expressGraphQL from 'express-graphql';
 import session from "express-session";
 import expressValidator from "express-validator";
 import mongoose from "mongoose";
-import { getAllUser } from "./data/models/user";
+// import { getAllUser } from "./data/models/user";
 import {getAllArticle}  from "./data/models/article";
 import schema from './data/schema';
 import jwt from 'express-jwt'

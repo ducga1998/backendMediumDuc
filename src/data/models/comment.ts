@@ -14,7 +14,7 @@ export const commentSchema = new mongoose.Schema({
         type: String,
         default: null
     },
-    idComment: String
+    idComment: String,
 }, {
         timestamps: true
     })
@@ -40,15 +40,18 @@ export function getAllCommentInTheArticle(idArticle, offset: number, first: numb
             if (err) {
                 resolve(err)
             }
-           let  data = allComment.filter((comment:any) => !comment.idRely).reverse().slice(first, first + offset);
-         const allRelyComment =  allComment.filter((comment : any) => !! comment.idRely)
+            const count =  allComment.length
+            
+            let  data = allComment.filter((comment:any) => !comment.idRely).reverse().slice(first, first + offset);
+            const allRelyComment =  allComment.filter((comment : any) => !! comment.idRely)
             data = [...data  , ...allRelyComment]
             resolve(data)
         }).populate('articleComment').populate('userComment')
     })
 }
 export function addCommentIntoArticle(comment) {
-    const newComment = new commentModel(comment)
+    const idComment = uuid()
+    const newComment = new commentModel({...comment, ...{idComment}})
     return new Promise(resolve => {
         newComment.save(function (err, data) {
             if (err) {
