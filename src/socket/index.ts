@@ -27,14 +27,14 @@ const chatMessageConnection = (socket) => {
         socket.join(idUser)
     })
     socket.on('sendMessage' , dataSend => {
-        const  {idCommuncation}   = dataSend
+        const  {idCommunication}   = dataSend
         console.log('data send', dataSend)
         addMessageAsSocket(dataSend)
-        // dataSend  include : idUser , idUserReceive , contentMessage , idCommuncation 
-        socket.in(idCommuncation).emit('receviceMessage' ,dataSend )
+        // dataSend  include : idUser , idUserReceive , contentMessage , idCommunication 
+        socket.in(idCommunication).emit('receviceMessage' ,dataSend )
     })
-    socket.on('leave' ,oldIdCommuncation => {
-        socket.leave(oldIdCommuncation)
+    socket.on('leave' ,oldidCommunication => {
+        socket.leave(oldidCommunication)
     })
     socket.on('disconnect', function () {
     })

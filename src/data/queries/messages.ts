@@ -9,7 +9,7 @@ async function GetAllMessageByIdUserReceive({request}, { id }) {
 async function GetRoomChat({request}, { id }) {
     const { idUser }  = request.session.user 
     console.log('idUser in get room chat' ,idUser , id )
-    // id is idCommuncation
+    // id is idCommunication
     return await getRoomChat(idUser , id)
 }
 

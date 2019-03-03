@@ -6,7 +6,7 @@ const messageType = /* GraphQL */ `
         contentMessage: String
         idCommunication:String
         userMessage : User
-        
+        nameUserReveice:String
   }
 
   input MessageInput {

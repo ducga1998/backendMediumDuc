@@ -1,12 +1,12 @@
 import mongoose from 'mongoose';
 import { allFiler } from '../../help/help';
 const messageSchema = new mongoose.Schema({
-    idUser: String,
-    idUserReceive: String,
-    contentMessage: String,
-    idCommuncation : String
-    }, 
-    { timestamps: true }
+        idUser: String,
+        idUserReceive: String,
+        contentMessage: String,
+        idCommunication : String,
+        nameUserReveice : String
+    }, { timestamps: true }
 )
 messageSchema.virtual('userMessage', {
     foreignField: 'idUser',
@@ -18,16 +18,16 @@ export const messageModel = mongoose.model('message', messageSchema)
 export interface IMessage {
     idUserReceive: string,
     contentMessage: string
-    idCommuncation : string
+    idCommunication : string
 }
 // this function will add user in room, include info   { idUser ,  }
-export function getRoomChat(idUser , idCommunication ) {
+export function getRoomChat(idUser , idUserReceive ) {
     return new Promise(resolve => {
-        messageModel.find({idUser , idCommunication } , (err , dataRoom:any ) => {
+        messageModel.find({idUser } , (err , dataRoom:any ) => {
             if(err){
                 resolve(err)
             }
-           console.log('dataRoom',dataRoom)
+           console.log('dataRoom',allFiler(dataRoom))
             resolve(allFiler(dataRoom))
         })
     })
@@ -56,7 +56,7 @@ export function addMessageAsSocket(input ){
         })
     })
 }
-export function getAllMessageByIdUserReceive(idCommunication) {
+export function getAllMessageByIdUserReceive( idCommunication) {
     console.log('idCommunication',idCommunication)
     return new Promise(resolve => {
         messageModel.find({ idCommunication }, (err, data) => {
