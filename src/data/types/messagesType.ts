@@ -4,17 +4,16 @@ const messageType = /* GraphQL */ `
         idUserReceive: String
         idUser: String
         contentMessage: String
-        idCommunication:String
-        userMessage : User
         nameUserReveice:String
+        ownerUserInfo : User
     }
 
   input MessageInput {
-    idUserReceive : String
+    idRoom : String
     contentMessage  : String
   }
   type Room {
-    idCommunication:String
+    idRoom:String
     idUser: String
   }
   extend type Mutation {

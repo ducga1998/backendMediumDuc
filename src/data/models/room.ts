@@ -1,8 +1,11 @@
 import mongoose from 'mongoose';
+import { getAllInformationUser, userModel } from './user';
 const roomSchema = new mongoose.Schema({
     idUser: String, // idUser admin room
     idRoom: String,
     idUserReceive:String,
+    ownerUserInfo : Object,
+    clientInfo : Object
 })
 roomSchema.virtual('messages', {
     foreignField: 'idRoom',
@@ -20,14 +23,20 @@ interface InputAddRoom {
     idUser: string,
     idUserReceive : string,
 }
-export function createRoom(input: InputAddRoom) {
-    console.log('InputAddRoom',input)
-    return new Promise(resolve => {
-        const newRoom = new roomModel(input)
-        newRoom.save((err, data) => {
+export async function createRoom(input: InputAddRoom) {
+    const {idUser , idUserReceive  } = input
+    console.log('input', input)
+  
+    const ownerUserInfo  =  await userModel.findOne({idUser}).exec()
+    const clientInfo  =  await userModel.findOne({idUser : idUserReceive}).exec()
+    return new Promise( resolve => {
+        const newRoom = new roomModel({...input , ...{ownerUserInfo , clientInfo}})
+        newRoom.save(async (err, data) => {
             if (err) {
                 resolve(err)
             }
+            
+         
             resolve(data)
         })
     })
@@ -58,7 +67,7 @@ export function getAllRoomById(id) {
                 }
                 const data = [...dataUser , ...dataUserReceive]
                 resolve(data)
-            }).populate('messages')       
-        }).populate('messages')
+            })      
+        })
     })
 }

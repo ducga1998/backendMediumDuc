@@ -7,7 +7,7 @@ const messageSchema = new mongoose.Schema({
         idRoom : String,
     }, { timestamps: true }
 )
-messageSchema.virtual('userMessage', {
+messageSchema.virtual('ownerUserInfo', {
     foreignField: 'idUser',
     localField: 'idUser',
     ref: 'users',
@@ -56,16 +56,15 @@ export function addMessageAsSocket(input ){
         })
     })
 }
-export function getAllMessageByIdUserReceive( idCommunication) {
-    console.log('idCommunication',idCommunication)
+export function getAllMessageByIdUserReceive( idRoom) {
     return new Promise(resolve => {
-        messageModel.find({ idCommunication }, (err, data) => {
+        messageModel.find({ idRoom }, (err, data) => {
             console.log('datadata message' , data)
             if (err) {
                 resolve(err)
             }
             resolve(data)
-        }).populate('userMessage')
+        }).populate('ownerUserInfo')
     })
 }
 

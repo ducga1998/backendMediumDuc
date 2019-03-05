@@ -5,6 +5,8 @@ const roomType = /* GraphQL */ `
         idUser: String
         idUserReceive: String
         messages : [Message]
+        ownerUserInfo: User
+        clientInfo: User
     }
     input inputRoom {
         idRoom: String

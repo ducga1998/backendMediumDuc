@@ -1,22 +1,10 @@
+import { userModel } from './../data/models/user';
 // import { connection } from 'mongoose';
 
 import io from 'socket.io'
-import {  createRoom } from '../data/models/room';
-import uuid from 'uuid';
 import { addNotification } from '../data/models/notifcation';
 import { addMessageAsSocket } from '../data/models/message';
-const roomConnection = (socket) => {
-    // socket.on('addRoom', data => {
-    //     const { title, idUser } = data as any
-    //     const idRoom = uuid()
-    //     createRoom({ idRoom, title, idUser })
-    //     socket.emit('updateListRooms', { idRoom, title, idUser })
-    // })
-    // socket.on('chat', (data) => {
-    //     socket.emit('chat2', data)
-    // })
-};
-// all chat user
+import { getAllInformationUser } from '../data/models/user';
 export let instanceSocket  =null
 export let instanceSocketMessage = null
 const chatMessageConnection = (socket) => {
@@ -26,12 +14,13 @@ const chatMessageConnection = (socket) => {
     socket.on('join', idUser => {
         socket.join(idUser)
     })
-    socket.on('sendMessage' , dataSend => {
-        const  {idRoom}   = dataSend
-        console.log('data send', dataSend)
+    socket.on('sendMessage' , async dataSend => {
+        const  {idRoom , idUser}   = dataSend
+        const ownerUserInfo = await userModel.findOne({idUser}).exec()
+        console.log('ownerUserInfo', ownerUserInfo)
         addMessageAsSocket(dataSend)
         // dataSend  include : idUser , idUserReceive , contentMessage , idCommuncation
-        socket.in(idRoom).emit('receviceMessage' ,dataSend )
+        socket.in(idRoom).emit('receviceMessage' ,{...dataSend , ...{ownerUserInfo}} )
     })
     socket.on('leave' ,oldIdCommuncation => {
         socket.leave(oldIdCommuncation)
@@ -60,24 +49,9 @@ const notificationConnection = (socket) => {
 }
 export const startIo = function startIo(server) {
     const io2 = io.listen(server)
-    
-    io2.of('/room').on('connection', roomConnection);
    
     io2.of('/notification', notificationConnection);
    
     io2.of('/chatMessage', chatMessageConnection); 
     return io;
 };
-
-export default class MessageSocket  {
-    constructor(){
-        
-    }
-    connect(socket){
-        
-    }
-    sendMessage() {
-        
-    }
-    
-}
