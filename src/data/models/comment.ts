@@ -1,6 +1,5 @@
 
 import mongoose from 'mongoose';
-//comment user ? , article ?
 import uuid from 'uuid'
 export const commentSchema = new mongoose.Schema({
     idUser: String,
@@ -10,7 +9,7 @@ export const commentSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },
-    idRely: {
+    idReply: {
         type: String,
         default: null
     },
@@ -42,9 +41,9 @@ export function getAllCommentInTheArticle(idArticle, offset: number, first: numb
             }
             const count =  allComment.length
             
-            let  data = allComment.filter((comment:any) => !comment.idRely).reverse().slice(first, first + offset);
-            const allRelyComment =  allComment.filter((comment : any) => !! comment.idRely)
-            data = [...data  , ...allRelyComment]
+            let  data = allComment.filter((comment:any) => !comment.idReply).reverse().slice(first, first + offset);
+            const allreplyComment =  allComment.filter((comment : any) => !! comment.idReply)
+            data = [...data  , ...allreplyComment]
             resolve(data)
         }).populate('articleComment').populate('userComment')
     })
@@ -61,7 +60,7 @@ export function addCommentIntoArticle(comment) {
         })
     })
 }
-//function handle work rely commen
+//function handle work reply commen
 
 
 

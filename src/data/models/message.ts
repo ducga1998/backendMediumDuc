@@ -4,8 +4,7 @@ const messageSchema = new mongoose.Schema({
         idUser: String,
         idUserReceive: String,
         contentMessage: String,
-        idCommunication : String,
-        nameUserReveice : String
+        idRoom : String,
     }, { timestamps: true }
 )
 messageSchema.virtual('userMessage', {
@@ -27,7 +26,8 @@ export function getRoomChat(idUser , idUserReceive ) {
             if(err){
                 resolve(err)
             }
-           console.log('dataRoom',allFiler(dataRoom))
+            
+            console.log('dataRoom',allFiler(dataRoom))
             resolve(allFiler(dataRoom))
         })
     })

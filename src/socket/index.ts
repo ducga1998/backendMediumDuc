@@ -6,15 +6,15 @@ import uuid from 'uuid';
 import { addNotification } from '../data/models/notifcation';
 import { addMessageAsSocket } from '../data/models/message';
 const roomConnection = (socket) => {
-    socket.on('addRoom', data => {
-        const { title, idUser } = data
-        const idRoom = uuid()
-        createRoom({ idRoom, title, idUser })
-        socket.emit('updateListRooms', { idRoom, title, idUser })
-    })
-    socket.on('chat', (data) => {
-        socket.emit('chat2', data)
-    })
+    // socket.on('addRoom', data => {
+    //     const { title, idUser } = data as any
+    //     const idRoom = uuid()
+    //     createRoom({ idRoom, title, idUser })
+    //     socket.emit('updateListRooms', { idRoom, title, idUser })
+    // })
+    // socket.on('chat', (data) => {
+    //     socket.emit('chat2', data)
+    // })
 };
 // all chat user
 export let instanceSocket  =null
@@ -27,14 +27,14 @@ const chatMessageConnection = (socket) => {
         socket.join(idUser)
     })
     socket.on('sendMessage' , dataSend => {
-        const  {idCommunication}   = dataSend
+        const  {idRoom}   = dataSend
         console.log('data send', dataSend)
         addMessageAsSocket(dataSend)
-        // dataSend  include : idUser , idUserReceive , contentMessage , idCommunication 
-        socket.in(idCommunication).emit('receviceMessage' ,dataSend )
+        // dataSend  include : idUser , idUserReceive , contentMessage , idCommuncation
+        socket.in(idRoom).emit('receviceMessage' ,dataSend )
     })
-    socket.on('leave' ,oldidCommunication => {
-        socket.leave(oldidCommunication)
+    socket.on('leave' ,oldIdCommuncation => {
+        socket.leave(oldIdCommuncation)
     })
     socket.on('disconnect', function () {
     })

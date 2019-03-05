@@ -1,15 +1,12 @@
 
-import { getAllRoom, getRoomByIdUser } from '../models/room'
+import {  getAllRoomById , } from '../models/room'
 import { isAuth } from '../../help/help';
-async function GetRoomByIdUser(input, { id }) {
-    return await getRoomByIdUser(id)
-}
-async function GetAllRoom(id: string) {
-    return await getAllRoom()
+async function GetRoomById({request}, { id }) {
+    const {idUser} = request.session.user
+    return await getAllRoomById(idUser)
 }
 export default {
     Query: {
-        getRoomByIdUser: isAuth(GetRoomByIdUser),
-        getAllRoom: isAuth(GetAllRoom)
+        getRoomById: isAuth(GetRoomById),
     }
 }

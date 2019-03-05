@@ -1,13 +1,13 @@
 // import { connection } from 'mongoose';
 const messageType = /* GraphQL */ `
-    type message {
+    type Message {
         idUserReceive: String
         idUser: String
         contentMessage: String
         idCommunication:String
         userMessage : User
         nameUserReveice:String
-  }
+    }
 
   input MessageInput {
     idUserReceive : String
@@ -18,11 +18,11 @@ const messageType = /* GraphQL */ `
     idUser: String
   }
   extend type Mutation {
-      addMessage(input: MessageInput): message
+      addMessage(input: MessageInput): Message
   }
   extend type Query {
-    getAllMessageByIdUserReceive(id: String):[message] 
-    getRoomChat(id: String): [message]
+    getAllMessageByIdUserReceive(id: String):[Message] 
+    getRoomChat(id: String): [Message]
   }
   
 `

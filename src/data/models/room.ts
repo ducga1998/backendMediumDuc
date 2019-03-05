@@ -1,19 +1,27 @@
-import mongoose, { connection } from 'mongoose';
+import mongoose from 'mongoose';
 const roomSchema = new mongoose.Schema({
     idUser: String, // idUser admin room
     idRoom: String,
-    title: { type: String, required: true },
-    connections: { type: [{ idUser: String, socketid: String }], default: [] } // it will infomation all user in room
+    idUserReceive:String,
+})
+roomSchema.virtual('messages', {
+    foreignField: 'idRoom',
+    localField: 'idRoom',
+    ref: 'message'
 })
 export const roomModel = mongoose.model('room', roomSchema)
 export interface IRoom {
     idRoom: string,
-    connection?: any[],
-    title: string,
+    idUserReceive: string , 
     idUser: string
 }
-// this function will add user in room, include info   { idUser ,  }
-export function createRoom(input: IRoom) {
+interface InputAddRoom {
+    idRoom: string,
+    idUser: string,
+    idUserReceive : string,
+}
+export function createRoom(input: InputAddRoom) {
+    console.log('InputAddRoom',input)
     return new Promise(resolve => {
         const newRoom = new roomModel(input)
         newRoom.save((err, data) => {
@@ -25,37 +33,6 @@ export function createRoom(input: IRoom) {
     })
 }
 
-// just  need idUser => add idUser room => why idUser
-// first : 
-interface InputAddRoom {
-    idRoom: string,
-    idUser: string,
-    socketid: string
-}
-export var addUser = function (input: InputAddRoom) {
-    const { idRoom, idUser, socketid } = input
-    // Get current user's id
-    // var userId = socket.request.session.passport.user;
-    return new Promise(resolve => {
-        roomModel.findOne({ idRoom }, (err, room: any) => {
-            if (err) {
-                resolve(err)
-            }
-            // powful  data => a lot of request to server
-            var conn = { idUser, socketid };
-            if (!room.connections.filter(item => item.idUser === idUser)[0]) {
-                room.connections.push(conn);
-            }
-            room.save((err, data) => {
-                if (err) {
-                    console.log(err)
-                }
-                resolve(data)
-            });
-        })
-    })
-}
-// in the person 
 export function getRoomByIdUser(idUser: string) {
     console.log('run getRoomByIdUser', idUser)
     return new Promise(resolve => {
@@ -68,13 +45,20 @@ export function getRoomByIdUser(idUser: string) {
     })
 }
 // in the world 
-export function getAllRoom() {
+export function getAllRoomById(id) {
+    console.log('getRoomById',id)
     return new Promise(resolve => {
-        roomModel.find({}, (err, data) => {
-            if (err) {
-                resolve(err)
+        roomModel.find({idUser : id}, (err, dataUser) => {
+            if(err){
+                resolve([])
             }
-            resolve(data)
-        })
+            roomModel.find({idUserReceive : id} , (err, dataUserReceive) => {
+                if(err){
+                    resolve([])
+                }
+                const data = [...dataUser , ...dataUserReceive]
+                resolve(data)
+            }).populate('messages')       
+        }).populate('messages')
     })
 }

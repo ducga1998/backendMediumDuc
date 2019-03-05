@@ -3,18 +3,20 @@ const roomType = /* GraphQL */ `
     type room {
         idRoom: String
         idUser: String
-        connections: [connectionType]
-        title: String
-  }
-  type connectionType {
-      idUser: String
-      socketid:String
-  }
-  extend type Query {
-    getRoomByIdUser(id: String):[room] 
-    getAllRoom(id: String): JSON
-    
-  }
+        idUserReceive: String
+        messages : [Message]
+    }
+    input inputRoom {
+        idRoom: String
+        idUser: String
+        idUserReceive: String
+    }
+    extend type Mutation {
+        createRoom(input:inputRoom) : room
+    }
+    extend type Query {
+        getRoomById(id: String):[room] 
+    }
   
 `
 export default roomType; 

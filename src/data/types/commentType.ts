@@ -8,13 +8,13 @@ const comment = /* GraphQL */`
         articleComment: Article
         createdAt :Date
         idComment : String
-        idRely  : String # id rely la idComment dc reply : ))))) 
+        idReply  : String # id reply la idComment dc reply : ))))) 
     }
     input CommentInput {
         idUser: String
         idArticle: String
         content: String
-        idRely:String
+        idReply:String
         idComment: String
     }
     extend type Mutation {
