@@ -33,6 +33,7 @@
     "body-parser": "^1.18.2",
     "compression": "^1.7.1",
     "connect-mongo": "^2.0.0",
+    "consolidate": "^0.15.1",
     "create-react-app": "^2.1.1",
     "dotenv": "^4.0.0",
     "ejs": "^2.6.1",
@@ -66,6 +67,7 @@
     "request-promise": "^4.2.2",
     "socket.io": "^2.1.1",
     "socket.io-client": "^2.1.1",
+    "swig": "^1.4.2",
     "uuid": "^3.3.2",
     "winston": "^2.4.0"
   },

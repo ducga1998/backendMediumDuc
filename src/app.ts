@@ -50,6 +50,8 @@ mongoose.connect(mongoUrl).then(
 app.set("port", process.env.PORT || 4000);
 console.log('OK  ',path.resolve('./img'))
 app.use('/img',express.static(path.resolve('./img')));
+app.use('/',express.static(path.resolve('./dist/build')));
+app.use('/seri',express.static(path.resolve('./dist/build')));
 app.set("view engine", "pug");
 app.use(compression());
 app.use(bodyParser.json());
@@ -92,11 +94,7 @@ app.post('/img' , (req, res ) => {
  })
     })
 })
-
-app.get('/test', (req, res) => {
-  console.log(req.body)
-  res.send('OK')
-})
+const cons  = require('consolidate')
 rankAll(5)
 // console.log(getAllUser())
 // app.use(authMiddleware)
@@ -107,11 +105,14 @@ app.use((req, res, next) => {
 const authExamle = (req, res, next) => {
   next()
 }
-app.get('/rank', async (req, res) => { 
+app.get('/api/rank', async (req, res) => { 
 // console.log(rankAll(5))
 const data = await rankAll(5)
   res.send(data)
 })
+// app.get('/', function (req, res) {
+//   res.render('index.html')
+// })
 
 app.use(
   '/graphql',
@@ -124,5 +125,8 @@ app.use(
     pretty: true,
   }))
 )
+app.get('*', (req,res) =>{
+  res.sendFile(path.join(__dirname+'/build/index.html'));
+});
 
 export default app;
