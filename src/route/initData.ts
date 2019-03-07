@@ -9,7 +9,7 @@ export async function rankAll(limit) {
     const dataArticles = await getAllArticle() as any[]
     // best follow 
     // const {idUser , name , avatarLink ,biographical} = dataUser
-    // => array info user 
+    // => array inyanfo user 
 
     const dataFollow = dataUser.map(item => {
         const { idUser, name, avatarLink, biographical } = item

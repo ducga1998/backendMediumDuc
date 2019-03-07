@@ -45,12 +45,9 @@ export interface bookmarkType {
 export async function bookMark(input) {
     console.log('user book mark ', input)
     const { idArticle, idUser, idUserBookMark } = input
-    let countBookMark;
+   
     // check  count bookmark exies 
-    await bookmarkModel.countDocuments({ idArticle, idUser }, (err, count) => {
-        // console.log(count)
-        countBookMark = count
-    })
+    let countBookMark = await  bookmarkModel.countDocuments({ idArticle, idUser }).exec()
     if (countBookMark > 0 || countBookMark == undefined) {
         return
     }
