@@ -1,14 +1,9 @@
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 const hashTagSchema = new Schema({
-    idHashtag: String, //  can use uuid 
-    name: String,
+    idHashTag: String, //  can use uuid 
+    nameHashTag: String,
     idArticle: String
-})
-hashTagSchema.virtual('articlesSameHashTag', {
-    foreignField: 'idArticle',
-    localField: 'idArticle',
-    ref: 'Article',
 })
 export interface HashtagType {
     idHashtag?: String, //  can use uuid 
@@ -22,7 +17,7 @@ export function getAllAricleByIdArticle(idArticle: string) {
                 resolve(err)
             }
             resolve(data)
-        }).populate('articlesSameHashTag')
+        })
     })
 }
 export function deleteHashTag(name: string) {
@@ -35,20 +30,16 @@ export function deleteHashTag(name: string) {
         })
     })
 }
-export function addHashtag(hashtagData: HashtagType) {
-    const newHashTag = new hashtagModel(hashtagData)
-    return new Promise(resolve => {
-        newHashTag.save(function (err, data) {
-            if (err) {
-                resolve(err)
-            }
-            resolve(data)
-        })
-    })
-}
+
 // I am add hashtag when write artcle 
 export function addManyHashTag(arrHashTag){
+    console.log('arr Hash Tag ==>' , arrHashTag)
     if(arrHashTag && arrHashTag.length > 0){
-        hashtagModel.insertMany(arrHashTag) 
+        hashtagModel.insertMany(arrHashTag , (err , data ) => {
+            if(err){
+                console.log(err)
+            }
+            console.log('hash tag add  ===>', data)
+        } ) 
     }
 }

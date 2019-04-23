@@ -116,7 +116,6 @@ const data = await rankAll(5)
 
 app.use(
   '/graphql',
-
   bodyParser.json({ limit: '1024kb' }),
   expressGraphQL(req => ({
     schema,

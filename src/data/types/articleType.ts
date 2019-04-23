@@ -1,4 +1,9 @@
 const articleType = /* GraphQL */ `
+    type HashTag  {
+            idHashTag: String
+            nameHashTag: String
+            idArticle: String
+    }
 type  Article {
     idUser: String,
     idArticle: String,
@@ -13,6 +18,7 @@ type  Article {
     createTime : String,
     user: User,
     bookmark : [bookmark],
+    hashTagData :[HashTag]
 }
 input ArticleInput {
     idUser: String,

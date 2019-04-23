@@ -1,6 +1,8 @@
 import mongoose from 'mongoose';
 import { omit } from 'lodash';
 import { filterStringHTML } from '../../help/help';
+import uuid from 'uuid'
+import { addManyHashTag } from './hashtag';
 export const articleSchema = new mongoose.Schema({
     idUser: String,
     idArticle: String,
@@ -33,6 +35,12 @@ articleSchema.virtual('bookmark', {
     foreignField: 'idArticle',
     localField: 'idArticle',
     ref: 'bookmark',
+    justOne: false
+})
+articleSchema.virtual('hashTagData', {
+    foreignField: 'idArticle',
+    localField: 'idArticle',
+    ref: 'hashtag',
     justOne: false
 })
 
@@ -79,13 +87,20 @@ export function deleteArticle({ idArticle, idUser }: { idArticle: String, idUser
     })
 }
 
-export function addArticle(article: ArticleType) {
+export async function  addArticle(article: ArticleType) {
+    // console.log('======> article' , article)
+    const {hashTag , idArticle}  = article
+    const dataHashTag=  hashTag.map(tag => ({idHashTag: uuid() , nameHashTag : tag , idArticle }))
+    console.log('dataHashTag',dataHashTag)
+    const newHashTag  =  await addManyHashTag(dataHashTag)
+    console.log('newHasgTag ====>' ,newHashTag )
     const newArticle = new articleModel({ ...article, ... { totalClap: 0 } })
     return new Promise(resolve => {
         newArticle.save((err, data) => {
             if (err) {
                 resolve(err)
             }
+            
             // console.log('câcs', data)
             resolve(data)
         })
@@ -121,23 +136,24 @@ export function getAllArticle(first = undefined, offset = 0, search = false) {
                     return item
                 })
                 resolve(searchData)
-            }
-            const count = data.length
-            // data will 
+            } 
             data = first === undefined ? data.reverse().slice(offset) : data.reverse().slice(offset, offset + first);
             // console.log({ ...data, ...{ count } })
             resolve(data)
-        }).populate('user').populate('comment').populate('bookmark')
+        }).populate('user').populate('comment').populate('bookmark').populate('hashTagData')
     })
 }
-
+// article  {id , name }
+// support suggest : => find to name ?
+// when add  hashtag => ajax query to name  hashtag 
+// 
 export function getArticleById(idArticle: string) {
     return new Promise(resolve => {
         articleModel.findOne({ idArticle }, function (err, data  : any[]) {
             if (err) {
                 resolve(err)
             }
-            // console.log('articlesssss',data)
+        
             resolve(data)
         }).populate('user').populate('comment').populate('bookmark')
     })
