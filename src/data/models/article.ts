@@ -71,7 +71,6 @@ export function updateArticle(article: any) {
             if (err) {
                 resolve(err)
             }
-            console.log('data', data)
             resolve(data)
         })
     })
@@ -91,9 +90,7 @@ export async function  addArticle(article: ArticleType) {
     // console.log('======> article' , article)
     const {hashTag , idArticle}  = article
     const dataHashTag=  hashTag.map(tag => ({idHashTag: uuid() , nameHashTag : tag , idArticle }))
-    console.log('dataHashTag',dataHashTag)
     const newHashTag  =  await addManyHashTag(dataHashTag)
-    console.log('newHasgTag ====>' ,newHashTag )
     const newArticle = new articleModel({ ...article, ... { totalClap: 0 } })
     return new Promise(resolve => {
         newArticle.save((err, data) => {
@@ -153,7 +150,6 @@ export function getArticleById(idArticle: string) {
             if (err) {
                 resolve(err)
             }
-        
             resolve(data)
         }).populate('user').populate('comment').populate('bookmark')
     })

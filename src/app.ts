@@ -19,6 +19,7 @@ import uuid from 'uuid'
 // import { socket } from "./socket/index";
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
 import { rankAll } from './route/initData';
+import { getHashTagAll } from './data/models/hashtag';
 // import article from 'data/mutation/article';
 var proxy = require('http-proxy-middleware');
 const MongoStore = mongo(session);
@@ -109,6 +110,12 @@ app.get('/api/rank', async (req, res) => {
 // console.log(rankAll(5))
 const data = await rankAll(5)
   res.send(data)
+})
+app.get('/api/hashtag' , async (req, res) => {
+  const { name } = req.params as any
+  const hasgtag = await getHashTagAll()
+  console.log('hasgtag',hasgtag)
+  res.send(hasgtag)
 })
 // app.get('/', function (req, res) {
 //   res.render('index.html')

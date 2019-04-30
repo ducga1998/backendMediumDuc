@@ -10,9 +10,20 @@ export interface HashtagType {
     name?: String
 }
 const hashtagModel = mongoose.model('hashtag', hashTagSchema)
-export function getAllAricleByIdArticle(idArticle: string) {
+export function getHashTagAll() {
     return new Promise(resolve => {
-        hashtagModel.find({ idArticle }, (err, data) => {
+        hashtagModel.find({ }, (err, data) => {
+            if (err) {
+                resolve(err)
+            }
+            resolve(data)
+        })
+    })
+}
+
+export function getHashTagByIdHashTag(idHashtag) {
+    return new Promise(resolve => {
+        hashtagModel.find({ idHashtag }, (err, data) => {
             if (err) {
                 resolve(err)
             }
@@ -33,7 +44,6 @@ export function deleteHashTag(name: string) {
 
 // I am add hashtag when write artcle 
 export function addManyHashTag(arrHashTag){
-    console.log('arr Hash Tag ==>' , arrHashTag)
     if(arrHashTag && arrHashTag.length > 0){
         hashtagModel.insertMany(arrHashTag , (err , data ) => {
             if(err){
