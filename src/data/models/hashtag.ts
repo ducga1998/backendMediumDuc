@@ -30,7 +30,6 @@ export function getArticleTagByNameHashTag(nameHashTag) {
                 resolve(err)
             }
             const listIdArticle = await Promise.all(data.map(async hashTag =>  await getArticleById(hashTag.idArticle)))
-            console.log('data Article ==== > ',listIdArticle)
             resolve(listIdArticle)
         })
     })
