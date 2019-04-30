@@ -1,3 +1,5 @@
+import { getArticleById } from "./article";
+
 const mongoose = require('mongoose')
 const { Schema } = mongoose
 const hashTagSchema = new Schema({
@@ -21,13 +23,15 @@ export function getHashTagAll() {
     })
 }
 
-export function getHashTagByIdHashTag(idHashtag) {
+export function getArticleTagByNameHashTag(nameHashTag) {
     return new Promise(resolve => {
-        hashtagModel.find({ idHashtag }, (err, data) => {
+        hashtagModel.find({ nameHashTag }, async (err, data) => {
             if (err) {
                 resolve(err)
             }
-            resolve(data)
+            const listIdArticle = await Promise.all(data.map(async hashTag =>  await getArticleById(hashTag.idArticle)))
+            console.log('data Article ==== > ',listIdArticle)
+            resolve(listIdArticle)
         })
     })
 }

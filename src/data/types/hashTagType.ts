@@ -6,7 +6,7 @@ const hashTag = /* GraphQL */`
     
     }
     extend type Query {
-        getHashTagByIdHashTag(id:String) : [HashTagType]
+        getArticleTagByNameHashTag(id:String) : [Article]
         getHashTagAll:[HashTagType]
     }
 `

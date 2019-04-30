@@ -1,7 +1,7 @@
-import { getHashTagByIdHashTag , getHashTagAll} from '../models/hashtag';
+import { getArticleTagByNameHashTag , getHashTagAll} from '../models/hashtag';
 import { isAuth } from '../../help/help';
-async function GetHashTagByIdHashTag(a, { id }) {
-    return await getHashTagByIdHashTag(id)
+async function GetArticleTagByNameHashTag(a, { id }) {
+    return await getArticleTagByNameHashTag(id)
 }
 
 async function GetHashTagAll(a,) {
@@ -11,7 +11,7 @@ async function GetHashTagAll(a,) {
 
 export default {
     Query: {
-        getHashTagByIdHashTag: isAuth(GetHashTagByIdHashTag),
+        getArticleTagByNameHashTag: isAuth(GetArticleTagByNameHashTag),
         getHashTagAll : isAuth(GetHashTagAll)
     }
 }
