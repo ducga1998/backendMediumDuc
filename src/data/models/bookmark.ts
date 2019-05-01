@@ -1,4 +1,6 @@
+
 import mongoose from 'mongoose';
+import { getArticleById, articleModel } from './article';
 // follow user 
 const bookmarkSchema = new mongoose.Schema({
     idUser: String,
@@ -76,12 +78,22 @@ export function unBookMark({ idUserBookMark, idArticle }) {
 export function getAllArticleHasBeenBookMark(idUserBookMark) {
     console.log('idUserBookMark', idUserBookMark)
     return new Promise(resolve => {
-        bookmarkModel.find({ idUserBookMark }, (err, data) => {
+        bookmarkModel.find({ idUserBookMark }, async (err, articleBookmarks) => {
             if (err) {
                 resolve(err)
             }
+            
+            const data = await Promise.all(articleBookmarks.map(async  article  => {
+                const {idArticle} = article as any
+                const articleBookMark  = await articleModel.findOne({idArticle}).populate('hashTagData')
+                // const articleBookMark  =  await getArticleById(idArticle)
+                console.log('article ====> AA',articleBookMark)
+                return {...article , ...{articleBookMark}}
+            }))
+            console.log('articleBookMark ====>',data)
             resolve(data)
-        }).populate('articleBookMark').populate('userOwnArticle')
+           
+        }).populate('userOwnArticle')
     })
 }
 export function isBookMark({ idArticle, idUserBookMark }) {

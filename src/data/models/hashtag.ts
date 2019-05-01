@@ -12,13 +12,28 @@ export interface HashtagType {
     name?: String
 }
 const hashtagModel = mongoose.model('hashtag', hashTagSchema)
+const clusterAglo = (hashTags) => {
+
+}
 export function getHashTagAll() {
     return new Promise(resolve => {
-        hashtagModel.find({ }, (err, data) => {
+        hashtagModel.find({ }, (err, hashtags) => {
             if (err) {
                 resolve(err)
             }
-            resolve(data)
+            let  flag = ''
+            const result = []
+            hashtags.forEach(hash => {
+                flag = hash.nameHashTag
+                // have been check have hash in result ?
+                if( !result.map(item => item.nameHashTag).includes(flag)) {
+                    result.push(hash)
+                }
+               
+               
+                
+            });            
+            resolve(result)
         })
     })
 }
@@ -52,7 +67,7 @@ export function addManyHashTag(arrHashTag){
             if(err){
                 console.log(err)
             }
-            console.log('hash tag add  ===>', data)
+            // console.log('hash tag add  ===>', data)
         } ) 
     }
 }
