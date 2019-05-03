@@ -117,10 +117,22 @@ app.get('/api/hashtag' , async (req, res) => {
   console.log('hasgtag',hasgtag)
   res.send(hasgtag)
 })
-// app.get('/', function (req, res) {
-//   res.render('index.html')
-// })
+var passport = require('passport')
+  , FacebookStrategy = require('passport-facebook').Strategy;
 
+passport.use(new FacebookStrategy({
+    clientID: 'FACEBOOK_APP_ID',
+    clientSecret: 'FACEBOOK_APP_SECRET',
+    callbackURL: ""
+  },
+  function(accessToken, refreshToken, profile, done) {
+      console.log('accessToken',accessToken)
+  }
+));
+app.get('/auth/facebook', passport.authenticate('facebook'));
+app.get('/auth/facebook/callback',
+  passport.authenticate('facebook', { successRedirect: '/',
+                                      failureRedirect: '/login' }));
 app.use(
   '/graphql',
   bodyParser.json({ limit: '1024kb' }),
