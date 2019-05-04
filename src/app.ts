@@ -11,6 +11,7 @@ import expressValidator from "express-validator";
 import mongoose from "mongoose";
 import {getAllArticle}  from "./data/models/article";
 import schema from './data/schema';
+import  graph from 'fbgraph';
 import jwt from 'express-jwt'
 import multiparty from 'multiparty'
 import path from 'path'
@@ -22,7 +23,6 @@ const MongoStore = mongo(session);
 dotenv.config({ path: ".env" });
 import * as passportConfig from "./config/passport";
 import passport from 'passport' 
-import {Strategy as FacebookStrategy} from 'passport-facebook' 
 const app = express();
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
@@ -33,8 +33,7 @@ mongoose.connect(mongoUrl).then(
 });
 app.set("port", process.env.PORT || 4000);
 app.use('/img',express.static(path.resolve('./img')));
-app.use('/',express.static(path.resolve('./dist/build')));
-app.use('/seri',express.static(path.resolve('./dist/build')));
+// app.use('/',express.static(path.resolve('./dist/build')));
 app.set("view engine", "pug");
 app.use(compression());
 app.use(bodyParser.json());
@@ -79,20 +78,24 @@ app.get('/api/hashtag' , async (req, res) => {
   console.log('hasgtag',hasgtag)
   res.send(hasgtag)
 })
-
-passport.use(new FacebookStrategy({
-    clientID: 'FACEBOOK_APP_ID',
-    clientSecret: 'FACEBOOK_APP_SECRET',
-    callbackURL: ""
-  },
-  function(accessToken, refreshToken, profile, done) {
-      console.log('accessToken',accessToken)
-  }
-));
+const getFacebook = (req, res, next) => {
+  const token = req.user.tokens.find(token => token.kind === 'facebook');
+  graph.setAccessToken(token.accessToken);
+  graph.get(`${req.user.facebook}?fields=id,name,email,first_name,last_name,gender,link,locale,timezone`, (err, profile) => {
+    if (err) { return next(err); }
+    res.render('api/facebook', {
+      title: 'Facebook API',
+      profile
+    });
+  });
+};
+app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, getFacebook);
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {  
+console.log('redirect call back ===> ')
   res.redirect(req.session.returnTo || '/');
 });
+
 app.use(
   '/graphql',
   bodyParser.json({ limit: '1024kb' }),

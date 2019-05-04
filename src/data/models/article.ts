@@ -135,7 +135,6 @@ export function getAllArticle(first = undefined, offset = 0, search = false) {
                 resolve(searchData)
             } 
             data = first === undefined ? data.reverse().slice(offset) : data.reverse().slice(offset, offset + first);
-            console.log('ok data test ===>',data)
             resolve(data)
         }).populate('user').populate('comment').populate('bookmark').populate('hashTagData')
     })
