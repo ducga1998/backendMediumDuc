@@ -9,7 +9,6 @@ import expressGraphQL from 'express-graphql';
 import session from "express-session";
 import expressValidator from "express-validator";
 import mongoose from "mongoose";
-import {getAllArticle}  from "./data/models/article";
 import schema from './data/schema';
 import  graph from 'fbgraph';
 import jwt from 'express-jwt'
@@ -116,10 +115,12 @@ app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRe
 app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, (req , res  , callack ) => {
   console.log('call back request ===== > ' , req.session )
 });
-app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github', passport.authenticate('github') , (req , res) => {
+  console.log(req.session)
+});
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
   console.log('req session' , req.session)
-  res.redirect(req.session.returnTo || '/');
+  res.redirect('/');
 });
 app.use(
   '/graphql',

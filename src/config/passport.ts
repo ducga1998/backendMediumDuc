@@ -1,16 +1,18 @@
+import { Kind } from 'graphql/language';
 import passport from "passport";
 import _ from "lodash";
 const { Strategy: FacebookStrategy } = require('passport-facebook');
 import { userModel as User } from '../data/models/user';
 import { Request, Response, NextFunction } from "express";
-import { Strategy as  GitHubStrategy } from 'passport-github';
+import { Strategy as GitHubStrategy } from 'passport-github';
+// import user from "data/queries/user";
 passport.serializeUser((user: any, done) => {
   done(null, user.id);
 });
 
 passport.deserializeUser((id, done) => {
   User.findById(id, (err, user) => {
-  console.log('done ====> ',done)
+    console.log('done ====> ', done)
     done(err, user);
   });
 });
@@ -21,9 +23,9 @@ passport.use(new FacebookStrategy({
   profileFields: ['name', 'email', 'link', 'locale', 'timezone', 'gender'],
   passReqToCallback: true
 }, (req, accessToken, refreshToken, profile, done) => {
-  console.log('profile =====>' , profile)
+  console.log('profile =====>', profile)
   if (req.user) {
-   console.log('req user =>>>>' , req.user)
+    console.log('req user =>>>>', req.user)
   } else {
     User.findOne({ facebook: profile.id }, (err, existingUser) => {
       if (err) { return done(err); }
@@ -63,12 +65,38 @@ passport.use(new GitHubStrategy({
   callbackURL: 'https://80a9baa1.ngrok.io/auth/github/callback',
   passReqToCallback: true,
   scope: ['user:email']
-}, (req, accessToken, refreshToken, profile, done) => {
-  console.log('req  user ====> ' , req.user, accessToken, profile) 
+}, async (req, accessToken, refreshToken, profile, done) => {
+  const { id } = profile
+  // console.log('req  user ====> ' , req.user, accessToken, profile) 
+  User.find({ idUser: id }, (err, existsUser) => {
+    if (err) {
+      return
+    }
+    console.log('existsUser === > ', existsUser)
+    if (!existsUser.length) {
+      const user: any = new User();
+      const profie = user.profile
+      profie.push({ kind: 'github', data: profile })
+      user.profile = profie
+      const accessTokens = user.accessTokens
+      accessTokens.push({
+        kind: 'github',
+        token: accessToken
+      })
+      user.accessToken = accessTokens
+      user.idUser = id
+      user.save(err => {
+        done(err, user)
+      })
+    }
+    else {
+      done(null, profile)
+    }
+  })
 }));
 
- export let isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
-   console.log('req.user.tokens',req.user)
+export let isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+  console.log('req.user.tokens', req.user)
   if (req.isAuthenticated()) {
     return next();
   }
@@ -80,8 +108,8 @@ passport.use(new GitHubStrategy({
  */
 export let isAuthorized = (req: Request, res: Response, next: NextFunction) => {
   const provider = req.path.split("/").slice(-1)[0];
-  console.log('req.user.tokens 2',req.user.tokens)
-  if (_.find(req.user.tokens, { kind: provider })) { 
+  console.log('req.user.tokens 2', req.user.tokens)
+  if (_.find(req.user.tokens, { kind: provider })) {
     next();
   } else {
     res.redirect(`/auth/${provider}`);

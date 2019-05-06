@@ -1,10 +1,9 @@
-import { omit } from 'lodash';
-// import { session } from 'express-session';
+
 import mongoose from "mongoose";
 import _ from "lodash";
-import {articleModel} from './article';
-// import { resolve } from 'bluebird';
-
+import { articleModel } from './article';
+import bcrypt from 'bcrypt'
+import crypto from 'crypto'
 const UserSchema = new mongoose.Schema({
     idUser: String,
     login: String,
@@ -28,8 +27,32 @@ const UserSchema = new mongoose.Schema({
     location: {
         type: String, default: ''
     },
-    // articles2 : mongoose.Schema.Types.Mixed,
+    github: String,
+    facebook: String,
+    accessTokens: [{ kind: String, token: String }],
+    profile: [
+        {
+            kind: String,
+            data: Object
+        }
+    ]
 })
+UserSchema.methods.comparePassword = function comparePassword(candidatePassword, cb) {
+    bcrypt.compare(candidatePassword, this.password, (err, isMatch) => {
+        cb(err, isMatch);
+    });
+};
+UserSchema.methods.gravatar = function gravatar(size) {
+    if (!size) {
+        size = 200;
+    }
+    if (!this.email) {
+        return `https://gravatar.com/avatar/?s=${size}&d=retro`;
+    }
+    const md5 = crypto.createHash('md5').update(this.email).digest('hex');
+    return `https://gravatar.com/avatar/${md5}?s=${size}&d=retro`;
+};
+
 //  when we need add user then we only need these information : ))
 export interface UserType {
     idUser: String,
@@ -38,8 +61,8 @@ export interface UserType {
     name?: String,
     password: String,
     decentraliz: {
-        type : Number ,
-        default : 1
+        type: Number,
+        default: 1
     }, // admin 3 , monitor : 2 , user : 1 // default when user reg is 1
 }
 // this solve 
@@ -49,11 +72,11 @@ UserSchema.virtual('articles', {
     ref: 'Article',
     justOne: false
 })
-UserSchema.virtual('userFollow' , {
-    foreignField : 'idUser',
-    localField  :'idUser',
-    ref : 'follow'
-} )
+UserSchema.virtual('userFollow', {
+    foreignField: 'idUser',
+    localField: 'idUser',
+    ref: 'follow'
+})
 UserSchema.set('toObject', { virtuals: true });
 UserSchema.set('toJSON', { virtuals: true });
 export const userModel = mongoose.model("users", UserSchema);
@@ -95,21 +118,17 @@ export function getAllArticle(idUser: String) {
             console.log('get all data article ', data)
             resolve(data)
         })
-        // console.log('dataUser' ,dataUser)
     })
 }
 export async function addNewUser(user: UserType) {
 
     const { login } = user;
-    // console.log('ahih', data)
     let users;
     await userModel.find({ login }, function (err, data) {
         if (err) {
             return err
         }
         users = data
-        // console.log(data)
-
     })
     if (users && users.length > 0) {
         console.log('trung id roi em ei')
@@ -170,19 +189,19 @@ export function deleteUserById(idUser: string) {
                 resolve(err)
             }
             // delete all article 
-            articleModel.deleteMany({idUser} , function(err){
-                if(err){
+            articleModel.deleteMany({ idUser }, function (err) {
+                if (err) {
                     console.log('OK')
                 }
             })
         })
-        
+
     })
 }
-export function getAllUser(){
+export function getAllUser() {
     return new Promise(resolve => {
-        userModel.find({} , function(err, allUser) {
-            if(err){
+        userModel.find({}, function (err, allUser) {
+            if (err) {
                 resolve(err)
             }
             resolve(allUser)

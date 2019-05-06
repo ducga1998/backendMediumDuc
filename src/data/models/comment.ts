@@ -39,8 +39,6 @@ export function getAllCommentInTheArticle(idArticle, offset: number, first: numb
             if (err) {
                 resolve(err)
             }
-            const count =  allComment.length
-            console.log('offset first',offset , first)
             let  data = allComment.filter((comment:any) => !comment.idReply).reverse().slice(first, first + offset);
             const allreplyComment =  allComment.filter((comment : any) => !! comment.idReply)
             data = [...data  , ...allreplyComment]
