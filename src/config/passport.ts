@@ -1,18 +1,26 @@
 import passport from "passport";
-import request from "request";
-import passportLocal from "passport-local";
 import _ from "lodash";
 const { Strategy: FacebookStrategy } = require('passport-facebook');
 import { userModel as User } from '../data/models/user';
 import { Request, Response, NextFunction } from "express";
+import { Strategy as  GitHubStrategy } from 'passport-github';
+passport.serializeUser((user: any, done) => {
+  done(null, user.id);
+});
 
+passport.deserializeUser((id, done) => {
+  User.findById(id, (err, user) => {
+  console.log('done ====> ',done)
+    done(err, user);
+  });
+});
 passport.use(new FacebookStrategy({
   clientID: process.env.FACEBOOK_ID,
   clientSecret: process.env.FACEBOOK_SECRET,
-  callbackURL: "/auth/facebook/callback",
-  profileFields: ["name", "email", "link", "locale", "timezone"],
+  callbackURL: `/auth/facebook/callback`,
+  profileFields: ['name', 'email', 'link', 'locale', 'timezone', 'gender'],
   passReqToCallback: true
-}, (req: any, accessToken, refreshToken, profile, done) => {
+}, (req, accessToken, refreshToken, profile, done) => {
   console.log('profile =====>' , profile)
   if (req.user) {
    console.log('req user =>>>>' , req.user)
@@ -45,10 +53,22 @@ passport.use(new FacebookStrategy({
   }
 }));
 
+
 /**
  * Login Required middleware.
  */
-export let isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+passport.use(new GitHubStrategy({
+  clientID: process.env.GITHUB_ID,
+  clientSecret: process.env.GITHUB_SECRET,
+  callbackURL: 'https://80a9baa1.ngrok.io/auth/github/callback',
+  passReqToCallback: true,
+  scope: ['user:email']
+}, (req, accessToken, refreshToken, profile, done) => {
+  console.log('req  user ====> ' , req.user, accessToken, profile) 
+}));
+
+ export let isAuthenticated = (req: Request, res: Response, next: NextFunction) => {
+   console.log('req.user.tokens',req.user)
   if (req.isAuthenticated()) {
     return next();
   }
@@ -60,8 +80,8 @@ export let isAuthenticated = (req: Request, res: Response, next: NextFunction) =
  */
 export let isAuthorized = (req: Request, res: Response, next: NextFunction) => {
   const provider = req.path.split("/").slice(-1)[0];
-  console.log('provider',provider)
-  if (_.find(req.user.tokens, { kind: provider })) {
+  console.log('req.user.tokens 2',req.user.tokens)
+  if (_.find(req.user.tokens, { kind: provider })) { 
     next();
   } else {
     res.redirect(`/auth/${provider}`);

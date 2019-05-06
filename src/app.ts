@@ -31,6 +31,8 @@ mongoose.connect(mongoUrl).then(
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
 });
+app.use(passport.initialize());
+app.use(passport.session());
 app.set("port", process.env.PORT || 4000);
 app.use('/img',express.static(path.resolve('./img')));
 // app.use('/',express.static(path.resolve('./dist/build')));
@@ -68,6 +70,20 @@ app.post('/img' , (req, res ) => {
     })
 })
 rankAll(5)
+app.use((req, res, next) => {
+  // After successful login, redirect back to the intended page
+  if (!req.user
+    && req.path !== '/login'
+    && req.path !== '/signup'
+    && !req.path.match(/^\/auth/)
+    && !req.path.match(/\./)) {
+    req.session.returnTo = req.originalUrl;
+  } else if (req.user
+    && (req.path === '/account' || req.path.match(/^\/api/))) {
+    req.session.returnTo = req.originalUrl;
+  }
+  next();
+});
 app.get('/api/rank', async (req, res) => { 
 const data = await rankAll(5)
   res.send(data)
@@ -92,10 +108,19 @@ const getFacebook = (req, res, next) => {
 app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, getFacebook);
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {  
-console.log('redirect call back ===> ')
+
+  console.log('redirect call back ',)
   res.redirect(req.session.returnTo || '/');
 });
 
+app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, (req , res  , callack ) => {
+  console.log('call back request ===== > ' , req.session )
+});
+app.get('/auth/github', passport.authenticate('github'));
+app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
+  console.log('req session' , req.session)
+  res.redirect(req.session.returnTo || '/');
+});
 app.use(
   '/graphql',
   bodyParser.json({ limit: '1024kb' }),
@@ -106,7 +131,7 @@ app.use(
     pretty: true,
   }))
 )
-app.get('*', (req,res) =>{
+app.get('*', (req,res) => {
   res.sendFile(path.join(__dirname+'/build/index.html'));
 });
 
