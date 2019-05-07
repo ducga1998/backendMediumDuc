@@ -28,6 +28,12 @@ const chatMessageConnection = (socket) => {
     socket.on('disconnect', function () {
     })
 }  
+const commnitySocket =  (socket) => {
+    socket.on('connection' , () => {
+
+    })
+    
+}
 const notificationConnection = (socket) => {
     
     socket.on('join', idUser => {

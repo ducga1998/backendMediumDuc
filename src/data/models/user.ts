@@ -100,8 +100,9 @@ export function checklogin(login, password, request) {
                 console.log(err)
             }
             const onlyDataUser = _.omit(data, ['articles'])
+            console.log('request session ===== > ',request.session)
             // this here, I am save info user in session 
-            request.session.user = onlyDataUser
+            request.session.userLogin = onlyDataUser
             // console.log('onlyDataUser ', onlyDataUser)
             resolve(data)
         })

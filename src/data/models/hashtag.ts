@@ -29,9 +29,6 @@ export function getHashTagAll() {
                 if( !result.map(item => item.nameHashTag).includes(flag)) {
                     result.push(hash)
                 }
-               
-               
-                
             });            
             resolve(result)
         })
@@ -67,6 +64,7 @@ export function addManyHashTag(arrHashTag){
             if(err){
                 console.log(err)
             }
+            return data
             // console.log('hash tag add  ===>', data)
         } ) 
     }

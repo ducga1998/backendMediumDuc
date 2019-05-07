@@ -4,11 +4,11 @@
 //  nhung cai nao can den admin thi them 1 doi so de check nua
 export function isAuth(resolver , adminAuth = null) {
     return (request, args, context, info) => {
-        const { user } = context.session
-        // console.log('a', context.session.user)
+        const { userLogin } = context.session
+        // console.log('a', context.session.userLogin)
      
-        if (user) {
-            const {decentraliz}  = user
+        if (userLogin) {
+            const {decentraliz}  = userLogin
             console.log('adminAuth',adminAuth ,decentraliz )
             // authecation 
             if(!adminAuth){
@@ -22,7 +22,7 @@ export function isAuth(resolver , adminAuth = null) {
             else {
                 return null
             }
-            //only user admin => access
+            //only userLogin admin => access
           
            
         }
