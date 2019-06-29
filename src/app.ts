@@ -11,7 +11,6 @@ import expressValidator from "express-validator";
 import mongoose from "mongoose";
 import schema from './data/schema';
 import  graph from 'fbgraph';
-import jwt from 'express-jwt'
 import multiparty from 'multiparty'
 import path from 'path'
 import uuid from 'uuid'
@@ -108,9 +107,9 @@ app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthor
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
 app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {  
 
-  console.log('redirect call back ',)
   res.redirect(req.session.returnTo || '/');
 });
+
 
 app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, (req , res  , callack ) => {
   console.log('call back request ===== > ' , req.session )

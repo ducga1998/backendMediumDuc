@@ -1,6 +1,5 @@
 import { isAuth } from '../../help/help';
 
-// import { session } from 'express-session';
 //MUTATION IS WHERE AUTHECATION , QUERY DATA  , IT IS RESLOVER 
 
 import { addArticle, deleteArticle, updateArticle, countArticle } from '../models/article';

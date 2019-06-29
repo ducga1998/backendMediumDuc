@@ -39,16 +39,16 @@ export function getAllCommentInTheArticle(idArticle, offset: number, first: numb
             if (err) {
                 resolve(err)
             }
-            let  data = allComment.filter((comment:any) => !comment.idReply).reverse().slice(first, first + offset);
-            const allreplyComment =  allComment.filter((comment : any) => !! comment.idReply)
-            data = [...data  , ...allreplyComment]
+            let data = allComment.filter((comment: any) => !comment.idReply).reverse().slice(first, first + offset);
+            const allreplyComment = allComment.filter((comment: any) => !!comment.idReply)
+            data = [...data, ...allreplyComment]
             resolve(data)
         }).populate('articleComment').populate('userComment')
     })
 }
 export function addCommentIntoArticle(comment) {
     const idComment = uuid()
-    const newComment = new commentModel({...comment, ...{idComment}})
+    const newComment = new commentModel({ ...comment, ...{ idComment } })
     return new Promise(resolve => {
         newComment.save(function (err, data) {
             if (err) {

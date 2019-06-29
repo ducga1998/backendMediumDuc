@@ -43,17 +43,18 @@ const merge = require('lodash/merge')
 // resolve end
 const schema = makeExecutableSchema({
     typeDefs: [
-        Root, followType, commentType, articleType,
-         notificationType, userType,
+        Root, followType, commentType, 
+        articleType,notificationType, userType,
         typeDefs, roomType, messageType, bookmarkType,
         hashTagType
     ],
     resolvers: merge(
         {}, resolvers, articleMutation, followMutation,
-        commentMutation,
-        userMutation, articleQuery, notificationQuery, userQuery, followQuery, commentQuery, roomQuery, roomMuation ,
-         messageQuery, messageMutation,
-        bookQueries, bookmarkMutation , hashTagQuery
+        commentMutation, userMutation, articleQuery, 
+        notificationQuery,userQuery, followQuery,
+        commentQuery, roomQuery, roomMuation ,
+        messageQuery, messageMutation, bookQueries,
+        bookmarkMutation , hashTagQuery
     )
 })
 export default schema

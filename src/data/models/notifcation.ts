@@ -33,10 +33,7 @@ export function getAllNotifiOfArticle( idArticle: string ) {
         notificationModel.find({ idArticle }, (err, data) => {
             if (err) {
                 resolve(err)
-            }
-            // if first   === undefined  => get all notfication  
-
-           
+            }           
             resolve(data)
         })
     })
