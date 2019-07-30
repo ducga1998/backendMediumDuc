@@ -6,9 +6,6 @@
     "type": "git",
     "url": "https://github.com/Microsoft/TypeScript-Node-Starter"
   },
-  "engines": {
-    "node": "8"
-  },
   "author": "Bowden Kelly",
   "license": "MIT",
   "scripts": {
