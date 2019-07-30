@@ -43,6 +43,7 @@ UserSchema.methods.comparePassword = function comparePassword(candidatePassword,
     });
 };
 UserSchema.methods.gravatar = function gravatar(size) {
+    console.log('ok')
     if (!size) {
         size = 200;
     }
@@ -100,7 +101,7 @@ export function checklogin(login, password, request) {
                 console.log(err)
             }
             const onlyDataUser = _.omit(data, ['articles'])
-            console.log('request session ===== > ',request.session)
+            console.log('request session ===== > ', request.session)
             // this here, I am save info user in session 
             request.session.userLogin = onlyDataUser
             // console.log('onlyDataUser ', onlyDataUser)
