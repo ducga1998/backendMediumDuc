@@ -1,4 +1,4 @@
-import  fs  from 'fs';
+import fs from 'fs';
 import bluebird from "bluebird";
 import bodyParser from "body-parser";
 import compression from "compression"; // compresses requests
@@ -10,7 +10,7 @@ import session from "express-session";
 import expressValidator from "express-validator";
 import mongoose from "mongoose";
 import schema from './data/schema';
-import  graph from 'fbgraph';
+import graph from 'fbgraph';
 import multiparty from 'multiparty'
 import path from 'path'
 import uuid from 'uuid'
@@ -20,7 +20,7 @@ import { getHashTagAll } from './data/models/hashtag';
 const MongoStore = mongo(session);
 dotenv.config({ path: ".env" });
 import * as passportConfig from "./config/passport";
-import passport from 'passport' 
+import passport from 'passport'
 const app = express();
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
@@ -32,7 +32,7 @@ mongoose.connect(mongoUrl).then(
 app.use(passport.initialize());
 app.use(passport.session());
 app.set("port", process.env.PORT || 4000);
-app.use('/img',express.static(path.resolve('./img')));
+app.use('/img', express.static(path.resolve('./img')));
 // app.use('/',express.static(path.resolve('./dist/build')));
 app.set("view engine", "pug");
 app.use(compression());
@@ -48,24 +48,24 @@ app.use(session({
     autoReconnect: true
   })
 }))
-app.post('/img' , (req, res ) => {
+app.post('/img', (req, res) => {
   var form = new multiparty.Form();
-  form.parse(req, function(err, fields, files) {
-  const {path , originalFilename} = files.image[0]
-  fs.readFile(path ,  (err  , content) => {
-    if(err){
-      console.log(err)
-      return
-    }
-  const name = uuid()
-  fs.writeFile('img/'+name, content , (err ) =>{
-    if(err){
-      console.log(err)
-    }
-    res.send({name})
- })
- })
+  form.parse(req, function (err, fields, files) {
+    const { path, originalFilename } = files.image[0]
+    fs.readFile(path, (err, content) => {
+      if (err) {
+        console.log(err)
+        return
+      }
+      const name = uuid()
+      fs.writeFile('img/' + name, content, (err) => {
+        if (err) {
+          console.log(err)
+        }
+        res.send({ name })
+      })
     })
+  })
 })
 rankAll(5)
 app.use((req, res, next) => {
@@ -82,14 +82,14 @@ app.use((req, res, next) => {
   }
   next();
 });
-app.get('/api/rank', async (req, res) => { 
-const data = await rankAll(5)
+app.get('/api/rank', async (req, res) => {
+  const data = await rankAll(5)
   res.send(data)
 })
-app.get('/api/hashtag' , async (req, res) => {
+app.get('/api/hashtag', async (req, res) => {
   const { name } = req.params as any
   const hasgtag = await getHashTagAll()
-  console.log('hasgtag',hasgtag)
+  console.log('hasgtag', hasgtag)
   res.send(hasgtag)
 })
 const getFacebook = (req, res, next) => {
@@ -105,20 +105,20 @@ const getFacebook = (req, res, next) => {
 };
 app.get('/api/facebook', passportConfig.isAuthenticated, passportConfig.isAuthorized, getFacebook);
 app.get('/auth/facebook', passport.authenticate('facebook', { scope: ['email', 'public_profile'] }));
-app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {  
+app.get('/auth/facebook/callback', passport.authenticate('facebook', { failureRedirect: '/login' }), (req, res) => {
 
   res.redirect(req.session.returnTo || '/');
 });
 
 
-app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, (req , res  , callack ) => {
-  console.log('call back request ===== > ' , req.session )
+app.get('/api/github', passportConfig.isAuthenticated, passportConfig.isAuthorized, (req, res, callack) => {
+  console.log('call back request ===== > ', req.session)
 });
-app.get('/auth/github', passport.authenticate('github') , (req , res) => {
+app.get('/auth/github', passport.authenticate('github'), (req, res) => {
   console.log(req.session)
 });
 app.get('/auth/github/callback', passport.authenticate('github', { failureRedirect: '/login' }), (req, res) => {
-  console.log('req session' , req.session)
+  console.log('req session', req.session)
   res.redirect('/');
 });
 app.use(
@@ -131,8 +131,8 @@ app.use(
     pretty: true,
   }))
 )
-app.get('*', (req,res) => {
-  res.sendFile(path.join(__dirname+'/build/index.html'));
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname + '/build/index.html'));
 });
 
 export default app;

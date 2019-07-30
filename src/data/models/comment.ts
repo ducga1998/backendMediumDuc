@@ -35,13 +35,16 @@ commentSchema.set('toJSON', { virtuals: true });
 const commentModel = mongoose.model('comment', commentSchema)
 export function getAllCommentInTheArticle(idArticle, offset: number, first: number = undefined) {
     return new Promise(resolve => {
+        console.log('idArticle', idArticle)
         commentModel.find({ idArticle }, async (err, allComment) => {
             if (err) {
                 resolve(err)
             }
+            console.log('allComment', allComment)
             let data = allComment.filter((comment: any) => !comment.idReply).reverse().slice(first, first + offset);
             const allreplyComment = allComment.filter((comment: any) => !!comment.idReply)
             data = [...data, ...allreplyComment]
+            console.log('front end article ', data)
             resolve(data)
         }).populate('articleComment').populate('userComment')
     })
