@@ -31,12 +31,12 @@ mongoose.connect(mongoUrl).then(
   // process.exit();
 });
 
-app.use(sessions({
-  cookieName: 'mySession', // cookie name dictates the key name added to the request object 
-  secret: 'blargadeeblargblarg', // should be a large unguessable string 
-  duration: 24 * 60 * 60 * 1000, // how long the session will stay valid in ms 
-  activeDuration: 1000 * 60 * 5 // if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds 
-}));
+// app.use(sessions({
+//   cookieName: 'mySession', // cookie name dictates the key name added to the request object 
+//   secret: 'blargadeeblargblarg', // should be a large unguessable string 
+//   duration: 24 * 60 * 60 * 1000, // how long the session will stay valid in ms 
+//   activeDuration: 1000 * 60 * 5 // if expiresIn < activeDuration, the session will be extended by activeDuration milliseconds 
+// }));
 app.use(passport.initialize());
 app.use(passport.session());
 app.set("port", process.env.PORT || 4000);
@@ -47,6 +47,7 @@ app.use(compression());
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(expressValidator())
+console.log('SESSION_SECRET', SESSION_SECRET)
 app.use(session({
   resave: true,
   saveUninitialized: true,
