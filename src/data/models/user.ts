@@ -27,7 +27,8 @@ const UserSchema = new mongoose.Schema({
     location: {
         type: String, default: ''
     },
-    
+
+
     github: String,
     facebook: String,
     accessTokens: [{ kind: String, token: String }],
