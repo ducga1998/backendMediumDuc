@@ -23,6 +23,4 @@ const bookmarkType = /* GraphQL */`
     }
 `
 
-
-
 export default bookmarkType
