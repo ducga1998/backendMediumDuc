@@ -8,6 +8,11 @@ const bookmarkType = /* GraphQL */`
         userOwnArticle: User
         articleBookMark: Article
     }
+
+
+
+
+
     input bookmarkInput {
         idUser: String
         idArticle: String

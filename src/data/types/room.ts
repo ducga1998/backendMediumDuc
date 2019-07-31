@@ -8,6 +8,7 @@ const roomType = /* GraphQL */ `
         ownerUserInfo: User
         clientInfo: User
     }
+    
     input inputRoom {
         idRoom: String
         idUser: String
