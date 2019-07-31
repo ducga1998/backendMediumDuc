@@ -22,4 +22,7 @@ const bookmarkType = /* GraphQL */`
         isBookMark(idUserBookMark:String , idArticle:String):Boolean
     }
 `
+
+
+
 export default bookmarkType
