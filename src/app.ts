@@ -22,16 +22,19 @@ dotenv.config({ path: ".env" });
 import * as passportConfig from "./config/passport";
 import passport from 'passport'
 const app = express();
+
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
-mongoose.connect(mongoUrl).then(
+mongoose.connect(mongoUrl, {
+  useNewUrlParser : true, dbName : 'pageflys'
+}).then(
 ).catch(err => {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
 });
 app.use(passport.initialize());
 app.use(passport.session());
-app.set("port", process.env.PORT || 4000);
+app.set("port",  4000);
 app.use('/img', express.static(path.resolve('./img')));
 // app.use('/',express.static(path.resolve('./dist/build')));
 app.set("view engine", "pug");
@@ -45,8 +48,8 @@ app.use(session({
   saveUninitialized: true,
   secret: SESSION_SECRET,
   store: new MongoStore({
-    url: MONGODB_URI,
-    autoReconnect: true
+    url: mongoUrl,
+    autoReconnect: true,
   })
 }))
 app.post('/img', (req, res) => {
@@ -70,6 +73,7 @@ app.post('/img', (req, res) => {
 })
 rankAll(5)
 app.use((req, res, next) => {
+  console.log("cascascas")
   // After successful login, redirect back to the intended page
   if (!req.user
     && req.path !== '/login'
