@@ -21,6 +21,7 @@ const MongoStore = mongo(session);
 dotenv.config({ path: ".env" });
 import * as passportConfig from "./config/passport";
 import passport from 'passport'
+import {BlobServiceClient} from '@azure/storage-blob'
 const app = express();
 
 const mongoUrl = MONGODB_URI;
@@ -32,10 +33,18 @@ mongoose.connect(mongoUrl, {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
   // process.exit();
 });
+async function uploadImageToAzure(file, name){
+  const containerName = 'imgmedium'
+  const blobServiceClient = await BlobServiceClient.fromConnectionString(process.env.CONNECT_STRING_STORE_AZURE);
+  const containerClient = await blobServiceClient.getContainerClient(containerName);
+  const blockBlobClient = containerClient.getBlockBlobClient(name);
+  const uploadBlobResponse = await blockBlobClient.upload(file, file.length);
+  console.log("Blob was uploaded successfully. requestId: ", uploadBlobResponse.requestId);
+  return `https://imagemedium.blob.core.windows.net/imgmedium/${name}`
+}
 app.use(passport.initialize());
 app.use(passport.session());
 app.set("port",  4000);
-app.use('/img', express.static(path.resolve('./img')));
 // app.use('/',express.static(path.resolve('./dist/build')));
 app.set("view engine", "pug");
 app.use(compression());
@@ -52,23 +61,15 @@ app.use(session({
     autoReconnect: true,
   })
 }))
-app.post('/img', (req, res) => {
+app.post('/img', async (req, res) => {
+  console.log("fileeee")
   var form = new multiparty.Form();
-  form.parse(req, function (err, fields, files) {
+  form.parse(req, async function (err, fields, files) {
+    
     const { path, originalFilename } = files.image[0]
-    fs.readFile(path, (err, content) => {
-      if (err) {
-        console.log(err)
-        return
-      }
-      const name = uuid()
-      fs.writeFile('img/' + name, content, (err) => {
-        if (err) {
-          console.log(err)
-        }
-        res.send({ name })
-      })
-    })
+    const content = fs.readFileSync(path)
+    const linkImage = await uploadImageToAzure(content, originalFilename)
+    res.send({ linkImage })
   })
 })
 rankAll(5)
