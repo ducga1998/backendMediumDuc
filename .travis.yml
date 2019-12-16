@@ -5,6 +5,7 @@
   "services": [
     "mongodb"
   ],
+  "cache": "yarn"
   "script": [
     "yarn",
     "yarn build"

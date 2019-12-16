@@ -14,7 +14,7 @@ followSchema.virtual('userFollow', {
     ref: 'users',
     justOne: true
 }) 
-const followModel = mongoose.model('follow', followSchema)
+const followModel = mongoose.model('follow', followSchema) as any 
 //virtual one to many  , idUser in followSchema (one) => idUser in User Schema (Many)
 
 followSchema.set('toObject', { virtuals: true });

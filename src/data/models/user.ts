@@ -83,7 +83,7 @@ UserSchema.virtual('userFollow', {
 })
 UserSchema.set('toObject', { virtuals: true });
 UserSchema.set('toJSON', { virtuals: true });
-export const userModel = mongoose.model("users", UserSchema);
+export const userModel = mongoose.model("users", UserSchema) as any
 // View all aricle , when user want display all article has been write
 // in model user then we only queries return data relation user OK
 export function getAllInformationUser(idUser: string) {

@@ -47,7 +47,7 @@ articleSchema.virtual('hashTagData', {
 
 articleSchema.set('toObject', { virtuals: true });
 articleSchema.set('toJSON', { virtuals: true });
-export const articleModel = mongoose.model('Article', articleSchema)
+export const articleModel = mongoose.model('Article', articleSchema) as any
 
 export interface ArticleType {
     idUser: String,

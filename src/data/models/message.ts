@@ -13,7 +13,7 @@ messageSchema.virtual('ownerUserInfo', {
     ref: 'users',
     justOne: true
 })
-export const messageModel = mongoose.model('message', messageSchema)
+export const messageModel = mongoose.model('message', messageSchema) as any 
 export interface IMessage {
     idUserReceive: string,
     contentMessage: string

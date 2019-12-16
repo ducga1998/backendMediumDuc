@@ -9,13 +9,13 @@
   "author": "Bowden Kelly",
   "license": "MIT",
   "scripts": {
-    "start": "npm run serve",
-    "build": "npm run build-sass && npm run build-ts && npm run tslint && npm run copy-static-assets",
+    "start": "yarn serve",
+    "build": "yarn build-sass && yarn build-ts && yarn copy-static-assets",
     "serve": "node dist/server.js",
     "watch-node": "nodemon dist/server.js",
     "watch": "concurrently \"yarn watch-ts\" \"yarn serve-debug\"",
     "test": "jest --forceExit --coverage --verbose",
-    "watch-test": "npm run test -- --watchAll",
+    "watch-test": "yarn test -- --watchAll",
     "build-ts": "tsc",
     "watch-ts": "tsc -w",
     "build-sass": "node-sass src/public/css/main.scss dist/public/css/main.css",
@@ -27,6 +27,8 @@
     "watch-debug": "concurrently -k -p \"[{name}]\" -n \"Sass,TypeScript,Node\" -c \"yellow.bold,cyan.bold,green.bold\" \"npm run watch-sass\" \"npm run watch-ts\" \"npm run serve-debug\""
   },
   "dependencies": {
+    "@azure/storage-blob": "^12.0.0",
+    "@types/dotenv": "^8.2.0",
     "async": "^2.6.0",
     "bcrypt": "^3.0.6",
     "bcrypt-nodejs": "^0.0.3",
@@ -37,10 +39,8 @@
     "connect-mongo": "^2.0.0",
     "consolidate": "^0.15.1",
     "create-react-app": "^2.1.1",
-    "dotenv": "^4.0.0",
+    "dotenv": "^8.2.0",
     "ejs": "^2.6.1",
-    "@azure/storage-blob": "^12.0.0",
-    "@types/dotenv": "^4.0.3",
     "errorhandler": "^1.5.0",
     "express": "^4.16.2",
     "express-flash": "0.0.2",
@@ -60,7 +60,7 @@
     "mongoose": "^5.3.12",
     "multiparty": "^4.2.1",
     "nodemailer": "^4.4.1",
-    "nodemon": "^1.18.4",
+    "nodemon": "^2.0.2",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
     "passport-github": "^1.1.0",
@@ -111,6 +111,7 @@
     "ts-jest": "^22.0.4",
     "ts-node": "^5.0.0",
     "tslint": "^5.9.1",
-    "typescript": "^2.7.2"
+    "typescript": "^2.7.2",
+    "yarn-upgrade-all": "^0.5.2"
   }
 }

@@ -12,7 +12,7 @@ roomSchema.virtual('messages', {
     localField: 'idRoom',
     ref: 'message'
 })
-export const roomModel = mongoose.model('room', roomSchema)
+export const roomModel = mongoose.model('room', roomSchema) as any
 export interface IRoom {
     idRoom: string,
     idUserReceive: string , 
