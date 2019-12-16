@@ -67,7 +67,9 @@ app.post('/img', async (req, res) => {
   form.parse(req, async function (err, fields, files) {
     
     const { path, originalFilename } = files.image[0]
+    // console.log("files",{ path, originalFilename })
     const content = fs.readFileSync(path)
+    console.log({content,originalFilename})
     const linkImage = await uploadImageToAzure(content, originalFilename)
     res.send({ linkImage })
   })

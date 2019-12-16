@@ -91,7 +91,8 @@ export async function  addArticle(article: ArticleType) {
     const {hashTag , idArticle}  = article
     const dataHashTag=  hashTag.map(tag => ({idHashTag: uuid() , nameHashTag : tag , idArticle }))
     const newHashTag  =  await addManyHashTag(dataHashTag)
-    const newArticle = new articleModel({ ...article, ... { totalClap: 0 } })
+    const newArticle = new articleModel({ ...article, ...{ totalClap: 0 } })
+    console.log("newArticle",newArticle)
     return new Promise(resolve => {
         newArticle.save((err, data) => {
             if (err) {

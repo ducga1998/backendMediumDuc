@@ -49,7 +49,8 @@ export function deleteNotification(idNotification: string) {
 }
 export function addNotification(notification: NotificationType) {
     const idNotification  = uuid()
-    const newNotifiCation = new notificationModel({...notification , ...{idNotification} })
+    const obj  ={...notification , ...{idNotification}} as any
+    const newNotifiCation = new notificationModel( obj)
     return new Promise(resolve => {
         newNotifiCation.save(function (err, data) {
             if (err) {
