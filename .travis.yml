@@ -7,6 +7,6 @@
   "cache": "yarn"
   "script": [
     "yarn",
-    "yarn build-ts"
+    "yarn build"
   ]
 }
