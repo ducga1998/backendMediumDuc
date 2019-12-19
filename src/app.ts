@@ -17,13 +17,14 @@ import uuid from 'uuid'
 import { MONGODB_URI, SESSION_SECRET } from "./util/secrets";
 import { rankAll } from './route/initData';
 import { getHashTagAll } from './data/models/hashtag';
-const MongoStore = mongo(session);
-dotenv.config({ path: ".env" });
 import * as passportConfig from "./config/passport";
 import passport from 'passport'
 import {BlobServiceClient} from '@azure/storage-blob'
+import startMQ, { publishMessage } from './rabbitMQ'
+const MongoStore = mongo(session);
+dotenv.config({ path: ".env" });
+startMQ()
 const app = express();
-
 const mongoUrl = MONGODB_URI;
 (<any>mongoose).Promise = bluebird;
 mongoose.connect(mongoUrl, {
@@ -31,7 +32,6 @@ mongoose.connect(mongoUrl, {
 }).then(
 ).catch(err => {
   console.log("MongoDB connection error. Please make sure MongoDB is running. " + err);
-  // process.exit();
 });
 async function uploadImageToAzure(file, name){
   const containerName = 'imgmedium'
@@ -129,6 +129,9 @@ app.get('/auth/github/callback', passport.authenticate('github', { failureRedire
   console.log('req session', req.session)
   res.redirect('/');
 });
+app.get('/messmq', () => {
+  publishMessage('','ductest', new Buffer('trigger'))
+})
 app.use(
   '/graphql',
   bodyParser.json({ limit: '1024kb' }),

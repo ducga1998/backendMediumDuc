@@ -1,0 +1,33 @@
+version: '1.0'
+steps:
+
+  build_step:
+    type: build
+    dockerfile: Dockerfile
+    image-name: codefreshdemo/lets-chat
+    tag: ${{CF_BRANCH}}
+
+  unit_tests:
+    image: ${{build_step}}
+    fail-fast: false
+    commands:
+      - npm install
+      - gulp test
+
+  integration_step:
+    type: composition
+    composition:
+      version: '2'
+      services:
+        app:
+          image: ${{build_step}}
+          links:
+            - mongo
+          ports:
+            - 5000
+        mongo:
+          image: mongo
+    composition-candidates:
+      main:
+        image: nhoag/curl
+        command: bash -c "sleep 30 && curl http://app:5000/" | echo 'works'
