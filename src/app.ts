@@ -21,6 +21,8 @@ import * as passportConfig from "./config/passport";
 import passport from 'passport'
 import {BlobServiceClient} from '@azure/storage-blob'
 import startMQ, { publishMessage } from './rabbitMQ'
+import redditStart from './reddis'
+redditStart.set('ductesttt','sacasc')
 const MongoStore = mongo(session);
 dotenv.config({ path: ".env" });
 startMQ()
