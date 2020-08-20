@@ -31,7 +31,7 @@
     "@types/dotenv": "^8.2.0",
     "amqplib": "^0.5.5",
     "async": "^2.6.0",
-    "bcrypt": "^3.0.6",
+    "bcrypt": "^5.0.0",
     "bcrypt-nodejs": "^0.0.3",
     "bluebird": "^3.5.1",
     "body-parser": "^1.18.2",
