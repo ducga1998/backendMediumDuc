@@ -60,7 +60,7 @@
     "lusca": "^1.5.2",
     "mongoose": "^5.3.12",
     "multiparty": "^4.2.1",
-    "nodemailer": "^4.4.1",
+    "nodemailer": "^6.4.16",
     "nodemon": "^2.0.2",
     "passport": "^0.4.0",
     "passport-facebook": "^3.0.0",
